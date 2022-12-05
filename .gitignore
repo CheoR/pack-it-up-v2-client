@@ -301,5 +301,15 @@ venv.bak/
 # gatsby
 public
 
+# expo
+.expo/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+
 # typescript
 tsconfig.tsbuildinfo
