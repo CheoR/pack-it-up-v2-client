@@ -1,4 +1,8 @@
-import { StyleSheet, Button, Text, View } from "react-native";
+import { StyleSheet, Button, Text, TextInput, View } from "react-native";
+
+import SocialsIcons from "../components/SocialsIcons";
+import BoxLogo from "../components/BoxLogo";
+import Colors from "../constants/Colors";
 import ROUTES from "../constants/Routes";
 
 export default function RegisterScreen({ route, navigation }) {
@@ -12,37 +16,58 @@ export default function RegisterScreen({ route, navigation }) {
 
   return (
     <View style={styles.register}>
-      <Text>Register Screen</Text>
-      <Text>itemId: {JSON.stringify(itemId)}</Text>
-      <Text>otherParam: {JSON.stringify(someVariable)}</Text>
+      <BoxLogo />
+      <View style={styles.container}>
+        <View style={styles.inputGroup}>
+          <TextInput placeholder="Username" />
+          <TextInput placeholder="First Name" />
+          <TextInput placeholder="Last Name" />
+          <TextInput placeholder="Email" />
+          <TextInput placeholder="Password" secureTextEntry={true} />
+          <TextInput placeholder="Confirm Password" secureTextEntry={true} />
+        </View>
+      </View>
 
-      <Button
-        title="Go to Details... again"
-        // onPress={() => navigation.push(ROUTES.Register)}
-        onPress={() =>
-          navigation.push(ROUTES.Register, {
-            itemId: Math.floor(Math.random() * 100),
-          })
-        }
-      />
-      <Button
-        title="Go to Home"
-        onPress={() => navigation.navigate(ROUTES.Landing)}
-      />
-      <Button title="Go back" onPress={() => navigation.goBack()} />
-      <Button
-        title="Go back to first screen in stack"
-        onPress={() => navigation.popToTop()}
-      />
+      <View style={{ width: "100%" }}>
+        <Button
+          title={ROUTES.Register}
+          color={Colors.light.tabIconDefault}
+          onPress={() => navigation.navigate(ROUTES.Landing)}
+        />
+        <View style={{ alignItems: "center" }}>
+          <Text>
+            Already Registered,{" "}
+            <Text
+              style={{ color: Colors.light.action }}
+              onPress={() => navigation.push(ROUTES.Register)}
+            >
+              Login!
+            </Text>
+          </Text>
+        </View>
+      </View>
+      <SocialsIcons />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  register: {
-    flex: 1,
+  container: {
+    width: "80%",
+    height: 160,
     alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "pink",
+  },
+  inputGroup: {
+    flex: 1,
+    justifyContent: "space-between",
+    width: "100%",
+  },
+  register: {
+    alignItems: "center",
+    justifyContent: "space-between",
+    height: "100%",
+    paddingVertical: 24,
+    paddingHorizontal: 16,
+    backgroundColor: Colors.light.background,
   },
 });

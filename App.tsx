@@ -37,9 +37,13 @@ export default function App() {
           <Stack.Screen
             name={ROUTES.Login}
             component={LoginScreen}
-            options={{ title: "Login", headerShown: false }}
+            options={{ title: ROUTES.Login, headerShown: false }}
           />
-          <Stack.Screen name={ROUTES.Register} component={RegisterScreen} />
+          <Stack.Screen
+            name={ROUTES.Register}
+            component={RegisterScreen}
+            options={{ title: ROUTES.Register, headerShown: false }}
+          />
           <Stack.Screen name={ROUTES.CreatePost} component={CreatePostScreen} />
           <Stack.Screen
             name={ROUTES.DisplayRoute}
