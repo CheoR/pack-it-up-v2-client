@@ -29,7 +29,7 @@ export default function App() {
         <Stack.Screen
           name={ROUTES.Landing}
           component={LandingScreen}
-          options={{ title: "PackItUp" }}
+          options={{ title: "PackItUp", headerShown: false }}
         />
         <Stack.Screen name={ROUTES.Login} component={LoginScreen} />
         <Stack.Screen name={ROUTES.Register} component={RegisterScreen} />
