@@ -7,7 +7,7 @@ import Colors from "../constants/Colors";
 
 export default function SocialsIcons() {
   return (
-    <>
+    <View>
       <View
         style={{
           width: "50%",
@@ -42,9 +42,8 @@ export default function SocialsIcons() {
       <View
         style={{
           paddingVertical: 15,
-          paddingHorizontal: 10,
           flexDirection: "row",
-          justifyContent: "space-between",
+          justifyContent: "center",
           alignItems: "center",
         }}
       >
@@ -55,6 +54,6 @@ export default function SocialsIcons() {
         />
         <Text>2022</Text>
       </View>
-    </>
+    </View>
   );
 }
