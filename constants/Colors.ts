@@ -9,7 +9,7 @@ export default {
     tabIconDefault: '#797B84',
     tabIconSelected: tintColorLight,
     warning: '#F40000',
-    action: 'FF6700',
+    action: '#FF6700',
   },
   dark: {
     text: '#FFE8E0',
