@@ -15,6 +15,7 @@ import SocialsIcons from "../components/SocialsIcons";
 import BoxLogo from "../components/BoxLogo";
 import Colors from "../constants/Colors";
 import ROUTES from "../constants/Routes";
+import Layout from "../layout/Layout";
 
 const CREATE_USER = gql`
   mutation LoginUser($input: LoginUserInput!) {
@@ -36,8 +37,8 @@ export default function LoginScreen({ navigation }) {
   const [createUser, { data, loading, error }] = useMutation(CREATE_USER, {
     variables: {
       input: {
-        email: email.toLowerCase(),
-        password: password,
+        email: "rnuser@rn.com", // email.toLowerCase(),
+        password: "rnuser1", // password,
       },
     },
     onCompleted: (data) => {
@@ -108,64 +109,71 @@ export default function LoginScreen({ navigation }) {
     console.log(error.message);
   }
 
-  if (loading) <BoxLogo />;
+  if (loading) return <BoxLogo />;
 
   return (
-    <View style={styles.login}>
-      {modalVisible && <Popup message={error?.message} />}
-      <BoxLogo />
-
-      <View style={styles.container}>
-        <View style={styles.inputGroup}>
-          <TextInput placeholder="Email" onChangeText={setEmail} />
+    <Layout>
+      <View style={styles.screen}>
+        {modalVisible && <Popup message={error?.message} />}
+        <View style={styles.inputBlock}>
+          <TextInput
+            placeholder="Email"
+            onChangeText={setEmail}
+            style={styles.input}
+          />
           <TextInput
             placeholder="Password"
             onChangeText={setPassword}
+            style={styles.input}
             secureTextEntry={true}
           />
         </View>
-      </View>
-      <View style={{ width: "100%" }}>
-        <Button
-          title={ROUTES.Login}
-          color={Colors.light.tint}
-          onPress={() => createUser()}
-        />
-        <View style={{ alignItems: "center" }}>
-          <Text>
-            No Account,{" "}
-            <Text
-              style={{ color: Colors.light.action }}
-              onPress={() => navigation.push(ROUTES.Register)}
-            >
-              Register!
+        <View style={styles.action}>
+          <Button
+            title={ROUTES.Login}
+            color={Colors.light.tint}
+            onPress={() => createUser()}
+          />
+          <View style={styles.actionBlock}>
+            <Text>
+              No Account,{" "}
+              <Text
+                style={styles.actionBlockText}
+                onPress={() => navigation.push(ROUTES.Register)}
+              >
+                Register!
+              </Text>
             </Text>
-          </Text>
+          </View>
         </View>
       </View>
-
-      <SocialsIcons />
-    </View>
+    </Layout>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    width: "80%",
-    height: 60,
-    alignItems: "center",
-  },
-  inputGroup: {
-    flex: 1,
-    justifyContent: "space-between",
+  action: {
     width: "100%",
   },
-  login: {
+  actionBlock: {
     alignItems: "center",
+  },
+  actionBlockText: {
+    color: Colors.light.action,
+  },
+  input: {
+    borderBottomColor: Colors.light.tint,
+    borderBottomWidth: 8,
+  },
+  inputBlock: {
+    width: "80%",
+    height: 100,
     justifyContent: "space-between",
-    height: "100%",
-    paddingVertical: 24,
-    paddingHorizontal: 16,
-    backgroundColor: Colors.light.background,
+  },
+  screen: {
+    flex: 1,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "space-around",
   },
 });
