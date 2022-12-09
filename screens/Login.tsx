@@ -15,6 +15,7 @@ import BoxLogo from "../components/BoxLogo";
 import Colors from "../constants/Colors";
 import ROUTES from "../constants/Routes";
 import Layout from "../layout/Layout";
+import Loading from "../components/Loading";
 
 const LOGIN_USER = gql`
   mutation LoginUser($input: LoginUserInput!) {
@@ -37,13 +38,18 @@ export default function LoginScreen({ navigation }) {
 
   const [loginUser, { data, loading, error }] = useMutation(LOGIN_USER, {
     variables: {
-      input: formData,
+      input: {
+        email: "peggy@pug.com",
+        password: "pug",
+      },
+      // input: formData,
     },
     onCompleted: (data) => {
       navigation.navigate(ROUTES.Home, data);
     },
     onError: (error) => {
       console.log("onError called");
+      console.log(error.message);
       setModalVisible(true);
     },
   });
@@ -107,7 +113,7 @@ export default function LoginScreen({ navigation }) {
     console.log(error.message);
   }
 
-  if (loading) return <BoxLogo />;
+  if (loading) return <Loading text="Summary" />;
 
   return (
     <Layout>

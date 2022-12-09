@@ -5,6 +5,7 @@ import { gql, useMutation } from "@apollo/client";
 import Colors from "../constants/Colors";
 import ROUTES from "../constants/Routes";
 import Layout from "../layout/Layout";
+import Loading from "../components/Loading";
 
 const REGISTER_USER = gql`
   mutation RegisterUser($input: RegisterUserInput!) {
@@ -39,6 +40,8 @@ export default function RegisterScreen({ navigation }) {
       // setModalVisible(true);
     },
   });
+
+  if (loading) return <Loading text="Summary" />;
 
   return (
     <Layout>
