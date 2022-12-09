@@ -11,13 +11,12 @@ import {
 } from "react-native";
 import { gql, useMutation } from "@apollo/client";
 
-import SocialsIcons from "../components/SocialsIcons";
 import BoxLogo from "../components/BoxLogo";
 import Colors from "../constants/Colors";
 import ROUTES from "../constants/Routes";
 import Layout from "../layout/Layout";
 
-const CREATE_USER = gql`
+const LOGIN_USER = gql`
   mutation LoginUser($input: LoginUserInput!) {
     loginUser(input: $input) {
       _id
@@ -30,16 +29,15 @@ const CREATE_USER = gql`
 
 export default function LoginScreen({ navigation }) {
   // TODO: fix
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [formData, setFormData] = React.useState({
+    email: "",
+    password: "",
+  });
   const [modalVisible, setModalVisible] = React.useState(false);
 
-  const [createUser, { data, loading, error }] = useMutation(CREATE_USER, {
+  const [loginUser, { data, loading, error }] = useMutation(LOGIN_USER, {
     variables: {
-      input: {
-        email: "rnuser@rn.com", // email.toLowerCase(),
-        password: "rnuser1", // password,
-      },
+      input: formData,
     },
     onCompleted: (data) => {
       navigation.navigate(ROUTES.Home, data);
@@ -118,13 +116,17 @@ export default function LoginScreen({ navigation }) {
         <View style={styles.inputBlock}>
           <TextInput
             placeholder="Email"
-            onChangeText={setEmail}
             style={styles.input}
+            onChangeText={(text) =>
+              setFormData((prevState) => ({ ...prevState, email: text }))
+            }
           />
           <TextInput
             placeholder="Password"
-            onChangeText={setPassword}
             style={styles.input}
+            onChangeText={(text) =>
+              setFormData((prevState) => ({ ...prevState, password: text }))
+            }
             secureTextEntry={true}
           />
         </View>
@@ -132,7 +134,7 @@ export default function LoginScreen({ navigation }) {
           <Button
             title={ROUTES.Login}
             color={Colors.light.tint}
-            onPress={() => createUser()}
+            onPress={() => loginUser()}
           />
           <View style={styles.actionBlock}>
             <Text>
