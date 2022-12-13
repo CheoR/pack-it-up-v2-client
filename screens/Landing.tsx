@@ -1,13 +1,13 @@
 import { Button, ScrollView, StyleSheet, Text, View } from "react-native";
 
+import LoggedOutLayout from "../layout/LoggedOutLayout";
 import SvgComponent from "../components/Rafiki";
 import ROUTES from "../constants/Routes";
 import Colors from "../constants/Colors";
-import Layout from "../layout/Layout";
 
 export default function LandingScreen({ navigation }) {
   return (
-    <Layout>
+    <LoggedOutLayout>
       <ScrollView contentContainerStyle={styles.screen}>
         <Text style={styles.header}>track what you pack, app</Text>
         <View style={styles.buttonGroup}>
@@ -27,20 +27,20 @@ export default function LandingScreen({ navigation }) {
           <Text>Organize your life.</Text>
         </View>
       </ScrollView>
-    </Layout>
+    </LoggedOutLayout>
   );
 }
 
 const styles = StyleSheet.create({
   buttonGroup: {
-    width: "100%",
-    margin: 24,
-    justifyContent: "space-between",
     height: 80,
+    justifyContent: "space-between",
+    margin: 24,
+    width: "100%",
   },
   header: {
-    fontSize: 64,
     color: Colors.light.tint,
+    fontSize: 64,
   },
   screen: {
     alignItems: "center",
