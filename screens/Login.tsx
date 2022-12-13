@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Alert,
   Button,
@@ -11,11 +11,10 @@ import {
 } from "react-native";
 import { gql, useMutation } from "@apollo/client";
 
-import BoxLogo from "../components/BoxLogo";
+import LoggedOutLayout from "../layout/LoggedOutLayout";
+import Loading from "../components/Loading";
 import Colors from "../constants/Colors";
 import ROUTES from "../constants/Routes";
-import Layout from "../layout/Layout";
-import Loading from "../components/Loading";
 
 const LOGIN_USER = gql`
   mutation LoginUser($input: LoginUserInput!) {
@@ -30,25 +29,25 @@ const LOGIN_USER = gql`
 
 export default function LoginScreen({ navigation }) {
   // TODO: fix
-  const [formData, setFormData] = React.useState({
+  const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-  const [modalVisible, setModalVisible] = React.useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const [loginUser, { data, loading, error }] = useMutation(LOGIN_USER, {
     variables: {
-      input: {
-        email: "peggy@pug.com",
-        password: "pug",
-      },
-      // input: formData,
+    //   input: formData,
+    // },
+    input: {
+      email: "peggy@pug.com",
+      password: "pug",
     },
+    //
     onCompleted: (data) => {
       navigation.navigate(ROUTES.Home, data);
     },
     onError: (error) => {
-      console.log("onError called");
       console.log(error.message);
       setModalVisible(true);
     },
@@ -116,7 +115,7 @@ export default function LoginScreen({ navigation }) {
   if (loading) return <Loading text="Summary" />;
 
   return (
-    <Layout>
+    <LoggedOutLayout>
       <View style={styles.screen}>
         {modalVisible && <Popup message={error?.message} />}
         <View style={styles.inputBlock}>
@@ -155,7 +154,7 @@ export default function LoginScreen({ navigation }) {
           </View>
         </View>
       </View>
-    </Layout>
+    </LoggedOutLayout>
   );
 }
 
@@ -174,14 +173,14 @@ const styles = StyleSheet.create({
     borderBottomWidth: 8,
   },
   inputBlock: {
-    width: "80%",
     height: 100,
     justifyContent: "space-between",
+    width: "80%",
   },
   screen: {
-    flex: 1,
-    width: "100%",
     alignItems: "center",
+    flex: 1,
     justifyContent: "space-around",
+    width: "100%",
   },
 });
