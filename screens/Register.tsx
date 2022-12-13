@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 import { gql, useMutation } from "@apollo/client";
 
+import LoggedOutLayout from "../layout/LoggedOutLayout";
+import Loading from "../components/Loading";
 import Colors from "../constants/Colors";
 import ROUTES from "../constants/Routes";
-import Layout from "../layout/Layout";
-import Loading from "../components/Loading";
 
 const REGISTER_USER = gql`
   mutation RegisterUser($input: RegisterUserInput!) {
@@ -19,14 +19,14 @@ const REGISTER_USER = gql`
 `;
 
 export default function RegisterScreen({ navigation }) {
-  const [formData, setFormData] = React.useState({
+  const [formData, setFormData] = useState({
     username: "",
     firstName: "",
     lastName: "",
     email: "",
     password: "",
   });
-  const [confirmPassword, setConfirmPassword] = React.useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const [registerUser, { data, loading, error }] = useMutation(REGISTER_USER, {
     variables: {
@@ -44,7 +44,7 @@ export default function RegisterScreen({ navigation }) {
   if (loading) return <Loading text="Summary" />;
 
   return (
-    <Layout>
+    <LoggedOutLayout>
       <View style={styles.screen}>
         <View style={styles.inputBlock}>
           <TextInput
@@ -115,7 +115,7 @@ export default function RegisterScreen({ navigation }) {
           </View>
         </View>
       </View>
-    </Layout>
+    </LoggedOutLayout>
   );
 }
 
@@ -134,14 +134,14 @@ const styles = StyleSheet.create({
     borderBottomWidth: 8,
   },
   inputBlock: {
+    height: 300,
     justifyContent: "space-between",
     width: "80%",
-    height: 300,
   },
   screen: {
-    flex: 1,
-    width: "100%",
     alignItems: "center",
+    flex: 1,
     justifyContent: "space-around",
+    width: "100%",
   },
 });
