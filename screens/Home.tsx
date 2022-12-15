@@ -13,17 +13,8 @@ const DATA = [
 ];
 
 export default function HomeScreen({ route }) {
-  const response = {};
-  // TODO: fix - find way to get properties from response
-  // object without having to do this
-  if ("loginUser" in route.params) {
-    const { loginUser } = route.params;
-    Object.assign(response, loginUser);
-  } else {
-    const { registerUser } = route.params;
-    Object.assign(response, registerUser);
-  }
-  const { token, email, username } = response;
+  const { email, token, username } = route.params;
+
   const [isChecked, setIsChecked] = React.useState(true);
 
   return (
