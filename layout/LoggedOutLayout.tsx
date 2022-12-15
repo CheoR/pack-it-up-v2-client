@@ -4,7 +4,7 @@ import Constants from "expo-constants";
 
 import SocialsIcons from "../components/SocialsIcons";
 import BoxLogo from "../components/BoxLogo";
-import Colors from "../constants/Colors";
+import COLORS from "../constants/Colors";
 
 export default function LoggedOutLayout({ children }) {
   return (
@@ -19,7 +19,7 @@ export default function LoggedOutLayout({ children }) {
 const styles = StyleSheet.create({
   layout: {
     alignItems: "center",
-    backgroundColor: Colors.light.background,
+    backgroundColor: COLORS.light.background,
     flex: 1,
     justifyContent: "space-between",
     marginTop: Constants.statusBarHeight,

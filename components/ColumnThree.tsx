@@ -2,21 +2,21 @@ import React from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { StyleSheet, View } from "react-native";
 
-import Colors from "../constants/Colors";
+import COLORS from "../constants/Colors";
 
 const icons = {
   chevron: (
     <MaterialCommunityIcons
       name="chevron-right"
       size={16}
-      color={Colors.light.tint}
+      color={COLORS.light.tint}
     />
   ),
   dots: (
     <MaterialCommunityIcons
       name="dots-vertical"
       size={16}
-      color={Colors.light.tint}
+      color={COLORS.light.tint}
     />
   ),
   none: <></>,

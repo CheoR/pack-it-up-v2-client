@@ -1,9 +1,9 @@
 import React from "react";
-import { View, Text } from "react-native";
-
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import FontAwesomeIcons from "react-native-vector-icons/FontAwesome";
-import Colors from "../constants/Colors";
+import { View, Text } from "react-native";
+
+import COLORS from "../constants/Colors";
 
 export default function SocialsIcons() {
   return (
@@ -21,22 +21,22 @@ export default function SocialsIcons() {
         <FontAwesomeIcons
           name="facebook-square"
           size={24}
-          color={Colors.light.tint}
+          color={COLORS.light.tint}
         />
         <FontAwesomeIcons
           name="linkedin-square"
           size={24}
-          color={Colors.light.tint}
+          color={COLORS.light.tint}
         />
         <FontAwesomeIcons
           name="twitter-square"
           size={24}
-          color={Colors.light.tint}
+          color={COLORS.light.tint}
         />
         <FontAwesomeIcons
           name="instagram"
           size={24}
-          color={Colors.light.tint}
+          color={COLORS.light.tint}
         />
       </View>
       <View
@@ -50,7 +50,7 @@ export default function SocialsIcons() {
         <MaterialCommunityIcons
           name="copyright"
           size={16}
-          color={Colors.light.tint}
+          color={COLORS.light.tint}
         />
         <Text>2022</Text>
       </View>

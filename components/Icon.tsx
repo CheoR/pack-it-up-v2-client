@@ -2,24 +2,24 @@ import React from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { StyleSheet, Text, View } from "react-native";
 
-import Colors from "../constants/Colors";
+import COLORS from "../constants/Colors";
 
 const icons = {
   move: (
-    <MaterialCommunityIcons name="dolly" size={24} color={Colors.light.tint} />
+    <MaterialCommunityIcons name="dolly" size={24} color={COLORS.light.tint} />
   ),
   box: (
     <MaterialCommunityIcons
       name="package-variant-closed"
       size={24}
-      color={Colors.light.tint}
+      color={COLORS.light.tint}
     />
   ),
   item: (
     <MaterialCommunityIcons
       name="clipboard-text-outline"
       size={24}
-      color={Colors.light.tint}
+      color={COLORS.light.tint}
     />
   ),
 };

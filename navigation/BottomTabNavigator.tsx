@@ -2,12 +2,12 @@ import React from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
+import SettingsScreen from "../components/Settings";
 import MovesScreen from "../screens/Moves";
 import BoxesScreen from "../screens/Boxes";
 import ItemsScreen from "../screens/Items";
-import ROUTES from "../constants/Routes";
 import HomeScreen from "../screens/Home";
-import SettingsScreen from "../components/Settings";
+import ROUTES from "../constants/Routes";
 import COLORS from "../constants/Colors";
 
 const Tab = createBottomTabNavigator();

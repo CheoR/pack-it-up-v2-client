@@ -3,7 +3,7 @@ import { Button, ScrollView, StyleSheet, Text, View } from "react-native";
 import LoggedOutLayout from "../layout/LoggedOutLayout";
 import SvgComponent from "../components/Rafiki";
 import ROUTES from "../constants/Routes";
-import Colors from "../constants/Colors";
+import COLORS from "../constants/Colors";
 
 export default function LandingScreen({ navigation }) {
   return (
@@ -13,12 +13,12 @@ export default function LandingScreen({ navigation }) {
         <View style={styles.buttonGroup}>
           <Button
             title={ROUTES.Register}
-            color={Colors.light.tabIconDefault}
+            color={COLORS.light.tabIconDefault}
             onPress={() => navigation.navigate(ROUTES.Register)}
           />
           <Button
             title={ROUTES.Login}
-            color={Colors.light.tint}
+            color={COLORS.light.tint}
             onPress={() => navigation.navigate(ROUTES.Login)}
           />
         </View>
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   header: {
-    color: Colors.light.tint,
+    color: COLORS.light.tint,
     fontSize: 64,
   },
   screen: {

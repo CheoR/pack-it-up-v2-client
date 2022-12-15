@@ -4,7 +4,7 @@ import { gql, useMutation } from "@apollo/client";
 
 import LoggedOutLayout from "../layout/LoggedOutLayout";
 import Loading from "../components/Loading";
-import Colors from "../constants/Colors";
+import COLORS from "../constants/Colors";
 import ROUTES from "../constants/Routes";
 
 const REGISTER_USER = gql`
@@ -102,7 +102,7 @@ export default function RegisterScreen({ navigation }) {
         <View style={styles.action}>
           <Button
             title={ROUTES.Register}
-            color={Colors.light.tabIconDefault}
+            color={COLORS.light.tabIconDefault}
             onPress={() => registerUser()}
           />
           <View style={styles.actionBlock}>
@@ -130,10 +130,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   actionBlockText: {
-    color: Colors.light.action,
+    color: COLORS.light.action,
   },
   input: {
-    borderBottomColor: Colors.light.tabIconDefault,
+    borderBottomColor: COLORS.light.tabIconDefault,
     borderBottomWidth: 8,
   },
   inputBlock: {

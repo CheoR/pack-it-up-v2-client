@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-import Colors from "../constants/Colors";
+import COLORS from "../constants/Colors";
 import ColumnThree from "./ColumnThree";
 import ColumnOne from "./ColumnOne";
 import ColumnTwo from "./ColumnTwo";
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     maxHeight: 160,
     paddingHorizontal: 16,
-    shadowColor: Colors.light.tabIconDefault,
+    shadowColor: COLORS.light.tabIconDefault,
     shadowOffset: {
       width: 0,
       height: 1,

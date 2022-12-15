@@ -4,7 +4,7 @@ import Checkbox from "expo-checkbox";
 
 import LoggedInLayout from "../layout/LoggedInLayout";
 import ListItem from "../components/ListItem";
-import Colors from "../constants/Colors";
+import COLORS from "../constants/Colors";
 
 const DATA = [
   { id: "moves", count: 3, type: "move" },
@@ -49,7 +49,7 @@ export default function HomeScreen({ route }) {
               value={isChecked}
               onValueChange={setIsChecked}
               disabled
-              color={isChecked ? Colors.light.tabIconSelected : undefined}
+              color={isChecked ? COLORS.light.tabIconSelected : undefined}
             />
             <Text style={styles.label}>Fragile</Text>
           </View>
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
   },
   viewHeader: {
     alignItems: "center",
-    backgroundColor: Colors.light.tabIconDefault,
+    backgroundColor: COLORS.light.tabIconDefault,
     display: "flex",
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
     width: 300,
   },
   viewHeaderText: {
-    color: Colors.light.text,
+    color: COLORS.light.text,
   },
   checkboxContainer: {
     flexDirection: "row",
