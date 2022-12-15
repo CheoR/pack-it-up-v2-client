@@ -5,6 +5,9 @@ const ROUTES = {
   Register: "Register",
   CreatePost: "CreatePost",
   DisplayRoute: "DisplayRoute",
+  Moves: "Moves",
+  Boxes: "Boxes",
+  Items: "Items",
 };
 
 export default ROUTES
