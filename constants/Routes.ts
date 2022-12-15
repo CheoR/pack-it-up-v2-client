@@ -1,13 +1,14 @@
 const ROUTES = {
-  Home: "Home",
-  Landing: "Landing",
-  Login: "Login",
-  Register: "Register",
+  Boxes: "Boxes",
   CreatePost: "CreatePost",
   DisplayRoute: "DisplayRoute",
-  Moves: "Moves",
-  Boxes: "Boxes",
   Items: "Items",
+  Landing: "Landing",
+  Login: "Login",
+  LoggedIn: "LoggedIn",
+  Home: "Home",
+  Moves: "Moves",
+  Register: "Register",
 };
 
 export default ROUTES
