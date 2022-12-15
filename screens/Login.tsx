@@ -30,27 +30,24 @@ const LOGIN_USER = gql`
 export default function LoginScreen({ navigation }) {
   // TODO: fix
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
+    email: "peggy@pug.com",
+    password: "pug",
   });
   const [modalVisible, setModalVisible] = useState(false);
 
   const [loginUser, { data, loading, error }] = useMutation(LOGIN_USER, {
     variables: {
-      //   input: formData,
-      // },
-      input: {
-        email: "peggy@pug.com",
-        password: "pug",
-      },
-      //
-      onCompleted: (data) => {
-        navigation.navigate(ROUTES.Home, data);
-      },
-      onError: (error) => {
-        console.log(error.message);
-        setModalVisible(true);
-      },
+      input: formData,
+    },
+    onCompleted: (data) => {
+      navigation.navigate(ROUTES.LoggedIn, {
+        screen: ROUTES.Home,
+        params: data.loginUser,
+      });
+    },
+    onError: (error) => {
+      console.log(error.message);
+      setModalVisible(true);
     },
   });
 
