@@ -9,6 +9,7 @@ const ROUTES = {
   Home: "Home",
   Moves: "Moves",
   Register: "Register",
+  Settings: "Settings",
 };
 
 export default ROUTES
