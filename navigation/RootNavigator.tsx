@@ -11,6 +11,8 @@ import ROUTES from "../constants/Routes";
 const Stack = createNativeStackNavigator();
 
 export default function RootNavigator() {
+  // TODO: Instead of nested try to use group
+  // https://reactnavigation.org/docs/nesting-navigators/#navigating-to-a-screen-in-a-nested-navigator
   return (
     <Stack.Navigator
       initialRouteName={ROUTES.Landing}
