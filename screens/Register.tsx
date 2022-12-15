@@ -33,7 +33,10 @@ export default function RegisterScreen({ navigation }) {
       input: formData,
     },
     onCompleted: (data) => {
-      navigation.navigate(ROUTES.Home, data);
+      navigation.navigate(ROUTES.LoggedIn, {
+        screen: ROUTES.Home,
+        params: data.registerUser,
+      });
     },
     onError: (error) => {
       console.log(error.message);
