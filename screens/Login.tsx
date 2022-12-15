@@ -37,19 +37,20 @@ export default function LoginScreen({ navigation }) {
 
   const [loginUser, { data, loading, error }] = useMutation(LOGIN_USER, {
     variables: {
-    //   input: formData,
-    // },
-    input: {
-      email: "peggy@pug.com",
-      password: "pug",
-    },
-    //
-    onCompleted: (data) => {
-      navigation.navigate(ROUTES.Home, data);
-    },
-    onError: (error) => {
-      console.log(error.message);
-      setModalVisible(true);
+      //   input: formData,
+      // },
+      input: {
+        email: "peggy@pug.com",
+        password: "pug",
+      },
+      //
+      onCompleted: (data) => {
+        navigation.navigate(ROUTES.Home, data);
+      },
+      onError: (error) => {
+        console.log(error.message);
+        setModalVisible(true);
+      },
     },
   });
 
