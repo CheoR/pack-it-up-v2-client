@@ -6,11 +6,16 @@ import ColumnThree from "./ColumnThree";
 import ColumnOne from "./ColumnOne";
 import ColumnTwo from "./ColumnTwo";
 
-export default function ListItem({ count, type, thirdColumn = true }) {
+export default function ListItem({
+  count,
+  showValues = true,
+  thirdColumn = true,
+  type,
+}) {
   return (
-    <View style={styles.item}>
+    <View style={styles.row}>
       <ColumnOne count={count} type={type} />
-      <ColumnTwo showValues={true} />
+      <ColumnTwo showValues={showValues} />
       <ColumnThree type="chevron" showIcon={thirdColumn} />
     </View>
   );
@@ -20,13 +25,13 @@ export default function ListItem({ count, type, thirdColumn = true }) {
 // or this package to get the drop shadows
 // https://github.com/SrBrahma/react-native-shadow-2
 const styles = StyleSheet.create({
-  item: {
+  row: {
     borderRadius: 6,
     elevation: 2,
     flexDirection: "row",
-    marginBottom: 16,
-    maxHeight: 160,
+    height: 160,
     paddingHorizontal: 16,
+    paddingVertical: 8,
     shadowColor: COLORS.light.tabIconDefault,
     shadowOffset: {
       width: 0,

@@ -23,17 +23,17 @@ export default function HomeScreen({ route }) {
         <View style={styles.viewHeader}>
           <Text style={styles.viewHeaderText}>Summary</Text>
         </View>
-        {/* <View style={styles.listItems}>
-          <ListItem count={1} type="move" />
-          <ListItem count={2} type="box" />
-          <ListItem count={3} type="item" />
-        </View> */}
         <View style={styles.listItems}>
           <FlatList
             data={DATA}
             keyExtractor={(item) => item.id}
+            contentContainerStyle={styles.flatList}
             renderItem={({ item }) => (
-              <ListItem count={item.count} type={item.type} />
+              <ListItem
+                count={item.count}
+                showValues={false}
+                type={item.type}
+              />
             )}
           />
         </View>
@@ -60,9 +60,12 @@ export default function HomeScreen({ route }) {
 }
 
 const styles = StyleSheet.create({
-  listItems: {
-    height: 550,
+  flatList: {
+    height: "100%",
     justifyContent: "space-evenly",
+  },
+  listItems: {
+    height: 600,
     width: "100%",
   },
   screen: {
@@ -73,19 +76,23 @@ const styles = StyleSheet.create({
   },
   viewHeader: {
     alignItems: "center",
-    backgroundColor: COLORS.light.tabIconDefault,
-    display: "flex",
-    borderTopLeftRadius: 0,
-    borderTopRightRadius: 0,
+    borderColor: COLORS.light.tabIconSelected,
     borderBottomLeftRadius: 6,
     borderBottomRightRadius: 6,
+    borderBottomWidth: 2,
+    borderLeftWidth: 2,
+    borderRightWidth: 2,
+    borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    display: "flex",
     paddingVertical: 8,
     width: "80%",
   },
   valueInput: {
+    alignItems: "center",
+    color: COLORS.light.text,
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
     width: 300,
   },
   viewHeaderText: {

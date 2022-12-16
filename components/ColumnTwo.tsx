@@ -51,7 +51,6 @@ const styles = StyleSheet.create({
   },
   column: {
     flex: 2,
-    height: "100%",
     justifyContent: "space-between",
   },
   description: {
