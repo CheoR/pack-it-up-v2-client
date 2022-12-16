@@ -16,7 +16,7 @@ export default function ListItem({
     <View style={styles.row}>
       <ColumnOne count={count} type={type} />
       <ColumnTwo showValues={showValues} />
-      <ColumnThree type="chevron" showIcon={thirdColumn} />
+      <ColumnThree type="chevron" showIcon={thirdColumn} listView={type} />
     </View>
   );
 }

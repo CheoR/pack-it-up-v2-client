@@ -1,8 +1,10 @@
 import React from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
-import { StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 import COLORS from "../constants/Colors";
+import ROUTES from "../constants/Routes";
 
 const icons = {
   chevron: (
@@ -21,8 +23,42 @@ const icons = {
   ),
   none: <></>,
 };
-export default function ColumnThree({ type, showIcon = true }) {
-  return <View style={styles.column}>{showIcon ? icons[type] : <></>}</View>;
+
+const formatRoute = {
+  box: ROUTES.Boxes,
+  item: ROUTES.Items,
+  move: ROUTES.Moves,
+};
+
+export default function ColumnThree({
+  listView = "home",
+  type = "dots",
+  showIcon = true,
+}) {
+  const navigation = useNavigation();
+  return (
+    <View style={styles.column}>
+      <Pressable
+        onPress={() => {
+          navigation.navigate(formatRoute[listView]);
+        }}
+        style={({ pressed }) => [
+          {
+            backgroundColor: pressed
+              ? COLORS.light.action
+              : COLORS.light.background,
+          },
+        ]}
+      >
+        {
+          ({ pressed }) =>
+            // {
+            showIcon ? icons[type] : <></>
+          // }
+        }
+      </Pressable>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
