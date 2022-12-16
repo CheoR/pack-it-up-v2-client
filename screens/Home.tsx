@@ -5,12 +5,7 @@ import Checkbox from "expo-checkbox";
 import LoggedInLayout from "../layout/LoggedInLayout";
 import ListItem from "../components/ListItem";
 import COLORS from "../constants/Colors";
-
-const DATA = [
-  { id: "moves", count: 3, type: "move" },
-  { id: "boxes", count: 2, type: "box" },
-  { id: "items", count: 1, type: "item" },
-];
+import DATA from "../data/home";
 
 export default function HomeScreen({ route }) {
   const { email, token, username } = route.params;
