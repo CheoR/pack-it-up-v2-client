@@ -32,7 +32,7 @@ const formatRoute = {
 
 export default function ColumnThree({
   listView = "home",
-  type = "dots",
+  iconType = "dots",
   showIcon = true,
 }) {
   const navigation = useNavigation();
@@ -53,7 +53,7 @@ export default function ColumnThree({
         {
           ({ pressed }) =>
             // {
-            showIcon ? icons[type] : <></>
+            showIcon ? icons[iconType] : <></>
           // }
         }
       </Pressable>

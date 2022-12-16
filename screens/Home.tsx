@@ -32,7 +32,7 @@ export default function HomeScreen({ route }) {
             )}
           />
         </View>
-        <View>
+        <View style={styles.values}>
           <View style={styles.valueInput}>
             <Text>Total</Text>
             <TextInput editable={false}>$100</TextInput>
@@ -55,9 +55,19 @@ export default function HomeScreen({ route }) {
 }
 
 const styles = StyleSheet.create({
+  checkbox: {
+    alignSelf: "center",
+  },
+  checkboxContainer: {
+    flexDirection: "row",
+    marginBottom: 20,
+  },
   flatList: {
     height: "100%",
     justifyContent: "space-evenly",
+  },
+  label: {
+    margin: 8,
   },
   listItems: {
     height: 600,
@@ -69,6 +79,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "100%",
   },
+  values: { width: "100%" },
   viewHeader: {
     alignItems: "center",
     borderColor: COLORS.light.tabIconSelected,
@@ -83,24 +94,13 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     width: "80%",
   },
+  viewHeaderText: {
+    color: COLORS.light.text,
+  },
   valueInput: {
     alignItems: "center",
     color: COLORS.light.text,
     flexDirection: "row",
     justifyContent: "space-between",
-    width: 300,
-  },
-  viewHeaderText: {
-    color: COLORS.light.text,
-  },
-  checkboxContainer: {
-    flexDirection: "row",
-    marginBottom: 20,
-  },
-  checkbox: {
-    alignSelf: "center",
-  },
-  label: {
-    margin: 8,
   },
 });
