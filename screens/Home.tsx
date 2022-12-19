@@ -22,9 +22,10 @@ export default function HomeScreen({ route }) {
           <FlatList
             data={DATA}
             keyExtractor={(item) => item.id}
-            contentContainerStyle={styles.flatList}
+            contentContainerStyle={styles.list}
             renderItem={({ item }) => (
               <ListItem
+                key={item.id}
                 count={item.count}
                 showValues={false}
                 type={item.type}
@@ -62,12 +63,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginBottom: 20,
   },
-  flatList: {
-    height: "100%",
-    justifyContent: "space-evenly",
-  },
   label: {
     margin: 8,
+  },
+  list: {
+    height: "100%",
+    justifyContent: "space-evenly",
   },
   listItems: {
     height: 600,
