@@ -5,6 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { StatusBar } from "expo-status-bar";
 
 import RootNavigator from "./navigation/RootNavigator";
+import SocialsIcons from "./components/SocialsIcons";
 
 const client = new ApolloClient({
   // with expo the following do not work
@@ -14,6 +15,7 @@ const client = new ApolloClient({
   // "exp://192.168.1.65:19000/graphql"
   uri: "http://192.168.1.65:4000/",
   cache: new InMemoryCache(),
+  credentials: "include",
 });
 
 export default function App() {

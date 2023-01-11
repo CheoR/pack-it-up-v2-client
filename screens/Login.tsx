@@ -30,8 +30,8 @@ const LOGIN_USER = gql`
 export default function LoginScreen({ navigation }) {
   // TODO: fix
   const [formData, setFormData] = useState({
-    email: "peggy@pug.com",
-    password: "pug",
+    email: "new@new.com", // "peggy@pug.com",
+    password: "newnew", // "pug",
   });
   const [modalVisible, setModalVisible] = useState(false);
 
