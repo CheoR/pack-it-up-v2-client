@@ -19,10 +19,9 @@ import ROUTES from "../constants/Routes";
 const LOGIN_USER = gql`
   mutation LoginUser($input: LoginUserInput!) {
     loginUser(input: $input) {
-      _id
-      email
-      username
-      token
+      accessToken
+      refreshToken
+      user_id
     }
   }
 `;
@@ -30,8 +29,8 @@ const LOGIN_USER = gql`
 export default function LoginScreen({ navigation }) {
   // TODO: fix
   const [formData, setFormData] = useState({
-    email: "new@new.com", // "peggy@pug.com",
-    password: "newnew", // "pug",
+    email: "oink@oink.com",
+    password: "oinkoink",
   });
   const [modalVisible, setModalVisible] = useState(false);
 
