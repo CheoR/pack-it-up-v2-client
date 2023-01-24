@@ -6,6 +6,7 @@ import { StatusBar } from "expo-status-bar";
 
 import RootNavigator from "./navigation/RootNavigator";
 import SocialsIcons from "./components/SocialsIcons";
+import { getHost } from "./utils/getHost";
 
 const client = new ApolloClient({
   // with expo the following do not work
@@ -13,7 +14,7 @@ const client = new ApolloClient({
   // "exp://192.168.1.65:19000/"
   // "http://localhost:4000/graphql"
   // "exp://192.168.1.65:19000/graphql"
-  uri: "http://192.168.1.65:4000/",
+  uri: getHost(),
   cache: new InMemoryCache(),
   credentials: "include",
   defaultOptions: { watchQuery: { fetchPolicy: "cache-and-network" } },
