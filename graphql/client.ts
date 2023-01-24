@@ -2,6 +2,7 @@ import { ApolloClient } from "@apollo/client"
 
 import { getHost } from "./getHost"
 import { cache } from "./cache"
+import { link } from "./link"
 
 export const client = new ApolloClient({
   // with expo the following do not work
@@ -13,4 +14,5 @@ export const client = new ApolloClient({
   cache,
   credentials: "include",
   defaultOptions: { watchQuery: { fetchPolicy: "cache-and-network" } },
+  link,
 })
