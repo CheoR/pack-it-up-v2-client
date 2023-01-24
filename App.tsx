@@ -6,7 +6,7 @@ import { StatusBar } from "expo-status-bar";
 
 import RootNavigator from "./navigation/RootNavigator";
 import SocialsIcons from "./components/SocialsIcons";
-import { getHost } from "./utils/getHost";
+import { getHost } from "./graphql/getHost";
 
 const client = new ApolloClient({
   // with expo the following do not work
