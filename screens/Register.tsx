@@ -10,14 +10,12 @@ import ROUTES from "../constants/Routes";
 const REGISTER_USER = gql`
   mutation RegisterUser($input: RegisterUserInput!) {
     registerUser(input: $input) {
-      _id
-      email
+      accessToken
+      refreshToken
       username
-      token
     }
   }
 `;
-
 export default function RegisterScreen({ navigation }) {
   const [formData, setFormData] = useState({
     username: "",
