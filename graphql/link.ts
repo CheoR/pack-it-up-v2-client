@@ -1,4 +1,4 @@
-import { ApolloLink, HttpLink, from } from '@apollo/client'
+import { ApolloLink, from, HttpLink} from '@apollo/client'
 import { setContext } from '@apollo/client/link/context'
 
 import { getTokens, setTokens, tokenExpiryTime } from '../auth/tokens'
@@ -20,7 +20,7 @@ const authLink = setContext(async (_, { headers }) => {
       // refresh token is unexpired
       return { headers: { ...headers, 'x-refresh-token': refreshToken } }
   }
-  return { headers: { ...headers } } // no unexpired tokens
+  return { headers: { ...headers, 'x-access-token': accessToken,  'x-refresh-token': refreshToken} } // no unexpired tokens
 })
 
 // our Apollo server is regularly sending new access and refresh tokens in
