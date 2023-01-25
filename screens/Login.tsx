@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { gql, useMutation } from "@apollo/client";
 import {
   Alert,
   Button,
@@ -9,10 +10,10 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { gql, useMutation } from "@apollo/client";
 
 import LoggedOutLayout from "../layout/LoggedOutLayout";
 import Loading from "../components/Loading";
+import { setTokens } from "../auth/tokens";
 import COLORS from "../constants/Colors";
 import ROUTES from "../constants/Routes";
 
@@ -29,8 +30,8 @@ const LOGIN_USER = gql`
 export default function LoginScreen({ navigation }) {
   // TODO: fix
   const [formData, setFormData] = useState({
-    email: "oink@oink.com",
-    password: "oinkoink",
+    email: "peggy@pug.com", // "oink@oink.com",
+    password: "peggypug", // "oinkoink",
   });
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -43,6 +44,7 @@ export default function LoginScreen({ navigation }) {
         screen: ROUTES.Home,
         params: data.loginUser,
       });
+      setTokens(data.loginUser);
     },
     onError: (error) => {
       console.log(error.message);
