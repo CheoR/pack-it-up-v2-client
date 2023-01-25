@@ -19,12 +19,6 @@ interface IToken {
 }
 
 export const setTokens = ({ accessToken, refreshToken }: Tokens) => {
-  const HOST = getHost()
-  console.info(`got new tokens!`);
-  console.log(`host: ${HOST}`)
-  console.log(`accessToken: ${accessToken}`)
-  console.log(`refreshToken: ${refreshToken}`)
-  console.log(`=============`)
   AsyncStorage.multiSet([
     ['host', getHost()],
     ['accessToken', accessToken],
@@ -36,8 +30,6 @@ export const setTokens = ({ accessToken, refreshToken }: Tokens) => {
 
 export const getTokens = async () => {
   const kvArray = await AsyncStorage.multiGet(tokenList);
-  /* in development and staging we often bounce around between servers with different private keys
-   * by associating tokens with a particular server we can avoid invalid token errors */
   const host = kvArray[0][1];
   return host === getHost()
     ? { accessToken: kvArray[1][1], refreshToken: kvArray[2][1] }
