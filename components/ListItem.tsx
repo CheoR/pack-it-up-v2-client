@@ -6,16 +6,31 @@ import ColumnThree from "./ColumnThree";
 import ColumnOne from "./ColumnOne";
 import ColumnTwo from "./ColumnTwo";
 
+interface IListItem {
+  count: number;
+  description?: string;
+  name?: string;
+  showValues: boolean;
+  thirdColumn?: boolean;
+  type: string;
+}
+
 export default function ListItem({
   count,
   showValues = true,
   thirdColumn = true,
   type,
-}) {
+  name,
+  description,
+}: IListItem) {
   return (
     <View style={styles.row}>
       <ColumnOne count={count} type={type} />
-      <ColumnTwo showValues={showValues} />
+      <ColumnTwo
+        description={description}
+        header={name}
+        showValues={showValues}
+      />
       <ColumnThree iconType="chevron" listView={type} showIcon={thirdColumn} />
     </View>
   );
@@ -30,6 +45,7 @@ const styles = StyleSheet.create({
     elevation: 2,
     flexDirection: "row",
     height: 160,
+    marginBottom: 16,
     paddingHorizontal: 16,
     paddingVertical: 8,
     shadowColor: COLORS.light.tabIconDefault,
