@@ -59,6 +59,8 @@ export default function Counter({ mutation, type, rest }: ICounter) {
 
 const styles = StyleSheet.create({
   counter: {
+    borderTopColor: COLORS.light.text,
+    borderTopWidth: 4,
     marginTop: 16,
     width: "100%",
   },
