@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Text, View, ScrollView, StyleSheet } from "react-native";
 import { gql, useMutation, useQuery } from "@apollo/client";
 
@@ -6,6 +6,14 @@ import LoggedInLayout from "../layout/LoggedInLayout";
 import ListItem from "../components/ListItem";
 import Counter from "../components/Counter";
 import Loading from "../components/Loading";
+
+export interface IMove {
+  input: {
+    count: number;
+    name: string;
+    description: string;
+  };
+}
 
 const GET_MOVES = gql`
   query GetMoves {
@@ -16,70 +24,68 @@ const GET_MOVES = gql`
     }
   }
 `;
-// const CREATE_MOVE = gql`
-//   mutation CreateMove($input: CreateMoveInput!) {
-//     createMove(input: $input) {
-//       _id
-//     }
-//   }
-// `;
 
-// const createMove = (count: number) => {
-//   const [createMove, { data, loading, error }] = useMutation(CREATE_MOVE, {
-//     variables: {
-//       input: count,
-//     },
-//     onCompleted: (data) => {
-//       // refresh data
-//       console.log(`created ${count} moves`);
-//     },
-//     onError: (error) => {
-//       console.log(error.message);
-//     },
-//   });
-// };
-
-const createMove = () => console.log("oink");
+const CREATE_MOVE = gql`
+  mutation CreateMove($input: CreateMoveInput!) {
+    createMove(input: $input) {
+      _id
+      name
+      description
+      user_id
+    }
+  }
+`;
 
 export default function MovesScreen() {
   const { data, loading, error } = useQuery(GET_MOVES, {
-    onCompleted: (data) => {
-      // refresh data
-    },
+    onError: (error) => console.log(`Query Move Error: ${error.message}`),
+  });
+
+  const [createMove] = useMutation(CREATE_MOVE, {
+    // query: DocumentNode object parsed with gql
+    // string: Query name
+    refetchQueries: [{ query: GET_MOVES }, "GetMoves"],
     onError: (error) => {
-      console.log(error.message);
+      console.log(`Create Move Error: ${error.message}`);
     },
   });
+
   if (loading) return <Loading text="Moves" />;
-  if (error) console.log("COULD NOT FETCH MOVES");
+  if (error) console.log(`Move Error: ${error.message}`);
   return (
     <LoggedInLayout>
       <View style={styles.screen}>
-        <Text>MovesScreen</Text>
+        <View>
+          <Text>Moves: {data.getMovesByUserId.length}</Text>
+        </View>
         <View style={styles.scrollViewCntr}>
-          <ScrollView contentContainerStyle={styles.list}>
-            {data.getMovesByUserId.map((item) => (
-              <View key={item._id} style={styles.listItemCntr}>
-                {/* <ListItem count={1} showValues={false} type={"move"} />) */}
-                <Text>Name</Text>
-                <Text>{item.name}</Text>
-                <Text>Description</Text>
-                <Text>{item.description}</Text>
-              </View>
+          <ScrollView>
+            {data.getMovesByUserId.map((move) => (
+              <ListItem
+                key={move._id}
+                count={0}
+                showValues={false}
+                type={"move"}
+                name={move.name}
+                description={move.description}
+              />
             ))}
           </ScrollView>
         </View>
-        <Counter action={createMove} type="Move" />
+        <Counter
+          mutation={createMove}
+          type="Move"
+          rest={{
+            name: "Move",
+            description: "",
+          }}
+        />
       </View>
     </LoggedInLayout>
   );
 }
 
 const styles = StyleSheet.create({
-  list: {},
-  listItemCntr: {
-    marginBottom: 16,
-  },
   screen: {
     alignItems: "center",
     flex: 1,
