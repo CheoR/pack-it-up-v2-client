@@ -2,16 +2,26 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Checkbox from "expo-checkbox";
 
-export default function ColumnTwo({ showValues = true }) {
+interface IColumnTwo {
+  description?: string;
+  header?: string;
+  showValues: boolean;
+}
+
+export default function ColumnTwo({
+  description,
+  header,
+  showValues = true,
+}: IColumnTwo) {
   const [isChecked, setIsChecked] = React.useState(false);
 
   return (
     <View style={styles.column}>
       <View style={styles.text}>
-        <Text style={styles.header}>Header</Text>
+        <Text style={styles.header}>{header || "Header"}</Text>
         <Text style={styles.dropdown}>Dropdown/What item belongs to</Text>
         <Text style={styles.description}>
-          Description: replace dropdown with a real dropdown
+          {description || "Description: replace dropdown with a real dropdown"}
         </Text>
       </View>
       {showValues && (
