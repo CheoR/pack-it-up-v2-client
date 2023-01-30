@@ -71,10 +71,12 @@ export default function ItemsScreen() {
               <ListItem
                 key={item._id}
                 count={0}
-                showValues={false}
-                type={"item"}
-                name={item.name}
                 description={item.description}
+                isFragile={item.isFragile}
+                name={item.name}
+                showValues={true}
+                type={"item"}
+                value={item.value}
               />
             ))}
           </ScrollView>
