@@ -9,6 +9,7 @@ import ColumnTwo from "./ColumnTwo";
 interface IListItem {
   count: number;
   description?: string;
+  isFragile?: boolean;
   name?: string;
   showValues: boolean;
   thirdColumn?: boolean;
@@ -19,6 +20,7 @@ interface IListItem {
 export default function ListItem({
   count,
   description,
+  isFragile = false,
   name,
   showValues = true,
   thirdColumn = true,
@@ -30,6 +32,7 @@ export default function ListItem({
       <ColumnOne count={count} type={type} />
       <ColumnTwo
         description={description}
+        isFragile={isFragile}
         header={name}
         showValues={showValues}
         value={value}

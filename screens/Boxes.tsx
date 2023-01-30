@@ -22,6 +22,7 @@ const GET_BOXES = gql`
     getBoxesByUserId {
       _id
       description
+      isFragile
       itemsCount
       move_id
       name
@@ -71,6 +72,7 @@ export default function BoxesScreen() {
                 key={box._id}
                 count={box.itemsCount}
                 description={box.description}
+                isFragile={box.isFragile}
                 name={box.name}
                 showValues={true}
                 type={"item"}

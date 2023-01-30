@@ -5,6 +5,7 @@ import Checkbox from "expo-checkbox";
 interface IColumnTwo {
   description?: string;
   header?: string;
+  isFragile?: boolean;
   showValues: boolean;
   value?: number;
 }
@@ -12,10 +13,11 @@ interface IColumnTwo {
 export default function ColumnTwo({
   description,
   header,
+  isFragile = false,
   showValues = true,
   value = 0,
 }: IColumnTwo) {
-  const [isChecked, setIsChecked] = React.useState(false);
+  const [isChecked, setIsChecked] = React.useState(isFragile);
 
   return (
     <View style={styles.column}>
