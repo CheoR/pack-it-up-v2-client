@@ -19,8 +19,9 @@ const GET_MOVES = gql`
   query GetMoves {
     getMovesByUserId {
       _id
-      name
+      boxesCount
       description
+      name
     }
   }
 `;
@@ -63,9 +64,9 @@ export default function MovesScreen() {
             {data.getMovesByUserId.map((move) => (
               <ListItem
                 key={move._id}
-                count={0}
+                count={move.boxesCount}
                 showValues={false}
-                type={"move"}
+                type={"box"}
                 name={move.name}
                 description={move.description}
               />
