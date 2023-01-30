@@ -13,15 +13,17 @@ interface IListItem {
   showValues: boolean;
   thirdColumn?: boolean;
   type: string;
+  value?: number;
 }
 
 export default function ListItem({
   count,
+  description,
+  name,
   showValues = true,
   thirdColumn = true,
   type,
-  name,
-  description,
+  value = 0,
 }: IListItem) {
   return (
     <View style={styles.row}>
@@ -30,6 +32,7 @@ export default function ListItem({
         description={description}
         header={name}
         showValues={showValues}
+        value={value}
       />
       <ColumnThree iconType="chevron" listView={type} showIcon={thirdColumn} />
     </View>
