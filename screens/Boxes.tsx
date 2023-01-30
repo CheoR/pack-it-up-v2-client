@@ -25,6 +25,7 @@ const GET_BOXES = gql`
       itemsCount
       move_id
       name
+      total
       user_id
     }
   }
@@ -69,10 +70,11 @@ export default function BoxesScreen() {
               <ListItem
                 key={box._id}
                 count={box.itemsCount}
-                showValues={false}
-                type={"item"}
-                name={box.name}
                 description={box.description}
+                name={box.name}
+                showValues={true}
+                type={"item"}
+                value={box.total}
               />
             ))}
           </ScrollView>
