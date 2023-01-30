@@ -6,12 +6,14 @@ interface IColumnTwo {
   description?: string;
   header?: string;
   showValues: boolean;
+  value?: number;
 }
 
 export default function ColumnTwo({
   description,
   header,
   showValues = true,
+  value = 0,
 }: IColumnTwo) {
   const [isChecked, setIsChecked] = React.useState(false);
 
@@ -37,7 +39,7 @@ export default function ColumnTwo({
             />
             <Text style={styles.label}>Fragile</Text>
           </View>
-          <Text style={styles.value}>$100</Text>
+          <Text style={styles.value}>${value}</Text>
         </View>
       )}
     </View>
