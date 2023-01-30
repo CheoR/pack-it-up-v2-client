@@ -21,9 +21,10 @@ const GET_BOXES = gql`
   query GetBoxes {
     getBoxesByUserId {
       _id
-      name
-      move_id
       description
+      itemsCount
+      move_id
+      name
       user_id
     }
   }
@@ -67,9 +68,9 @@ export default function BoxesScreen() {
             {data.getBoxesByUserId.map((box) => (
               <ListItem
                 key={box._id}
-                count={0}
+                count={box.itemsCount}
                 showValues={false}
-                type={"box"}
+                type={"item"}
                 name={box.name}
                 description={box.description}
               />
