@@ -1,16 +1,37 @@
 import React from "react";
 import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
+import { gql, useQuery } from "@apollo/client";
 import Checkbox from "expo-checkbox";
 
 import LoggedInLayout from "../layout/LoggedInLayout";
 import ListItem from "../components/ListItem";
+import Loading from "../components/Loading";
 import COLORS from "../constants/Colors";
-import DATA from "../data/home";
 
-export default function HomeScreen({ route }) {
-  const { email, token, username } = route.params;
+const GET_HOME_DATA = gql`
+  query GetHomeData {
+    getHomeData {
+      data {
+        id
+        count
+        isFragile
+        total
+      }
+    }
+  }
+`;
+export default function HomeScreen() {
+  const [isChecked, setIsChecked] = React.useState(false);
 
-  const [isChecked, setIsChecked] = React.useState(true);
+  const { data, loading, error } = useQuery(GET_HOME_DATA, {
+    onError: (error) => console.log(`Query Home Data Error: ${error.message}`),
+  });
+
+  if (loading) return <Loading text="Data" />;
+  if (error) console.log(`Home Error: ${error.message}`);
+
+  const { data: DATA } = data.getHomeData;
+  const items = DATA.find((obj) => obj.id === "item");
 
   return (
     <LoggedInLayout>
@@ -28,7 +49,7 @@ export default function HomeScreen({ route }) {
                 key={item.id}
                 count={item.count}
                 showValues={false}
-                type={item.type}
+                type={item.id}
               />
             )}
           />
@@ -36,16 +57,20 @@ export default function HomeScreen({ route }) {
         <View style={styles.values}>
           <View style={styles.valueInput}>
             <Text>Total</Text>
-            <TextInput editable={false}>$100</TextInput>
+            <TextInput editable={false}>${items.total.toFixed(2)}</TextInput>
           </View>
           <View style={styles.checkboxContainer}>
             {/* TODO: swap out checkbox and remove from packages */}
             <Checkbox
               style={styles.checkbox}
-              value={isChecked}
+              value={items.isFragile}
               onValueChange={setIsChecked}
               disabled
-              color={isChecked ? COLORS.light.tabIconSelected : undefined}
+              color={
+                items.isFragile
+                  ? COLORS.light.warning
+                  : COLORS.light.tabIconSelected
+              }
             />
             <Text style={styles.label}>Fragile</Text>
           </View>
