@@ -19,6 +19,7 @@ export default function ColumnTwo({
 }: IColumnTwo) {
   const [isChecked, setIsChecked] = React.useState(isFragile);
 
+  value = parseFloat(value?.toFixed(2));
   return (
     <View style={styles.column}>
       <View style={styles.text}>

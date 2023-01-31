@@ -21,7 +21,9 @@ const GET_MOVES = gql`
       _id
       boxesCount
       description
+      isFragile
       name
+      total
     }
   }
 `;
@@ -65,10 +67,12 @@ export default function MovesScreen() {
               <ListItem
                 key={move._id}
                 count={move.boxesCount}
-                showValues={false}
-                type={"box"}
-                name={move.name}
                 description={move.description}
+                isFragile={move.isFragile}
+                name={move.name}
+                showValues={true}
+                type={"box"}
+                value={move.total}
               />
             ))}
           </ScrollView>
