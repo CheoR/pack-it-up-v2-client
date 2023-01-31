@@ -87,9 +87,11 @@ export default function ItemsScreen() {
           rest={{
             // TODO: update to add a default box and/or
             // allow for unbounded items
-            box_id: "63d439187daf783fc6580e27",
+            box_id: "63d58f28e9c4ff10994a0dca",
             description: "",
             name: "Item",
+            value: 0,
+            isFragile: false,
           }}
         />
       </View>

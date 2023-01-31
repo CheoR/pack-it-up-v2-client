@@ -87,7 +87,7 @@ export default function BoxesScreen() {
           rest={{
             // TODO: update to add a default Box and/or
             // allow for unbounded Boxes
-            move_id: "63d439187daf783fc6580e27",
+            move_id: "63d2f72669850c57c9184e3c",
             description: "",
             name: "Box",
           }}
