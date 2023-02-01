@@ -13,7 +13,6 @@ export interface IBoxInput {
     description: string;
     name: string;
     move_id: string; // Types.ObjectId;
-    // user_id: Types.ObjectId;
   };
 }
 
@@ -21,13 +20,12 @@ const GET_BOXES = gql`
   query GetBoxes {
     getBoxesByUserId {
       _id
+      count
       description
       isFragile
-      itemsCount
       move_id
       name
       total
-      user_id
     }
   }
 `;
@@ -70,7 +68,7 @@ export default function BoxesScreen() {
             {data.getBoxesByUserId.map((box) => (
               <ListItem
                 key={box._id}
-                count={box.itemsCount}
+                count={box.count}
                 description={box.description}
                 isFragile={box.isFragile}
                 name={box.name}

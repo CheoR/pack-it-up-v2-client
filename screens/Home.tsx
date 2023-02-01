@@ -12,7 +12,7 @@ const GET_HOME_DATA = gql`
   query GetHomeData {
     getHomeData {
       data {
-        id
+        _id
         count
         isFragile
         total
@@ -31,7 +31,7 @@ export default function HomeScreen() {
   if (error) console.log(`Home Error: ${error.message}`);
 
   const { data: DATA } = data.getHomeData;
-  const items = DATA.find((obj) => obj.id === "item");
+  const items = DATA.find((obj) => obj._id === "item");
 
   return (
     <LoggedInLayout>
@@ -42,14 +42,14 @@ export default function HomeScreen() {
         <View style={styles.listItems}>
           <FlatList
             data={DATA}
-            keyExtractor={(item) => item.id}
+            keyExtractor={(item) => item._id}
             contentContainerStyle={styles.list}
             renderItem={({ item }) => (
               <ListItem
-                key={item.id}
+                key={item._id}
                 count={item.count}
                 showValues={false}
-                type={item.id}
+                type={item._id}
               />
             )}
           />
