@@ -50,7 +50,7 @@ export default function ItemsScreen() {
   });
 
   const [createItem] = useMutation(CREATE_ITEM, {
-    refetchQueries: [{ query: GET_ITEMS }, "GetItems"],
+    refetchQueries: [{ query: GET_ITEMS }, "GetHomeData"],
     onError: (error) => {
       console.log(`Create Item Error: ${error.message}`);
     },

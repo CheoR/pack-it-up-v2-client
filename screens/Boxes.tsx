@@ -48,7 +48,7 @@ export default function BoxesScreen() {
   });
 
   const [createBox] = useMutation(CREATE_BOX, {
-    refetchQueries: [{ query: GET_BOXES }, "GetBoxes"],
+    refetchQueries: [{ query: GET_BOXES }, "GetHomeData"],
     onError: (error) => {
       console.log(`Create Box Error: ${error.message}`);
     },

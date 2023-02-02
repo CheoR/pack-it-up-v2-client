@@ -47,7 +47,7 @@ export default function MovesScreen() {
   const [createMove] = useMutation(CREATE_MOVE, {
     // query: DocumentNode object parsed with gql
     // string: Query name
-    refetchQueries: [{ query: GET_MOVES }, "GetMoves"],
+    refetchQueries: [{ query: GET_MOVES }, "GetHomeData"],
     onError: (error) => {
       console.log(`Create Move Error: ${error.message}`);
     },
