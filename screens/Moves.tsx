@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, View, ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { gql, useMutation, useQuery } from "@apollo/client";
 
 import LoggedInLayout from "../layout/LoggedInLayout";

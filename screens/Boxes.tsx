@@ -1,11 +1,11 @@
-import { gql, useMutation, useQuery } from "@apollo/client";
 import React from "react";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
-import Counter from "../components/Counter";
-import ListItem from "../components/ListItem";
-import Loading from "../components/Loading";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
+import { gql, useMutation, useQuery } from "@apollo/client";
 
 import LoggedInLayout from "../layout/LoggedInLayout";
+import ListItem from "../components/ListItem";
+import Counter from "../components/Counter";
+import Loading from "../components/Loading";
 
 export interface IBoxInput {
   input: {

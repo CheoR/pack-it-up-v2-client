@@ -1,10 +1,10 @@
 import React from "react";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { gql, useMutation, useQuery } from "@apollo/client";
-import { View, Text, StyleSheet, ScrollView } from "react-native";
 
 import LoggedInLayout from "../layout/LoggedInLayout";
-import Loading from "../components/Loading";
 import ListItem from "../components/ListItem";
+import Loading from "../components/Loading";
 import Counter from "../components/Counter";
 export interface IItemInput {
   input: {
