@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Alert, Modal, Pressable, StyleSheet, Text, View } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { gql, useMutation } from "@apollo/client";
-import { GET_ITEMS } from "../screens/Items";
 
+import { GET_ITEMS } from "../screens/Items";
+import { GET_BOXES } from "../screens/Boxes";
 import COLORS from "../constants/Colors";
 import ROUTES from "../constants/Routes";
 
@@ -40,21 +41,63 @@ const REMOVE_ITEM = gql`
   }
 `;
 
+const REMOVE_BOX = gql`
+  mutation RemoveBox($input: BoxIdInput!) {
+    removeBox(input: $input) {
+      ok
+    }
+  }
+`;
+
 export default function ColumnThree({
   listView = "home",
   iconType = "dots",
   objKey,
   showIcon = true,
 }) {
-  const [modalVisible, setModalVisible] = useState(false);
-  const navigation = useNavigation();
-
   const [removeItem] = useMutation(REMOVE_ITEM, {
-    refetchQueries: [{ query: GET_ITEMS }, "GetHomeData"],
+    refetchQueries: [
+      {
+        query: GET_ITEMS,
+      },
+      {
+        query: GET_BOXES,
+      },
+      "GetHomeData",
+      "GetMoves",
+    ],
     onError: (error) => {
       console.log(`Create Item Error: ${error.message}`);
     },
   });
+
+  const [removeBox] = useMutation(REMOVE_BOX, {
+    refetchQueries: [
+      {
+        query: GET_ITEMS,
+      },
+      {
+        query: GET_BOXES,
+      },
+      "GetHomeData",
+      "GetMoves",
+    ],
+    onError: (error) => {
+      console.log(`Create Box Error: ${error.message}`);
+    },
+  });
+
+  const removeBy = {
+    Items: removeItem,
+    Boxes: removeBox,
+  };
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const navigation = useNavigation();
+
+  const route = useRoute();
+  console.log(`current route is ${route.name}`);
+  const removeObjectBy = removeBy[route.name];
 
   return (
     <View style={styles.column}>
@@ -104,7 +147,8 @@ export default function ColumnThree({
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => {
-                  removeItem({
+                  // TODO: figure out which to call here
+                  removeObjectBy({
                     variables: {
                       input: {
                         _id: objKey,

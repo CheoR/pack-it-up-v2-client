@@ -16,7 +16,7 @@ export interface IBoxInput {
   };
 }
 
-const GET_BOXES = gql`
+export const GET_BOXES = gql`
   query GetBoxes {
     getBoxesByUserId {
       _id
@@ -72,6 +72,7 @@ export default function BoxesScreen() {
                 description={box.description}
                 isFragile={box.isFragile}
                 name={box.name}
+                objKey={box._id}
                 showValues={true}
                 type={"item"}
                 value={box.total}

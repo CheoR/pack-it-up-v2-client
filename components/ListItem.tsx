@@ -10,8 +10,8 @@ interface IListItem {
   count: number;
   description?: string;
   isFragile?: boolean;
-  objKey: string;
   name?: string;
+  objKey: string;
   showValues: boolean;
   thirdColumn?: boolean;
   type: string;
@@ -22,8 +22,8 @@ export default function ListItem({
   count,
   description,
   isFragile = false,
-  objKey,
   name,
+  objKey,
   showValues = true,
   thirdColumn = true,
   type,
