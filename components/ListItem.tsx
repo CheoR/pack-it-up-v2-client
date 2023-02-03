@@ -10,6 +10,7 @@ interface IListItem {
   count: number;
   description?: string;
   isFragile?: boolean;
+  objKey: string;
   name?: string;
   showValues: boolean;
   thirdColumn?: boolean;
@@ -21,6 +22,7 @@ export default function ListItem({
   count,
   description,
   isFragile = false,
+  objKey,
   name,
   showValues = true,
   thirdColumn = true,
@@ -37,7 +39,12 @@ export default function ListItem({
         showValues={showValues}
         value={value}
       />
-      <ColumnThree iconType="chevron" listView={type} showIcon={thirdColumn} />
+      <ColumnThree
+        iconType="chevron"
+        listView={type}
+        showIcon={thirdColumn}
+        objKey={objKey}
+      />
     </View>
   );
 }

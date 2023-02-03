@@ -18,7 +18,7 @@ export interface IItemInput {
   };
 }
 
-const GET_ITEMS = gql`
+export const GET_ITEMS = gql`
   query GetItems {
     getItemsByUserId {
       _id
@@ -74,6 +74,7 @@ export default function ItemsScreen() {
                 description={item.description}
                 isFragile={item.isFragile}
                 name={item.name}
+                objKey={item._id}
                 showValues={true}
                 type={"item"}
                 value={item.value}

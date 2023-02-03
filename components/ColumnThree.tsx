@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Alert, Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { gql, useMutation } from "@apollo/client";
+import { GET_ITEMS } from "../screens/Items";
 
 import COLORS from "../constants/Colors";
 import ROUTES from "../constants/Routes";
@@ -30,13 +32,29 @@ const formatRoute = {
   move: ROUTES.Moves,
 };
 
+const REMOVE_ITEM = gql`
+  mutation RemoveItem($input: ItemIdInput!) {
+    removeItem(input: $input) {
+      ok
+    }
+  }
+`;
+
 export default function ColumnThree({
   listView = "home",
   iconType = "dots",
+  objKey,
   showIcon = true,
 }) {
   const [modalVisible, setModalVisible] = useState(false);
   const navigation = useNavigation();
+
+  const [removeItem] = useMutation(REMOVE_ITEM, {
+    refetchQueries: [{ query: GET_ITEMS }, "GetHomeData"],
+    onError: (error) => {
+      console.log(`Create Item Error: ${error.message}`);
+    },
+  });
 
   return (
     <View style={styles.column}>
@@ -83,9 +101,16 @@ export default function ColumnThree({
                 size={24}
                 color={COLORS.light.tint}
               />
-      <Pressable
+              <Pressable
                 style={[styles.button, styles.buttonClose]}
-        onPress={() => {
+                onPress={() => {
+                  removeItem({
+                    variables: {
+                      input: {
+                        _id: objKey,
+                      },
+                    },
+                  });
                   setModalVisible((prevState) => !prevState);
                 }}
               >
@@ -111,7 +136,7 @@ export default function ColumnThree({
       <Pressable
         onPress={() => {
           if (listView === "home") {
-          navigation.navigate(formatRoute[listView]);
+            navigation.navigate(formatRoute[listView]);
           } else {
             setModalVisible((prevState) => !prevState);
           }
