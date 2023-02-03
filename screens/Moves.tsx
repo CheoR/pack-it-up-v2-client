@@ -15,7 +15,7 @@ export interface IMove {
   };
 }
 
-const GET_MOVES = gql`
+export const GET_MOVES = gql`
   query GetMoves {
     getMovesByUserId {
       _id
@@ -70,6 +70,7 @@ export default function MovesScreen() {
                 description={move.description}
                 isFragile={move.isFragile}
                 name={move.name}
+                objKey={move._id}
                 showValues={true}
                 type={"box"}
                 value={move.total}

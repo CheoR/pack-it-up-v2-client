@@ -6,6 +6,7 @@ import { gql, useMutation } from "@apollo/client";
 
 import { GET_ITEMS } from "../screens/Items";
 import { GET_BOXES } from "../screens/Boxes";
+import { GET_MOVES } from "../screens/Moves";
 import COLORS from "../constants/Colors";
 import ROUTES from "../constants/Routes";
 
@@ -49,6 +50,14 @@ const REMOVE_BOX = gql`
   }
 `;
 
+const REMOVE_MOVE = gql`
+  mutation RemoveMove($input: MoveIdInput!) {
+    removeMove(input: $input) {
+      ok
+    }
+  }
+`;
+
 export default function ColumnThree({
   listView = "home",
   iconType = "dots",
@@ -63,8 +72,10 @@ export default function ColumnThree({
       {
         query: GET_BOXES,
       },
+      {
+        query: GET_MOVES,
+      },
       "GetHomeData",
-      "GetMoves",
     ],
     onError: (error) => {
       console.log(`Create Item Error: ${error.message}`);
@@ -79,17 +90,37 @@ export default function ColumnThree({
       {
         query: GET_BOXES,
       },
+      {
+        query: GET_MOVES,
+      },
       "GetHomeData",
-      "GetMoves",
     ],
     onError: (error) => {
       console.log(`Create Box Error: ${error.message}`);
+    },
+  });
+  const [removeMove] = useMutation(REMOVE_MOVE, {
+    refetchQueries: [
+      {
+        query: GET_ITEMS,
+      },
+      {
+        query: GET_BOXES,
+      },
+      {
+        query: GET_MOVES,
+      },
+      "GetHomeData",
+    ],
+    onError: (error) => {
+      console.log(`Create Move Error: ${error.message}`);
     },
   });
 
   const removeBy = {
     Items: removeItem,
     Boxes: removeBox,
+    Moves: removeMove,
   };
 
   const [modalVisible, setModalVisible] = useState(false);
