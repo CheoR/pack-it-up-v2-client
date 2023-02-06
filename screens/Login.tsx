@@ -40,11 +40,11 @@ export default function LoginScreen({ navigation }) {
       input: formData,
     },
     onCompleted: (data) => {
+      setTokens(data.loginUser);
       navigation.navigate(ROUTES.LoggedIn, {
         screen: ROUTES.Home,
         params: data.loginUser,
       });
-      setTokens(data.loginUser);
     },
     onError: (error) => {
       console.log(error.message);
