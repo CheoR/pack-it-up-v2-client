@@ -4,6 +4,7 @@ import { gql, useMutation } from "@apollo/client";
 
 import LoggedOutLayout from "../layout/LoggedOutLayout";
 import Loading from "../components/Loading";
+import { setTokens } from "../auth/tokens";
 import COLORS from "../constants/Colors";
 import ROUTES from "../constants/Routes";
 
@@ -12,7 +13,6 @@ const REGISTER_USER = gql`
     registerUser(input: $input) {
       accessToken
       refreshToken
-      username
     }
   }
 `;
@@ -31,6 +31,7 @@ export default function RegisterScreen({ navigation }) {
       input: formData,
     },
     onCompleted: (data) => {
+      setTokens(data.registerUser);
       navigation.navigate(ROUTES.LoggedIn, {
         screen: ROUTES.Home,
         params: data.registerUser,
