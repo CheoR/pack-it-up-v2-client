@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Alert, Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { gql, useMutation } from "@apollo/client";
+import { gql, useLazyQuery, useMutation, useQuery } from "@apollo/client";
 
 import { GET_ITEMS } from "../screens/Items";
 import { GET_BOXES } from "../screens/Boxes";
 import { GET_MOVES } from "../screens/Moves";
 import COLORS from "../constants/Colors";
 import ROUTES from "../constants/Routes";
+import ListItem from "./ListItem";
 
 const icons = {
   chevron: (
@@ -58,12 +59,30 @@ const REMOVE_MOVE = gql`
   }
 `;
 
+export const GET_BOXES_DROPDOWN = gql`
+  query getBoxesDropdown {
+    getBoxesByUserId {
+      _id
+      name
+    }
+  }
+`;
+
+interface IColumnThree {
+  listView: string;
+  iconType: string;
+  objKey: object;
+  showIcon: boolean;
+  dropdown: [];
+}
+
 export default function ColumnThree({
   listView = "home",
   iconType = "dots",
   objKey,
   showIcon = true,
-}) {
+  dropdown = [],
+}: IColumnThree) {
   const [removeItem] = useMutation(REMOVE_ITEM, {
     refetchQueries: [
       {
@@ -123,23 +142,83 @@ export default function ColumnThree({
     Moves: removeMove,
   };
 
-  const [modalVisible, setModalVisible] = useState(false);
+  const [modalVisible, setModalVisible] = useState({
+    actions: false,
+    edit: false,
+  });
   const navigation = useNavigation();
 
   const route = useRoute();
-  console.log(`current route is ${route.name}`);
   const removeObjectBy = removeBy[route.name];
 
   return (
     <View style={styles.column}>
       <Modal
         transparent={true}
-        visible={modalVisible}
+        visible={modalVisible.edit}
+        onRequestClose={() => {
+          Alert.alert("Modal Edit closed.");
+          setModalVisible((prevState) => ({
+            ...prevState,
+            edit: !prevState.edit,
+          }));
+        }}
+        style={styles.modalEdit}
+      >
+        <View style={styles.centerModal}>
+          <View style={styles.centeredView2}>
+            <ListItem
+              key={"test"}
+              description={"tset descrption"}
+              dropdown={dropdown}
+              isFragile={true}
+              name={"test name"}
+              objKey={"test"}
+              showValues={true}
+              thirdColumn={false}
+              type={"item"}
+              value={100}
+            />
+            <View style={styles.modalView2}>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() =>
+                  setModalVisible((prevState) => ({
+                    ...prevState,
+                    edit: false,
+                    actions: false,
+                  }))
+                }
+              >
+                <Text style={styles.textStyle}>Confirm</Text>
+              </Pressable>
+              <Pressable
+                style={[styles.button, styles.buttonClose]}
+                onPress={() =>
+                  setModalVisible((prevState) => ({
+                    ...prevState,
+                    edit: false,
+                    actions: false,
+                  }))
+                }
+              >
+                <Text style={styles.textStyle}>Cancel</Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
+      <Modal
+        transparent={true}
+        visible={modalVisible.actions}
         onRequestClose={() => {
           Alert.alert("Modal has been closed.");
-          setModalVisible((prevState) => !prevState);
+          setModalVisible((prevState) => ({
+            ...prevState,
+            actions: !prevState.actions,
+          }));
         }}
-        style={styles.modal}
+        style={styles.modalAactions}
       >
         <View style={styles.centerModal}>
           <View style={styles.centeredView}>
@@ -151,7 +230,12 @@ export default function ColumnThree({
               />
               <Pressable
                 style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalVisible((prevState) => !prevState)}
+                onPress={() =>
+                  setModalVisible((prevState) => ({
+                    ...prevState,
+                    actions: false,
+                  }))
+                }
               >
                 <Text style={styles.textStyle}>Add</Text>
               </Pressable>
@@ -164,7 +248,12 @@ export default function ColumnThree({
               />
               <Pressable
                 style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalVisible((prevState) => !prevState)}
+                onPress={() =>
+                  setModalVisible((prevState) => ({
+                    ...prevState,
+                    actions: false,
+                  }))
+                }
               >
                 <Text style={styles.textStyle}>Camera</Text>
               </Pressable>
@@ -186,7 +275,10 @@ export default function ColumnThree({
                       },
                     },
                   });
-                  setModalVisible((prevState) => !prevState);
+                  setModalVisible((prevState) => ({
+                    ...prevState,
+                    actions: false,
+                  }));
                 }}
               >
                 <Text style={styles.textStyle}>Delete</Text>
@@ -200,7 +292,13 @@ export default function ColumnThree({
               />
               <Pressable
                 style={[styles.button, styles.buttonClose]}
-                onPress={() => setModalVisible((prevState) => !prevState)}
+                onPress={() => {
+                  // getData();
+                  setModalVisible((prevState) => ({
+                    edit: true,
+                    actions: false,
+                  }));
+                }}
               >
                 <Text style={styles.textStyle}>Edit</Text>
               </Pressable>
@@ -213,7 +311,10 @@ export default function ColumnThree({
           if (listView === "home") {
             navigation.navigate(formatRoute[listView]);
           } else {
-            setModalVisible((prevState) => !prevState);
+            setModalVisible((prevState) => ({
+              ...prevState,
+              actions: !prevState.actions,
+            }));
           }
         }}
         style={({ pressed }) => [
@@ -261,7 +362,19 @@ const styles = StyleSheet.create({
     width: 160,
     borderRadius: 5,
   },
-  modal: {
+  centeredView2: {
+    // flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    // marginTop: 22,
+    backgroundColor: "green", //
+    // height: 320,
+    // width: 160,
+    width: "100%",
+    height: "100%",
+    borderRadius: 5,
+  },
+  modalActions: {
     backgroundColor: "blue",
     marginLeft: 50,
   },
@@ -280,6 +393,22 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
     flexDirection: "row",
+  },
+  modalView2: {
+    margin: 5,
+    backgroundColor: "red",
+    borderRadius: 8,
+    padding: 10,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    // flexDirection: "row",
   },
   button: {
     borderRadius: 8,
