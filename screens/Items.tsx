@@ -22,6 +22,33 @@ export interface IItemInput {
   };
 }
 
+export const GET_PAGE_DATA = gql`
+  query GetItems {
+    getItemsByUserId {
+      _id
+      name
+      box_id
+      description
+      isFragile
+      value
+    }
+  }
+  query getBoxesDropdown {
+    getBoxesByUserId {
+      _id
+      name
+    }
+  }
+`;
+export const GET_BOXES_DROPDOWN = gql`
+  query getBoxesDropdown {
+    getBoxesByUserId {
+      _id
+      name
+    }
+  }
+`;
+
 export const GET_ITEMS = gql`
   query GetItems {
     getItemsByUserId {
@@ -49,6 +76,16 @@ const CREATE_ITEM = gql`
 `;
 
 export default function ItemsScreen() {
+  // TODO: reread polling vs refetch
+  // https://www.apollographql.com/docs/react/data/queries/
+  const {
+    data: dropdownData,
+    loading: dropdownLoading,
+    error: dropDownError,
+  } = useQuery(GET_BOXES_DROPDOWN, {
+    onError: (error) => console.log(`Query Dropdown Error: ${error.message}`),
+  });
+
   const { data, loading, error } = useQuery(GET_ITEMS, {
     onError: (error) => console.log(`Query Item Error: ${error.message}`),
   });
@@ -60,7 +97,7 @@ export default function ItemsScreen() {
     },
   });
 
-  if (loading) return <Loading text="Items" />;
+  if (loading || dropdownLoading) return <Loading text="Items" />;
   if (error) console.log(`Item Error: ${error.message}`);
 
   return (
@@ -87,13 +124,13 @@ export default function ItemsScreen() {
               <ListItem2 key={item._id}>
                 <ColumnOne count={0} type="item" />
                 <ColumnTwo
-                description={item.description}
+                  description={item.description}
                   dropdown={dropdownData.getBoxesByUserId}
-                isFragile={item.isFragile}
-                name={item.name}
-                showValues={true}
-                value={item.value}
-              />
+                  isFragile={item.isFragile}
+                  name={item.name}
+                  showValues={true}
+                  value={item.value}
+                />
                 <ColumnThree
                   dropdown={dropdownData.getBoxesByUserId}
                   iconType="chevron"
