@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
+import DropDownPicker from "react-native-dropdown-picker";
 import { View, Text, StyleSheet } from "react-native";
 import Checkbox from "expo-checkbox";
 
 interface IColumnTwo {
   description?: string;
-  header?: string;
+  dropdown: [];
+  name?: string;
   isFragile?: boolean;
   showValues: boolean;
   value?: number;
@@ -12,21 +14,49 @@ interface IColumnTwo {
 
 export default function ColumnTwo({
   description,
-  header,
+  dropdown,
+  name,
   isFragile = false,
   showValues = true,
   value = 0,
 }: IColumnTwo) {
-  const [isChecked, setIsChecked] = React.useState(isFragile);
+  const [dropdownValue, setDropdownValue] = useState(null);
+  const [isChecked, setIsChecked] = useState(isFragile);
+  const [items, setItems] = useState(dropdown);
+  const [open, setOpen] = useState(false);
 
   value = parseFloat(value?.toFixed(2)) || 0;
   return (
     <View style={styles.column}>
       <View style={styles.text}>
-        <Text style={styles.header}>{header || "Header"}</Text>
-        <Text style={styles.dropdown}>Dropdown/What item belongs to</Text>
+        <Text style={styles.name}>{name?.slice(0, 20) || "Header"}</Text>
+        {dropdown?.length ? (
+          <DropDownPicker
+            listMode="SCROLLVIEW"
+            itemKey="_id"
+            schema={{
+              label: "name",
+              value: "name",
+            }}
+            open={open}
+            value={dropdownValue}
+            items={items}
+            setOpen={setOpen}
+            setValue={setDropdownValue}
+            setItems={setItems}
+            style={{
+              minHeight: 4,
+            }}
+          />
+        ) : (
+          <Text style={styles.dropdown}>Dropdown/Box item belongs to</Text>
+        )}
         <Text style={styles.description}>
-          {description || "Description: replace dropdown with a real dropdown"}
+          {description?.slice(0, 55) ||
+            "Item Description: replace dropdown with real dropdown Item Description: replace dropdown with real dropdown".slice(
+              0,
+              55
+            )}
         </Text>
       </View>
       {showValues && (
