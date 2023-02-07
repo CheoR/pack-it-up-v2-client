@@ -7,8 +7,9 @@ import ColumnOne from "./ColumnOne";
 import ColumnTwo from "./ColumnTwo";
 
 interface IListItem {
-  count: number;
+  count?: number;
   description?: string;
+  dropdown?: [];
   isFragile?: boolean;
   name?: string;
   objKey: string;
@@ -21,6 +22,7 @@ interface IListItem {
 export default function ListItem({
   count,
   description,
+  dropdown = [],
   isFragile = false,
   name,
   objKey,
@@ -34,6 +36,7 @@ export default function ListItem({
       <ColumnOne count={count} type={type} />
       <ColumnTwo
         description={description}
+        dropdown={dropdown}
         isFragile={isFragile}
         header={name}
         showValues={showValues}
@@ -44,6 +47,7 @@ export default function ListItem({
         listView={type}
         showIcon={thirdColumn}
         objKey={objKey}
+        dropdown={dropdown}
       />
     </View>
   );
