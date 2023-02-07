@@ -3,6 +3,10 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { gql, useMutation, useQuery } from "@apollo/client";
 
 import LoggedInLayout from "../layout/LoggedInLayout";
+import ColumnThree from "../components/ColumnThree";
+import ColumnTwo from "../components/ColumnTwo";
+import ColumnOne from "../components/ColumnOne";
+import ListItem2 from "../components/ListItem2";
 import ListItem from "../components/ListItem";
 import Loading from "../components/Loading";
 import Counter from "../components/Counter";
@@ -66,19 +70,38 @@ export default function ItemsScreen() {
           <Text>Items: {data.getItemsByUserId.length}</Text>
         </View>
         <View style={styles.scrollViewCntr}>
-          <ScrollView>
+          <ScrollView nestedScrollEnabled={true}>
             {data.getItemsByUserId.map((item) => (
-              <ListItem
-                key={item._id}
-                count={0}
+              // <ListItem
+              //   key={item._id}
+              //   count={0}
+              //   description={item.description}
+              //   isFragile={item.isFragile}
+              //   name={item.name}
+              //   objKey={item._id}
+              //   showValues={true}
+              //   type={"item"}
+              //   value={item.value}
+              //   dropdown={dropdownData}
+              // />
+              <ListItem2 key={item._id}>
+                <ColumnOne count={0} type="item" />
+                <ColumnTwo
                 description={item.description}
+                  dropdown={dropdownData.getBoxesByUserId}
                 isFragile={item.isFragile}
                 name={item.name}
-                objKey={item._id}
                 showValues={true}
-                type={"item"}
                 value={item.value}
               />
+                <ColumnThree
+                  dropdown={dropdownData.getBoxesByUserId}
+                  iconType="chevron"
+                  listView="item"
+                  objKey={item._id}
+                  showIcon={true}
+                />
+              </ListItem2>
             ))}
           </ScrollView>
         </View>
