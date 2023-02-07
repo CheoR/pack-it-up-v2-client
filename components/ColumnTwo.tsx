@@ -26,6 +26,7 @@ export default function ColumnTwo({
   const [open, setOpen] = useState(false);
 
   value = parseFloat(value?.toFixed(2)) || 0;
+
   return (
     <View style={styles.column}>
       <View style={styles.text}>
@@ -104,7 +105,7 @@ const styles = StyleSheet.create({
   dropdown: {
     fontSize: 12,
   },
-  header: {
+  name: {
     fontSize: 24,
   },
   label: {
