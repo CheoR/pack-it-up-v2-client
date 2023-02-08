@@ -1,37 +1,26 @@
 import React from "react";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { StyleSheet, Text, View } from "react-native";
 
-import COLORS from "../constants/Colors";
+import { Icons, PossibleIcons } from "../constants/Icons";
 
-const icons = {
-  move: (
-    <MaterialCommunityIcons name="dolly" size={24} color={COLORS.light.tint} />
-  ),
-  box: (
-    <MaterialCommunityIcons
-      name="package-variant-closed"
-      size={24}
-      color={COLORS.light.tint}
-    />
-  ),
-  item: (
-    <MaterialCommunityIcons
-      name="clipboard-text-outline"
-      size={24}
-      color={COLORS.light.tint}
-    />
-  ),
+export type Badge = {
+  count: number;
+  type: PossibleIcons;
+  showType: boolean;
 };
 
-export default function Icon({ count, type, showType = false }) {
+export default function Badge({
+  count = 0,
+  type = "none",
+  showType = false,
+}: Badge) {
   return (
     <View style={styles.box}>
       <View style={styles.iconBox}>
         <View style={styles.countCircle}>
           <Text style={styles.countText}>{count}</Text>
         </View>
-        {icons[type]}
+        {Icons(type)}
       </View>
       {showType && <Text style={styles.typeText}>{type.toUpperCase()}</Text>}
     </View>
