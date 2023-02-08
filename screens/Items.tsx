@@ -6,7 +6,6 @@ import LoggedInLayout from "../layout/LoggedInLayout";
 import ColumnThree from "../components/ColumnThree";
 import ColumnTwo from "../components/ColumnTwo";
 import ColumnOne from "../components/ColumnOne";
-import ListItem2 from "../components/ListItem2";
 import ListItem from "../components/ListItem";
 import Loading from "../components/Loading";
 import Counter from "../components/Counter";
@@ -121,8 +120,10 @@ export default function ItemsScreen() {
               //   value={item.value}
               //   dropdown={dropdownData}
               // />
-              <ListItem2 key={item._id}>
-                <ColumnOne count={0} type="item" />
+              <ListItem key={item._id}>
+                <ColumnOne
+                  badge1={{ count: 0, type: "move", showType: false }}
+                />
                 <ColumnTwo
                   description={item.description}
                   dropdown={dropdownData.getBoxesByUserId}
@@ -138,7 +139,7 @@ export default function ItemsScreen() {
                   objKey={item._id}
                   showIcon={true}
                 />
-              </ListItem2>
+              </ListItem>
             ))}
           </ScrollView>
         </View>
