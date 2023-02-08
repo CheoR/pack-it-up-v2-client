@@ -3,8 +3,35 @@ import { StyleSheet, View } from "react-native";
 
 import COLORS from "../constants/Colors";
 
+// const topBadge = {
+//   count,
+//   type,
+//   showType: true,
+// };
+// const bottomBadge = {
+//   count,
+//   type,
+//   showType: true,
+// };
+
 export default function ListItem({ children }) {
   return <View style={styles.row}>{children}</View>;
+  // <ColumnOne badge1={topBadge} badge2={bottomBadge} />;
+  // <ColumnTwo
+  //   description={description}
+  //   dropdown={dropdown}
+  //   isFragile={isFragile}
+  //   header={name}
+  //   showValues={showValues}
+  //   value={value}
+  // />
+  // <ColumnThree
+  // iconType="chevron"
+  // listView={type}
+  // showIcon={thirdColumn}
+  // objKey={objKey}
+  // dropdown={dropdown}
+  // />
 }
 
 // TODO: either use 3rd components

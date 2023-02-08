@@ -7,6 +7,9 @@ import LoggedInLayout from "../layout/LoggedInLayout";
 import ListItem from "../components/ListItem";
 import Loading from "../components/Loading";
 import COLORS from "../constants/Colors";
+import ColumnOne from "../components/ColumnOne";
+import ColumnTwo from "../components/ColumnTwo";
+import ColumnThree from "../components/ColumnThree";
 
 const GET_HOME_DATA = gql`
   query GetHomeData {
@@ -45,12 +48,29 @@ export default function HomeScreen() {
             keyExtractor={(item) => item._id}
             contentContainerStyle={styles.list}
             renderItem={({ item }) => (
-              <ListItem
-                key={item._id}
-                count={item.count}
-                showValues={false}
-                type={item._id}
-              />
+              // <ListItem
+              //   key={item._id}
+              //   count={item.count}
+              //   showValues={false}
+              //   type={item._id}
+              // />
+              <ListItem key={item._id}>
+                <ColumnOne
+                  badge1={{
+                    count: item.count,
+                    type: item._id,
+                    showType: true,
+                  }}
+                />
+                <ColumnTwo dropdown={[]} showValues={false} />
+                <ColumnThree
+                  iconType="chevron"
+                  listView={item._id}
+                  showIcon={true}
+                  objKey={{ test: "test" }}
+                  dropdown={[]}
+                />
+              </ListItem>
             )}
           />
         </View>

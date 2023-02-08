@@ -3,10 +3,36 @@ import { View, StyleSheet } from "react-native";
 
 import Icon from "./Icon";
 
-export default function ColumnOne({ count, type }) {
+// TODO: refactor
+interface Badges {
+  badge1: {
+    count: number;
+    type: string;
+    showType: boolean;
+  };
+
+  badge2?: {
+    count: number;
+    type: string;
+    showType: boolean;
+  };
+}
+
+export default function ColumnOne(badges: Badges) {
   return (
     <View style={styles.column}>
-      <Icon count={count} type={type} showType={true} />
+      <Icon
+        count={badges.badge1.count}
+        type={badges.badge1.type}
+        showType={badges.badge1.showType}
+      />
+      {badges.badge2 && (
+        <Icon
+          count={badges.badge2.count}
+          type={badges.badge2.type}
+          showType={badges.badge2.showType}
+        />
+      )}
     </View>
   );
 }

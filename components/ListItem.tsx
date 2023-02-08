@@ -2,57 +2,13 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 
 import COLORS from "../constants/Colors";
-import ColumnThree from "./ColumnThree";
-import ColumnOne from "./ColumnOne";
-import ColumnTwo from "./ColumnTwo";
 
-interface IListItem {
-  count?: number;
-  description?: string;
-  dropdown?: [];
-  isFragile?: boolean;
-  name?: string;
-  objKey: string;
-  showValues: boolean;
-  thirdColumn?: boolean;
-  type: string;
-  value?: number;
+interface Children {
+  children: JSX.Element[];
 }
-
-export default function ListItem({
-  count,
-  description,
-  dropdown = [],
-  isFragile = false,
-  name,
-  objKey,
-  showValues = true,
-  thirdColumn = true,
-  type,
-  value = 0,
-}: IListItem) {
-  return (
-    <View style={styles.row}>
-      <ColumnOne count={count} type={type} />
-      <ColumnTwo
-        description={description}
-        dropdown={dropdown}
-        isFragile={isFragile}
-        header={name}
-        showValues={showValues}
-        value={value}
-      />
-      <ColumnThree
-        iconType="chevron"
-        listView={type}
-        showIcon={thirdColumn}
-        objKey={objKey}
-        dropdown={dropdown}
-      />
-    </View>
-  );
+export default function ListItem({ children }: Children) {
+  return <View style={styles.row}>{children}</View>;
 }
-
 // TODO: either use 3rd components
 // or this package to get the drop shadows
 // https://github.com/SrBrahma/react-native-shadow-2
