@@ -2,61 +2,45 @@ import React from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import COLORS from "./Colors";
 
+// type IconResponse = typeof MaterialCommunityIcons | React.ReactFragment;
+type TwoOhEight = 208;
+type TwentyFour = 24;
+type Sixteen = 16;
+
+export type PossibleIconSizes = Sixteen | TwentyFour | TwoOhEight;
+export type NavIcons = "chevron" | "dots";
 export type PossibleIcons =
   | "box"
   | "chevron"
+  | "closedPackage"
   | "dots"
   | "item"
   | "move"
   | "none";
 
-export type NavIcons = "chevron" | "dots";
-
-//TODO: simplify to all return JSX.Element
-interface Dictionary {
-  box: JSX.Element;
-  chevron: JSX.Element;
-  dots: JSX.Element;
-  item: JSX.Element;
-  move: JSX.Element;
-  none: JSX.Element;
-}
-
-export const IconDictionary: Dictionary = {
-  box: (
-    <MaterialCommunityIcons
-      name="package-variant-closed"
-      size={24}
-      color={COLORS.light.tint}
-    />
-  ),
-  chevron: (
-    <MaterialCommunityIcons
-      name="chevron-right"
-      size={16}
-      color={COLORS.light.tint}
-    />
-  ),
-  dots: (
-    <MaterialCommunityIcons
-      name="dots-vertical"
-      size={16}
-      color={COLORS.light.tint}
-    />
-  ),
-  item: (
-    <MaterialCommunityIcons
-      name="clipboard-text-outline"
-      size={24}
-      color={COLORS.light.tint}
-    />
-  ),
-  move: (
-    <MaterialCommunityIcons name="dolly" size={24} color={COLORS.light.tint} />
-  ),
-  none: <></>,
+type Dictionary = {
+  [key in PossibleIcons]: string;
 };
 
-export function Icons(type: PossibleIcons): JSX.Element {
-  return IconDictionary[type];
+const IconDictionary: Dictionary = {
+  box: "package-variant-closed",
+  chevron: "chevron-right",
+  closedPackage: "package-variant-closed",
+  dots: "dots-vertical",
+  item: "clipboard-text-outline",
+  move: "dolly",
+  none: "none",
+};
+
+export function Icons(
+  type: PossibleIcons,
+  size: PossibleIconSizes
+): typeof MaterialCommunityIcons | React.ReactFragment {
+  if (type === "none") return <></>;
+  const name = IconDictionary[type];
+  const icon = (
+    <MaterialCommunityIcons name={name} size={size} color={COLORS.light.tint} />
+  );
+
+  return icon;
 }
