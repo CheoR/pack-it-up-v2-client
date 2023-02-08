@@ -1,23 +1,25 @@
 import React, { useState } from "react";
 import DropDownPicker from "react-native-dropdown-picker";
-import { View, Text, StyleSheet } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import Checkbox from "expo-checkbox";
 
+// TODO: use util to make all optional
+// except name
 interface IColumnTwo {
   description?: string;
-  dropdown: [];
-  name?: string;
+  dropdown?: [];
+  name: string;
   isFragile?: boolean;
-  showValues: boolean;
+  showValues?: boolean;
   value?: number;
 }
 
 export default function ColumnTwo({
-  description,
-  dropdown,
+  description = "",
+  dropdown = [],
   name,
   isFragile = false,
-  showValues = true,
+  showValues = false,
   value = 0,
 }: IColumnTwo) {
   const [dropdownValue, setDropdownValue] = useState(null);
@@ -53,11 +55,7 @@ export default function ColumnTwo({
           <Text style={styles.dropdown}>Dropdown/Box item belongs to</Text>
         )}
         <Text style={styles.description}>
-          {description?.slice(0, 55) ||
-            "Item Description: replace dropdown with real dropdown Item Description: replace dropdown with real dropdown".slice(
-              0,
-              55
-            )}
+          {description?.slice(0, 55) || `${name} description`.slice(0, 55)}
         </Text>
       </View>
       {showValues && (

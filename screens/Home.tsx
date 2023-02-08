@@ -62,7 +62,7 @@ export default function HomeScreen() {
                     showType: true,
                   }}
                 />
-                <ColumnTwo dropdown={[]} showValues={false} />
+                <ColumnTwo name={item._id} />
                 <ColumnThree
                   iconType="chevron"
                   listView={item._id}
