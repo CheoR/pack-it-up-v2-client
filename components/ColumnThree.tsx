@@ -4,6 +4,7 @@ import { Alert, Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { gql, useLazyQuery, useMutation, useQuery } from "@apollo/client";
 
+import { Icon, NavIcons } from "../constants/Icon";
 import { GET_ITEMS } from "../screens/Items";
 import { GET_BOXES } from "../screens/Boxes";
 import { GET_MOVES } from "../screens/Moves";
@@ -327,8 +328,7 @@ export default function ColumnThree({
       >
         {
           ({ pressed }) =>
-            // {
-            showIcon ? icons[iconType] : <></>
+            showIcon ? <Icon type={iconType} size={16} /> : <></>
           // }
         }
       </Pressable>

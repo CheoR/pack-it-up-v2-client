@@ -2,12 +2,12 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
 import COLORS from "../constants/Colors";
-import BoxLogo from "./BoxLogo";
+import { Icon } from "../constants/Icon";
 
 export default function Loading({ text }) {
   return (
     <View style={styles.loading}>
-      <BoxLogo />
+      <Icon type="closedPackage" size={208} />
       <View style={styles.viewHeader}>
         <Text style={styles.viewHeaderText}>Loading . . {text}</Text>
       </View>

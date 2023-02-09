@@ -3,13 +3,13 @@ import { StyleSheet, View } from "react-native";
 import Constants from "expo-constants";
 
 import SocialsIcons from "../components/SocialsIcons";
-import BoxLogo from "../components/BoxLogo";
 import COLORS from "../constants/Colors";
+import { Icon } from "../constants/Icon";
 
 export default function LoggedOutLayout({ children }) {
   return (
     <View style={styles.layout}>
-      <BoxLogo />
+      <Icon type="closedPackage" size={208} />
       {children}
       <SocialsIcons />
     </View>

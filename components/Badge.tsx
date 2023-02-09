@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-import { Icons, PossibleIcons } from "../constants/Icons";
+import { Icon, PossibleIcons, PossibleIconSizes } from "../constants/Icon";
 
 export type Badge = {
   count: number;
@@ -20,7 +20,7 @@ export default function Badge({
         <View style={styles.countCircle}>
           <Text style={styles.countText}>{count}</Text>
         </View>
-        {Icons(type)}
+        <Icon type={type} size={size} />
       </View>
       {showType && <Text style={styles.typeText}>{type.toUpperCase()}</Text>}
     </View>
