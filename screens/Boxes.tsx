@@ -6,13 +6,16 @@ import LoggedInLayout from "../layout/LoggedInLayout";
 import ListItem from "../components/ListItem";
 import Counter from "../components/Counter";
 import Loading from "../components/Loading";
+import ColumnOne from "../components/ColumnOne";
+import ColumnTwo from "../components/ColumnTwo";
+import ColumnThree from "../components/ColumnThree";
 
-export interface IBoxInput {
+export interface BoxInput {
   input: {
     count: number;
     description: string;
     name: string;
-    move_id: string; // Types.ObjectId;
+    move_id: string;
   };
 }
 
@@ -66,17 +69,30 @@ export default function BoxesScreen() {
         <View style={styles.scrollViewCntr}>
           <ScrollView>
             {data.getBoxesByUserId.map((box) => (
-              <ListItem
-                key={box._id}
-                count={box.count}
-                description={box.description}
-                isFragile={box.isFragile}
-                name={box.name}
-                objKey={box._id}
-                showValues={true}
-                type={"item"}
-                value={box.total}
-              />
+              <ListItem key={box._id}>
+                <ColumnOne
+                  badge1={{
+                    count: box.count,
+                    type: "item",
+                    showType: true,
+                  }}
+                />
+                <ColumnTwo
+                  description={box.description}
+                  isFragile={box.isFragile}
+                  name={box.name}
+                  showValues={true}
+                  value={box.total}
+                />
+                <ColumnThree
+                  dropdown={[]}
+                  iconType="chevron"
+                  listView="item"
+                  obj={box}
+                  objKey={box._id}
+                  showIcon={true}
+                />
+              </ListItem>
             ))}
           </ScrollView>
         </View>
