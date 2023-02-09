@@ -166,7 +166,7 @@ export default function ColumnThree({
                 isFragile={obj.isFragile}
                 name={obj.name}
                 showValues={true}
-                value={obj.total}
+                value={obj.total || obj.value}
               />
               <ColumnThree
                 dropdown={dropdown}
