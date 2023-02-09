@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Alert, Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { gql, useLazyQuery, useMutation, useQuery } from "@apollo/client";
+import { gql, useMutation } from "@apollo/client";
 
 import { Icon, NavIcons } from "../constants/Icon";
 import { GET_ITEMS } from "../screens/Items";
@@ -11,24 +11,6 @@ import { GET_MOVES } from "../screens/Moves";
 import COLORS from "../constants/Colors";
 import ROUTES from "../constants/Routes";
 import ListItem from "./ListItem";
-
-const icons = {
-  chevron: (
-    <MaterialCommunityIcons
-      name="chevron-right"
-      size={16}
-      color={COLORS.light.tint}
-    />
-  ),
-  dots: (
-    <MaterialCommunityIcons
-      name="dots-vertical"
-      size={16}
-      color={COLORS.light.tint}
-    />
-  ),
-  none: <></>,
-};
 
 const formatRoute = {
   box: ROUTES.Boxes,
@@ -71,7 +53,7 @@ export const GET_BOXES_DROPDOWN = gql`
 
 interface IColumnThree {
   listView: string;
-  iconType: string;
+  iconType: NavIcons;
   objKey: object;
   showIcon: boolean;
   dropdown: [];
