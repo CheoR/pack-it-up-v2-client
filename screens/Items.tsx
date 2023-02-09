@@ -98,7 +98,7 @@ export default function ItemsScreen() {
 
   if (loading || dropdownLoading) return <Loading text="Items" />;
   if (error) console.log(`Item Error: ${error.message}`);
-
+  console.log(dropdownData.getBoxesByUserId);
   return (
     <LoggedInLayout>
       <View style={styles.screen}>
@@ -108,21 +108,9 @@ export default function ItemsScreen() {
         <View style={styles.scrollViewCntr}>
           <ScrollView nestedScrollEnabled={true}>
             {data.getItemsByUserId.map((item) => (
-              // <ListItem
-              //   key={item._id}
-              //   count={0}
-              //   description={item.description}
-              //   isFragile={item.isFragile}
-              //   name={item.name}
-              //   objKey={item._id}
-              //   showValues={true}
-              //   type={"item"}
-              //   value={item.value}
-              //   dropdown={dropdownData}
-              // />
               <ListItem key={item._id}>
                 <ColumnOne
-                  badge1={{ count: 0, type: "move", showType: false }}
+                  badge1={{ count: item.count, type: "item", showType: false }}
                 />
                 <ColumnTwo
                   description={item.description}
@@ -136,6 +124,7 @@ export default function ItemsScreen() {
                   dropdown={dropdownData.getBoxesByUserId}
                   iconType="chevron"
                   listView="item"
+                  obj={item}
                   objKey={item._id}
                   showIcon={true}
                 />
