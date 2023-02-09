@@ -1,34 +1,28 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-import Icon from "./Icon";
-
-type Badge = {
-  count: number;
-  type: string;
-  showType: boolean;
-};
-// TODO: refactor to include defaults
-// count: 0
-// showType: false
+import { Badge as BadgeType } from "./Badge";
+import Badge from "./Badge";
 interface Badges {
-  badge1: Badge;
-  badge2?: Badge;
+  badge1: BadgeType;
+  badge2?: BadgeType;
 }
 
 export default function ColumnOne(badges: Badges) {
   return (
     <View style={styles.column}>
-      <Icon
+      <Badge
         count={badges.badge1.count}
-        type={badges.badge1.type}
+        size={badges.badge1.size}
         showType={badges.badge1.showType}
+        type={badges.badge1.type}
       />
       {badges.badge2 && (
-        <Icon
+        <Badge
           count={badges.badge2.count}
-          type={badges.badge2.type}
+          size={badges.badge2.size}
           showType={badges.badge2.showType}
+          type={badges.badge2.type}
         />
       )}
     </View>
