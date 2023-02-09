@@ -3,11 +3,14 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { gql, useMutation, useQuery } from "@apollo/client";
 
 import LoggedInLayout from "../layout/LoggedInLayout";
+import ColumnThree from "../components/ColumnThree";
+import ColumnTwo from "../components/ColumnTwo";
+import ColumnOne from "../components/ColumnOne";
 import ListItem from "../components/ListItem";
 import Counter from "../components/Counter";
 import Loading from "../components/Loading";
 
-export interface IMove {
+export interface Move {
   input: {
     count: number;
     name: string;
@@ -55,6 +58,7 @@ export default function MovesScreen() {
 
   if (loading) return <Loading text="Moves" />;
   if (error) console.log(`Move Error: ${error.message}`);
+
   return (
     <LoggedInLayout>
       <View style={styles.screen}>
@@ -64,17 +68,30 @@ export default function MovesScreen() {
         <View style={styles.scrollViewCntr}>
           <ScrollView>
             {data.getMovesByUserId.map((move) => (
-              <ListItem
-                key={move._id}
-                count={move.count}
-                description={move.description}
-                isFragile={move.isFragile}
-                name={move.name}
-                objKey={move._id}
-                showValues={true}
-                type={"box"}
-                value={move.total}
-              />
+              <ListItem key={move._id}>
+                <ColumnOne
+                  badge1={{
+                    count: move.count,
+                    type: "box",
+                    showType: true,
+                  }}
+                />
+                <ColumnTwo
+                  description={move.descripion}
+                  isFragile={move.isFragile}
+                  name={move.name}
+                  showValues={true}
+                  value={move.total}
+                />
+                <ColumnThree
+                  dropdown={[]}
+                  iconType="chevron"
+                  listView=""
+                  obj={move}
+                  objKey={move._id}
+                  showIcon={true}
+                />
+              </ListItem>
             ))}
           </ScrollView>
         </View>
