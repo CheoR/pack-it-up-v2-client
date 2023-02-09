@@ -10,6 +10,7 @@ interface IColumnTwo {
   dropdown?: [];
   name: string;
   isFragile?: boolean;
+  showDropdown?: boolean;
   showValues?: boolean;
   value?: number;
 }
@@ -19,6 +20,7 @@ export default function ColumnTwo({
   dropdown = [],
   name,
   isFragile = false,
+  showDropdown = false,
   showValues = false,
   value = 0,
 }: IColumnTwo) {
@@ -33,7 +35,7 @@ export default function ColumnTwo({
     <View style={styles.column}>
       <View style={styles.text}>
         <Text style={styles.name}>{name?.slice(0, 20) || "Header"}</Text>
-        {dropdown?.length ? (
+        {showDropdown && dropdown?.length ? (
           <DropDownPicker
             listMode="SCROLLVIEW"
             itemKey="_id"
@@ -52,7 +54,9 @@ export default function ColumnTwo({
             }}
           />
         ) : (
-          <Text style={styles.dropdown}>Dropdown/Box item belongs to</Text>
+          showDropdown! && (
+            <Text style={styles.dropdown}>Dropdown/Box item belongs to</Text>
+          )
         )}
         <Text style={styles.description}>
           {description?.slice(0, 55) || `${name} description`.slice(0, 55)}
