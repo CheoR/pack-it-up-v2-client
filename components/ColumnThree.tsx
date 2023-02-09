@@ -9,6 +9,8 @@ import { GET_BOXES } from "../screens/Boxes";
 import { GET_MOVES } from "../screens/Moves";
 import COLORS from "../constants/Colors";
 import ROUTES from "../constants/Routes";
+import ColumnTwo from "./ColumnTwo";
+import ColumnOne from "./ColumnOne";
 import ListItem from "./ListItem";
 
 const formatRoute = {
@@ -50,21 +52,23 @@ export const GET_BOXES_DROPDOWN = gql`
   }
 `;
 
-interface IColumnThree {
+interface ColumnThree<O> {
+  dropdown: object[];
   listView: string;
   iconType: NavIcons;
-  objKey: object;
+  obj?: O | unknown;
+  objKey?: string;
   showIcon: boolean;
-  dropdown: [];
 }
 
 export default function ColumnThree({
   listView = "home",
   iconType = "dots",
+  obj = {},
   objKey,
   showIcon = true,
   dropdown = [],
-}: IColumnThree) {
+}: ColumnThree<typeof obj>) {
   const [removeItem] = useMutation(REMOVE_ITEM, {
     refetchQueries: [
       {
@@ -149,18 +153,28 @@ export default function ColumnThree({
       >
         <View style={styles.centerModal}>
           <View style={styles.centeredView2}>
-            <ListItem
-              key={"test"}
-              description={"tset descrption"}
-              dropdown={dropdown}
-              isFragile={true}
-              name={"test name"}
-              objKey={"test"}
-              showValues={true}
-              thirdColumn={false}
-              type={"item"}
-              value={100}
-            />
+            <ListItem key={obj._id}>
+              <ColumnOne
+                badge1={{
+                  count: obj.count,
+                  type: "box",
+                  showType: true,
+                }}
+              />
+              <ColumnTwo
+                description={obj.descripion}
+                isFragile={obj.isFragile}
+                name={obj.name}
+                showValues={true}
+                value={obj.total}
+              />
+              <ColumnThree
+                dropdown={dropdown}
+                iconType="chevron"
+                listView=""
+                showIcon={false}
+              />
+            </ListItem>
             <View style={styles.modalView2}>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
@@ -291,10 +305,8 @@ export default function ColumnThree({
           },
         ]}
       >
-        {
-          ({ pressed }) =>
-            showIcon ? <Icon type={iconType} size={16} /> : <></>
-          // }
+        {({ pressed }) =>
+          showIcon ? <Icon type={iconType} size={16} /> : <></>
         }
       </Pressable>
     </View>
