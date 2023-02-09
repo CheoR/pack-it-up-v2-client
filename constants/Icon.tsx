@@ -11,12 +11,16 @@ export type PossibleIconSizes = Sixteen | TwentyFour | TwoOhEight;
 export type NavIcons = "chevron" | "dots";
 export type PossibleIcons =
   | "box"
+  | "camera"
   | "chevron"
   | "closedPackage"
+  | "delete"
   | "dots"
+  | "edit"
   | "item"
   | "move"
-  | "none";
+  | "none"
+  | "plusSign";
 
 type Dictionary = {
   [key in PossibleIcons]: string;
@@ -24,12 +28,16 @@ type Dictionary = {
 
 const IconDictionary: Dictionary = {
   box: "package-variant-closed",
+  camera: "camera-outline",
   chevron: "chevron-right",
   closedPackage: "package-variant-closed",
+  delete: "delete-outline",
+  edit: "square-edit-outline",
   dots: "dots-vertical",
   item: "clipboard-text-outline",
   move: "dolly",
   none: "none",
+  plusSign: "plus",
 };
 
 interface Icons {
