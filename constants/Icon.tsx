@@ -32,10 +32,15 @@ const IconDictionary: Dictionary = {
   none: "none",
 };
 
-export function Icons(
-  type: PossibleIcons,
-  size: PossibleIconSizes
-): typeof MaterialCommunityIcons | React.ReactFragment {
+interface Icons {
+  type: PossibleIcons;
+  size: PossibleIconSizes;
+}
+
+export function Icon({
+  type,
+  size,
+}: Icons): typeof MaterialCommunityIcons | React.ReactFragment {
   if (type === "none") return <></>;
   const name = IconDictionary[type];
   const icon = (
