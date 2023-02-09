@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Alert, Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { gql, useMutation } from "@apollo/client";
@@ -206,11 +205,7 @@ export default function ColumnThree({
         <View style={styles.centerModal}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <MaterialCommunityIcons
-                name="plus"
-                size={24}
-                color={COLORS.light.tint}
-              />
+              <Icon size={24} type="plusSign" />
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() =>
@@ -224,11 +219,7 @@ export default function ColumnThree({
               </Pressable>
             </View>
             <View style={styles.modalView}>
-              <MaterialCommunityIcons
-                name="camera-outline"
-                size={24}
-                color={COLORS.light.tint}
-              />
+              <Icon size={24} type="camera" />
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() =>
@@ -242,11 +233,7 @@ export default function ColumnThree({
               </Pressable>
             </View>
             <View style={styles.modalView}>
-              <MaterialCommunityIcons
-                name="delete-outline"
-                size={24}
-                color={COLORS.light.tint}
-              />
+              <Icon size={24} type="delete" />
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => {
@@ -268,11 +255,7 @@ export default function ColumnThree({
               </Pressable>
             </View>
             <View style={styles.modalView}>
-              <MaterialCommunityIcons
-                name="square-edit-outline"
-                size={24}
-                color={COLORS.light.tint}
-              />
+              <Icon size={24} type="edit" />
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => {
