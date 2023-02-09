@@ -6,12 +6,14 @@ import { Icon, PossibleIcons, PossibleIconSizes } from "../constants/Icon";
 export type Badge = {
   count: number;
   type: PossibleIcons;
-  showType: boolean;
+  size?: PossibleIconSizes;
+  showType?: boolean;
 };
 
 export default function Badge({
   count = 0,
   type = "none",
+  size = 16,
   showType = false,
 }: Badge) {
   return (
