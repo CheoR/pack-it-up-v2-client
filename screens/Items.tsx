@@ -9,14 +9,13 @@ import ColumnOne from "../components/ColumnOne";
 import ListItem from "../components/ListItem";
 import Loading from "../components/Loading";
 import Counter from "../components/Counter";
-export interface IItemInput {
+export interface ItemInput {
   input: {
-    box_id: string; // Types.ObjectId;
+    box_id: string;
     count: number;
     description: string;
     isFragile: boolean;
     name: string;
-    // user_id: Types.ObjectId;
     value: number;
   };
 }
@@ -114,13 +113,16 @@ export default function ItemsScreen() {
                 />
                 <ColumnTwo
                   description={item.description}
+                  disableDropdown={true}
                   dropdown={dropdownData.getBoxesByUserId}
                   isFragile={item.isFragile}
                   name={item.name}
+                  showDropdown={true}
                   showValues={true}
                   value={item.value}
                 />
                 <ColumnThree
+                  disableDropdown={false}
                   dropdown={dropdownData.getBoxesByUserId}
                   iconType="chevron"
                   listView="item"

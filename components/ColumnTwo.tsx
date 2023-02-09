@@ -2,12 +2,14 @@ import React, { useState } from "react";
 import DropDownPicker from "react-native-dropdown-picker";
 import { StyleSheet, Text, View } from "react-native";
 import Checkbox from "expo-checkbox";
+import COLORS from "../constants/Colors";
 
 // TODO: use util to make all optional
 // except name
 interface IColumnTwo {
   description?: string;
-  dropdown?: [];
+  disableDropdown?: boolean;
+  dropdown?: object[];
   name: string;
   isFragile?: boolean;
   showDropdown?: boolean;
@@ -17,6 +19,7 @@ interface IColumnTwo {
 
 export default function ColumnTwo({
   description = "",
+  disableDropdown = true,
   dropdown = [],
   name,
   isFragile = false,
@@ -37,21 +40,25 @@ export default function ColumnTwo({
         <Text style={styles.name}>{name?.slice(0, 20) || "Header"}</Text>
         {showDropdown && dropdown?.length ? (
           <DropDownPicker
-            listMode="SCROLLVIEW"
+            disabled={disableDropdown}
+            items={items}
             itemKey="_id"
+            listMode="SCROLLVIEW"
+            open={open}
             schema={{
               label: "name",
               value: "name",
             }}
-            open={open}
-            value={dropdownValue}
-            items={items}
             setOpen={setOpen}
-            setValue={setDropdownValue}
             setItems={setItems}
             style={{
               minHeight: 4,
+              backgroundColor: disableDropdown
+                ? "lightgray"
+                : COLORS.light.background,
             }}
+            setValue={setDropdownValue}
+            value={dropdownValue}
           />
         ) : (
           showDropdown! && (

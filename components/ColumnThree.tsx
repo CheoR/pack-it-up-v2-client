@@ -53,6 +53,7 @@ export const GET_BOXES_DROPDOWN = gql`
 `;
 
 interface ColumnThree<O> {
+  disableDropdown?: boolean;
   dropdown: object[];
   listView: string;
   iconType: NavIcons;
@@ -62,12 +63,13 @@ interface ColumnThree<O> {
 }
 
 export default function ColumnThree({
-  listView = "home",
+  disableDropdown = true,
+  dropdown = [],
   iconType = "dots",
+  listView = "home",
   obj = {},
   objKey,
   showIcon = true,
-  dropdown = [],
 }: ColumnThree<typeof obj>) {
   const [removeItem] = useMutation(REMOVE_ITEM, {
     refetchQueries: [
@@ -162,13 +164,17 @@ export default function ColumnThree({
                 }}
               />
               <ColumnTwo
+                disableDropdown={false}
                 description={obj.descripion}
+                dropdown={dropdown}
                 isFragile={obj.isFragile}
                 name={obj.name}
+                showDropdown={true}
                 showValues={true}
                 value={obj.total || obj.value}
               />
               <ColumnThree
+                disableDropdown={false}
                 dropdown={dropdown}
                 iconType="chevron"
                 listView=""
