@@ -1,12 +1,7 @@
 import React, { useState } from "react";
-// import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { Button, StyleSheet, Text, View } from "react-native";
 
 import COLORS from "../constants/Colors";
-
-{
-  /* <MaterialCommunityIcons name="minus" size={24} color={COLORS.light.tint} />; */
-}
 
 interface ICounter {
   mutation: (variables: object) => void;
