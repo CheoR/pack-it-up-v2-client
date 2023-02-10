@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import DropDownPicker from "react-native-dropdown-picker";
 import { StyleSheet, Text, View } from "react-native";
 import Checkbox from "expo-checkbox";
@@ -7,6 +7,7 @@ import COLORS from "../constants/Colors";
 // TODO: use util to make all optional
 // except name
 interface IColumnTwo {
+  defaultDropdownValue?: string;
   description?: string;
   disableDropdown?: boolean;
   dropdown?: object[];
@@ -18,6 +19,7 @@ interface IColumnTwo {
 }
 
 export default function ColumnTwo({
+  defaultDropdownValue = "",
   description = "",
   disableDropdown = true,
   dropdown = [],
@@ -33,6 +35,16 @@ export default function ColumnTwo({
   const [open, setOpen] = useState(false);
 
   value = parseFloat(value?.toFixed(2)) || 0;
+
+  useEffect(() => {
+    // defaultValue was removed in 5.x series.
+    // https://github.com/hossein-zare/react-native-dropdown-picker/issues/550#issuecomment-1122804565
+    const setDropdownDefaultValue = () => {
+      const obj = dropdown.find((obj) => obj?._id === defaultDropdownValue);
+      setDropdownValue(obj?.name);
+    };
+    setDropdownDefaultValue();
+  }, []);
 
   return (
     <View style={styles.column}>
@@ -59,6 +71,9 @@ export default function ColumnTwo({
             }}
             setValue={setDropdownValue}
             value={dropdownValue}
+            // onSelectItem={(item) => {
+            //   console.log("selected", item);
+            // }}
           />
         ) : (
           showDropdown! && (

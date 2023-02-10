@@ -112,6 +112,7 @@ export default function ItemsScreen() {
                   badge1={{ count: item.count, type: "item", showType: false }}
                 />
                 <ColumnTwo
+                  defaultDropdownValue={item.box_id}
                   description={item.description}
                   disableDropdown={true}
                   dropdown={dropdownData.getBoxesByUserId}
