@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import DropDownPicker from "react-native-dropdown-picker";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 import Checkbox from "expo-checkbox";
 import COLORS from "../constants/Colors";
 
 // TODO: use util to make all optional
 // except name
 interface IColumnTwo {
+  canEdit?: boolean;
   defaultDropdownValue?: string;
   description?: string;
   disableDropdown?: boolean;
@@ -19,6 +20,7 @@ interface IColumnTwo {
 }
 
 export default function ColumnTwo({
+  canEdit = false,
   defaultDropdownValue = "",
   description = "",
   disableDropdown = true,
@@ -48,8 +50,13 @@ export default function ColumnTwo({
 
   return (
     <View style={styles.column}>
-      <View style={styles.text}>
-        <Text style={styles.name}>{name?.slice(0, 20) || "Header"}</Text>
+      <View style={styles.text} pointerEvents={!canEdit ? "none" : "auto"}>
+        <TextInput
+          style={styles.name}
+          placeholder={name?.slice(0, 20) || "Header"}
+          onChangeText={(text) => console.log(`text: ${text}`)}
+        />
+        {/* <Text style={styles.name}>{name?.slice(0, 20) || "Header"}</Text> */}
         {showDropdown && dropdown?.length ? (
           <DropDownPicker
             disabled={disableDropdown}
@@ -71,18 +78,25 @@ export default function ColumnTwo({
             }}
             setValue={setDropdownValue}
             value={dropdownValue}
-            // onSelectItem={(item) => {
-            //   console.log("selected", item);
-            // }}
+            onSelectItem={(item) => {
+              console.log("selected", item);
+            }}
           />
         ) : (
           showDropdown! && (
             <Text style={styles.dropdown}>Dropdown/Box item belongs to</Text>
           )
         )}
-        <Text style={styles.description}>
+        {/* <Text style={styles.description}>
           {description?.slice(0, 55) || `${name} description`.slice(0, 55)}
-        </Text>
+        </Text> */}
+        <TextInput
+          style={styles.description}
+          placeholder={
+            description?.slice(0, 55) || `${name} description`.slice(0, 55)
+          }
+          onChangeText={(text) => console.log(`description: ${text}`)}
+        />
       </View>
       {showValues && (
         <View style={styles.values}>
@@ -92,12 +106,18 @@ export default function ColumnTwo({
               style={styles.checkbox}
               value={isChecked}
               onValueChange={setIsChecked}
-              disabled
-              color={isChecked ? "#4630EB" : undefined}
+              disabled={!canEdit} // true => isDisabled = false
+              color={isChecked ? COLORS.light.action : undefined}
             />
             <Text style={styles.label}>Fragile</Text>
           </View>
-          <Text style={styles.value}>${value}</Text>
+          {/* <Text style={styles.value}>${value}</Text> */}
+          <TextInput
+            style={styles.value}
+            placeholder={`$${value || 0.0}`}
+            onChangeText={(text) => console.log(`value: ${text}`)}
+            keyboardType="numeric"
+          />
         </View>
       )}
     </View>

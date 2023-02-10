@@ -164,6 +164,7 @@ export default function ColumnThree({
                 }}
               />
               <ColumnTwo
+                canEdit={true}
                 defaultDropdownValue={obj?.box_id}
                 disableDropdown={false}
                 description={obj.descripion}
