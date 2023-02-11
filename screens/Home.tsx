@@ -53,7 +53,7 @@ export default function HomeScreen() {
                   badge1={{
                     count: item.count,
                     type: item._id,
-                    showType: true,
+                    showType: false,
                   }}
                 />
                 <ColumnTwo name={item._id} />
