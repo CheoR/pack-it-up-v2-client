@@ -3,7 +3,20 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import Checkbox from "expo-checkbox";
 import COLORS from "../constants/Colors";
+import { gql, useMutation } from "@apollo/client";
 
+const UPDATE_ITEM = gql`
+  mutation UpdateItem($input: ItemUpdateInput!) {
+    updateItem(input: $input) {
+      _id
+      box_id
+      description
+      isFragile
+      name
+      value
+    }
+  }
+`;
 // TODO: use util to make all optional
 // except name
 interface IColumnTwo {
@@ -37,6 +50,19 @@ export default function ColumnTwo({
   const [open, setOpen] = useState(false);
 
   value = parseFloat(value?.toFixed(2)) || 0;
+
+  const [updateItem, { data, loading, error }] = useMutation(UPDATE_ITEM, {
+    // variables: {
+    //   input: formData,
+    // },
+    onCompleted: (data) => {
+      console.log(`mutation success`);
+      console.log(data);
+    },
+    onError: (error) => {
+      console.log(error.message);
+    },
+  });
 
   useEffect(() => {
     // defaultValue was removed in 5.x series.
