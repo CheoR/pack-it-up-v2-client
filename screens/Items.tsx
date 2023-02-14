@@ -2,13 +2,14 @@ import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { gql, useMutation, useQuery } from "@apollo/client";
 
-import LoggedInLayout from "../layout/LoggedInLayout";
-import ColumnThree from "../components/ColumnThree";
-import ColumnTwo from "../components/ColumnTwo";
-import ColumnOne from "../components/ColumnOne";
-import ListItem from "../components/ListItem";
+// import LoggedInLayout from "../layout/LoggedInLayout";
+// import ColumnThree from "../components/ColumnThree";
+// import ColumnTwo from "../components/ColumnTwo";
+// import ColumnOne from "../components/ColumnOne";
+// import ListItem from "../components/ListItem";
 import Loading from "../components/Loading";
-import Counter from "../components/Counter";
+// import Counter from "../components/Counter";
+import ScrollData from "../components/ScrollData";
 export interface ItemInput {
   input: {
     box_id: string;
@@ -97,71 +98,102 @@ export default function ItemsScreen() {
 
   if (loading || dropdownLoading) return <Loading text="Items" />;
   if (error) console.log(`Item Error: ${error.message}`);
-  console.log(dropdownData.getBoxesByUserId);
+  // console.log(dropdownData.getBoxesByUserId);
+  // console.log(data.getItemsByUserId);
   return (
-    <LoggedInLayout>
-      <View style={styles.screen}>
-        <View>
-          <Text>Items: {data.getItemsByUserId.length}</Text>
-        </View>
-        <View style={styles.scrollViewCntr}>
-          <ScrollView nestedScrollEnabled={true}>
-            {data.getItemsByUserId.map((item) => (
-              <ListItem key={item._id}>
-                <ColumnOne
-                  badge1={{ count: item.count, type: "item", showType: false }}
-                />
-                <ColumnTwo
-                  defaultDropdownValue={item.box_id}
-                  description={item.description}
-                  disableDropdown={true}
-                  dropdown={dropdownData.getBoxesByUserId}
-                  isFragile={item.isFragile}
-                  name={item.name}
-                  showDropdown={true}
-                  showValues={true}
-                  value={item.value}
-                />
-                <ColumnThree
-                  disableDropdown={false}
-                  dropdown={dropdownData.getBoxesByUserId}
-                  iconType="chevron"
-                  listView="item"
-                  obj={item}
-                  objKey={item._id}
-                  showIcon={true}
-                />
-              </ListItem>
-            ))}
-          </ScrollView>
-        </View>
-        <Counter
-          mutation={createItem}
-          type="Item"
-          rest={{
-            // TODO: update to add a default box and/or
-            // allow for unbounded items
-            box_id: "63d58f28e9c4ff10994a0dca",
-            description: "",
-            name: "Item",
-            value: 0,
-            isFragile: false,
-          }}
-        />
-      </View>
-    </LoggedInLayout>
+    <ScrollData
+      data={data.getItemsByUserId}
+      dropdown={dropdownData.getBoxesByUserId}
+      columns={{
+        one: {
+          showType: false,
+        },
+        two: {
+          disableDropdown: true,
+          showDropdown: true,
+          showValues: true,
+        },
+        three: {
+          disableDropdown: false,
+          showIcon: true,
+        },
+      }}
+      createObj={createItem}
+      rest={{
+        // TODO: update to add a default box and/or
+        // allow for unbounded items
+        box_id: "63d58f28e9c4ff10994a0dca",
+        description: "",
+        name: "Item",
+        value: 0,
+        isFragile: false,
+      }}
+      screen="Items"
+      type="item"
+    />
+    // <LoggedInLayout>
+    //   <View style={styles.screen}>
+    //     <View>
+    //       <Text>Items: {data.getItemsByUserId.length}</Text>
+    //     </View>
+    //     <View style={styles.scrollViewCntr}>
+    //       <ScrollView nestedScrollEnabled={true}>
+    //         {data.getItemsByUserId.map((item) => (
+    //           <ListItem key={item._id}>
+    //             <ColumnOne
+    //               badge1={{ count: item.count, type: "item", showType: false }}
+    //             />
+    // <ColumnTwo
+    //   defaultDropdownValue={item.box_id}
+    //   description={item.description}
+    //   disableDropdown={true}
+    //   dropdown={dropdownData.getBoxesByUserId}
+    //   isFragile={item.isFragile}
+    //   name={item.name}
+    //   showDropdown={true}
+    //   showValues={true}
+    //   value={item.value}
+    // />
+    // <ColumnThree
+    //   disableDropdown={false}
+    //   dropdown={dropdownData.getBoxesByUserId}
+    //   iconType="chevron"
+    //   listView="item"
+    //   obj={item}
+    //   objKey={item._id}
+    //   showIcon={true}
+    // />
+    //           </ListItem>
+    //         ))}
+    //       </ScrollView>
+    //     </View>
+    //     <Counter
+    //       mutation={createItem}
+    //       type="Item"
+    //       rest={{
+    // // TODO: update to add a default box and/or
+    // // allow for unbounded items
+    // box_id: "63d58f28e9c4ff10994a0dca",
+    // description: "",
+    // name: "Item",
+    // value: 0,
+    // isFragile: false,
+    //       }}
+    //     />
+    //   </View>
+    // </LoggedInLayout>
   );
 }
 
-const styles = StyleSheet.create({
-  screen: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "space-between",
-    width: "100%",
-  },
-  scrollViewCntr: {
-    flex: 1,
-    width: "100%",
-  },
-});
+// const styles = StyleSheet.create({
+//   screen: {
+//     alignItems: "center",
+//     flex: 1,
+//     justifyContent: "space-between",
+//     width: "100%",
+//   },
+//   scrollViewCntr: {
+//     flex: 1,
+//     width: "100%",
+//   },
+// });
