@@ -52,14 +52,23 @@ export const GET_BOXES_DROPDOWN = gql`
   }
 `;
 
-interface ColumnThree<O> {
+interface ColumnThree<T> {
   disableDropdown?: boolean;
   dropdown: object[];
   listView: string;
   iconType: NavIcons;
-  obj?: O | unknown;
+  obj?: T | unknown;
   objKey?: string;
   showIcon: boolean;
+  type: string;
+}
+
+function isItem(obj: any) {
+  return "box_id" in obj;
+}
+
+function isBox(obj: any) {
+  return "move_id" in obj;
 }
 
 export default function ColumnThree({
@@ -70,6 +79,7 @@ export default function ColumnThree({
   obj = {},
   objKey,
   showIcon = true,
+  type,
 }: ColumnThree<typeof obj>) {
   const [removeItem] = useMutation(REMOVE_ITEM, {
     refetchQueries: [
@@ -139,6 +149,10 @@ export default function ColumnThree({
   const route = useRoute();
   const removeObjectBy = removeBy[route.name];
 
+  let defaultDropdownValueId = undefined;
+  if (isItem(obj)) defaultDropdownValueId = obj.box_id;
+  if (isBox(obj)) defaultDropdownValueId = obj.move_id;
+
   return (
     <View style={styles.column}>
       <Modal
@@ -165,7 +179,7 @@ export default function ColumnThree({
               />
               <ColumnTwo
                 canEdit={true}
-                defaultDropdownValue={obj?.box_id}
+                defaultDropdownValue={defaultDropdownValueId}
                 disableDropdown={false}
                 description={obj.descripion}
                 dropdown={dropdown}
@@ -181,6 +195,7 @@ export default function ColumnThree({
                 iconType="chevron"
                 listView=""
                 showIcon={false}
+                type={type}
               />
             </ListItem>
             <View style={styles.modalView2}>
