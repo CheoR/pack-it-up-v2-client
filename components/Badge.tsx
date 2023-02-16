@@ -3,6 +3,8 @@ import { StyleSheet, Text, View } from "react-native";
 
 import { Icon, PossibleIcons, PossibleIconSizes } from "../constants/Icon";
 
+// TODO: add option to display image url else
+// show Item icon as default
 export type Badge = {
   count: number;
   type: PossibleIcons;
@@ -12,9 +14,9 @@ export type Badge = {
 
 export default function Badge({
   count = 0,
-  type = "none",
   size = 16,
-  showType = false,
+  showType = true,
+  type = "none",
 }: Badge) {
   return (
     <View style={styles.box}>
