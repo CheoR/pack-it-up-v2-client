@@ -18,7 +18,7 @@ const GET_HOME_DATA = gql`
         _id
         count
         isFragile
-        total
+        value
       }
     }
   }
@@ -71,7 +71,7 @@ export default function HomeScreen() {
         <View style={styles.values}>
           <View style={styles.valueInput}>
             <Text>Total</Text>
-            <TextInput editable={false}>${items.total.toFixed(2)}</TextInput>
+            <TextInput editable={false}>${items.value.toFixed(2)}</TextInput>
           </View>
           <View style={styles.checkboxContainer}>
             {/* TODO: swap out checkbox and remove from packages */}

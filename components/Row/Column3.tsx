@@ -1,160 +1,39 @@
 import React, { useState } from "react";
+
 import { Alert, Modal, Pressable, StyleSheet, Text, View } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
-import { gql, useMutation } from "@apollo/client";
+import { Icon, NavIcons } from "../../constants/Icon";
+import COLORS from "../../constants/Colors";
 
-import { Icon, NavIcons } from "../constants/Icon";
-import { GET_ITEMS } from "../screens/Items";
-import { GET_BOXES } from "../screens/Boxes";
-import { GET_MOVES } from "../screens/Moves";
-import COLORS from "../constants/Colors";
-import ROUTES from "../constants/Routes";
-import ColumnTwo from "./ColumnTwo";
-import ColumnOne from "./ColumnOne";
-import ListItem from "./ListItem";
-import Row from "./Row";
-
-const formatRoute = {
-  box: ROUTES.Boxes,
-  item: ROUTES.Items,
-  move: ROUTES.Moves,
-};
-
-const REMOVE_ITEM = gql`
-  mutation RemoveItem($input: ItemIdInput!) {
-    removeItem(input: $input) {
-      ok
-    }
-  }
-`;
-
-const REMOVE_BOX = gql`
-  mutation RemoveBox($input: BoxIdInput!) {
-    removeBox(input: $input) {
-      ok
-    }
-  }
-`;
-
-const REMOVE_MOVE = gql`
-  mutation RemoveMove($input: MoveIdInput!) {
-    removeMove(input: $input) {
-      ok
-    }
-  }
-`;
-
-export const GET_BOXES_DROPDOWN = gql`
-  query getBoxesDropdown {
-    getBoxesByUserId {
-      _id
-      name
-    }
-  }
-`;
+import Row2 from "./Row2";
 
 interface ColumnThree<T> {
   disableDropdown?: boolean;
   dropdown: object[];
-  listView: string;
-  iconType: NavIcons;
-  obj?: T | unknown;
-  objKey?: string;
+  listView?: string;
+  iconType?: NavIcons;
+  obj?: T;
   showIcon: boolean;
   type: string;
   rest: object;
+  columns: object;
+  deleteObj: ({}) => void;
+  updateObj: ({}) => void;
 }
 
-function isItem(obj: any) {
-  return "box_id" in obj;
-}
-
-function isBox(obj: any) {
-  return "move_id" in obj;
-}
-
-export default function ColumnThree({
-  disableDropdown = true,
-  dropdown = [],
+export default function Column3({
   iconType = "dots",
+  obj,
   listView = "home",
-  obj = {},
-  objKey,
   showIcon = true,
-  type,
-  rest = {},
+  deleteObj,
+  updateObj,
+  columns,
 }: ColumnThree<typeof obj>) {
-  const [removeItem] = useMutation(REMOVE_ITEM, {
-    refetchQueries: [
-      {
-        query: GET_ITEMS,
-      },
-      {
-        query: GET_BOXES,
-      },
-      {
-        query: GET_MOVES,
-      },
-      "GetHomeData",
-    ],
-    onError: (error) => {
-      console.log(`Create Item Error: ${error.message}`);
-    },
-  });
-
-  const [removeBox] = useMutation(REMOVE_BOX, {
-    refetchQueries: [
-      {
-        query: GET_ITEMS,
-      },
-      {
-        query: GET_BOXES,
-      },
-      {
-        query: GET_MOVES,
-      },
-      "GetHomeData",
-    ],
-    onError: (error) => {
-      console.log(`Create Box Error: ${error.message}`);
-    },
-  });
-  const [removeMove] = useMutation(REMOVE_MOVE, {
-    refetchQueries: [
-      {
-        query: GET_ITEMS,
-      },
-      {
-        query: GET_BOXES,
-      },
-      {
-        query: GET_MOVES,
-      },
-      "GetHomeData",
-    ],
-    onError: (error) => {
-      console.log(`Create Move Error: ${error.message}`);
-    },
-  });
-
-  const removeBy = {
-    Items: removeItem,
-    Boxes: removeBox,
-    Moves: removeMove,
-  };
-
   const [modalVisible, setModalVisible] = useState({
     actions: false,
     edit: false,
   });
-  const navigation = useNavigation();
-
-  const route = useRoute();
-  const removeObjectBy = removeBy[route.name];
-
-  let defaultDropdownValueId = undefined;
-  if (isItem(obj)) defaultDropdownValueId = obj.box_id;
-  if (isBox(obj)) defaultDropdownValueId = obj.move_id;
+  const [formData, setFormData] = useState({});
 
   return (
     <View style={styles.column}>
@@ -172,46 +51,37 @@ export default function ColumnThree({
       >
         <View style={styles.centerModal}>
           <View style={styles.centeredView2}>
-            <Row obj={obj} rest={rest} type={type} />
-            {/* <ListItem key={obj._id}>
-              <ColumnOne
-                badge1={{
-                  count: obj.count,
-                  type: "box",
-                  showType: true,
-                }}
-              />
-              <ColumnTwo
-                canEdit={true}
-                defaultDropdownValue={defaultDropdownValueId}
-                disableDropdown={false}
-                description={obj.descripion}
-                dropdown={dropdown}
-                isFragile={obj.isFragile}
-                name={obj.name}
-                showDropdown={true}
-                showValues={true}
-                value={obj.value}
-              />
-              <ColumnThree
-                disableDropdown={false}
-                dropdown={dropdown}
-                iconType="chevron"
-                listView=""
-                showIcon={false}
-                type={type}
-              />
-            </ListItem> */}
+            <Row2
+              column1={{ ...columns }}
+              column2={{
+                ...columns,
+                canEdit: true,
+                disableDropdown: true,
+                updateObj: setFormData,
+              }}
+              column3={{ showIcon: false }}
+            />
             <View style={styles.modalView2}>
               <Pressable
                 style={[styles.button, styles.buttonClose]}
-                onPress={() =>
+                onPress={() => {
+                  console.log(`formData`);
+                  console.log(formData);
+                  updateObj({
+                    variables: {
+                      input: {
+                        _id: obj._id,
+                        box_id: "63d58f28e9c4ff10994a0dca",
+                        ...formData,
+                      },
+                    },
+                  });
                   setModalVisible((prevState) => ({
                     ...prevState,
                     edit: false,
                     actions: false,
-                  }))
-                }
+                  }));
+                }}
               >
                 <Text style={styles.textStyle}>Confirm</Text>
               </Pressable>
@@ -241,7 +111,7 @@ export default function ColumnThree({
             actions: !prevState.actions,
           }));
         }}
-        style={styles.modalAactions}
+        style={styles.modalActions}
       >
         <View style={styles.centerModal}>
           <View style={styles.centeredView}>
@@ -278,11 +148,10 @@ export default function ColumnThree({
               <Pressable
                 style={[styles.button, styles.buttonClose]}
                 onPress={() => {
-                  // TODO: figure out which to call here
-                  removeObjectBy({
+                  deleteObj({
                     variables: {
                       input: {
-                        _id: objKey,
+                        _id: obj._id,
                       },
                     },
                   });
@@ -315,14 +184,11 @@ export default function ColumnThree({
       </Modal>
       <Pressable
         onPress={() => {
-          if (listView === "home") {
-            navigation.navigate(formatRoute[listView]);
-          } else {
-            setModalVisible((prevState) => ({
-              ...prevState,
-              actions: !prevState.actions,
-            }));
-          }
+          setModalVisible((prevState) => ({
+            ...prevState,
+            actions: !prevState.actions,
+          }));
+          // }
         }}
         style={({ pressed }) => [
           {
@@ -381,6 +247,10 @@ const styles = StyleSheet.create({
   modalActions: {
     backgroundColor: "blue",
     marginLeft: 50,
+  },
+
+  modalEdit: {
+    backgroundColor: "yellow",
   },
   modalView: {
     margin: 5,

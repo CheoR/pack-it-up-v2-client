@@ -2,12 +2,13 @@ import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 import LoggedInLayout from "../layout/LoggedInLayout";
-import { PossibleIcons } from "../constants/Icon";
+// import { PossibleIcons } from "../constants/Icon";
 import ColumnThree from "./ColumnThree";
 import ColumnOne from "./ColumnOne";
 import ColumnTwo from "./ColumnTwo";
 import ListItem from "./ListItem";
 import Counter from "./Counter";
+// import Row from "./Row";
 
 // interface ScreenData<
 //   Columns extends {},
@@ -113,6 +114,15 @@ export default function ScrollData({
               // descriptioon: ${obj?.description}
               // `);
               return (
+                // <>
+                //   <Row
+                //     obj={obj}
+                //     badge1={{
+                //       count: obj.count,
+                //       type: type,
+                //       showType: columns.one.showType,
+                //     }}
+                //   />
                 <ListItem key={obj._id}>
                   <ColumnOne
                     badge1={{
@@ -143,6 +153,7 @@ export default function ScrollData({
                     type={type}
                   />
                 </ListItem>
+                // </>
               );
             })}
           </ScrollView>

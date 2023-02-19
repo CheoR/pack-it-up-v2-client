@@ -3,7 +3,17 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { StyleSheet, Text, TextInput, View } from "react-native";
 import Checkbox from "expo-checkbox";
 import COLORS from "../constants/Colors";
-import { gql, useMutation } from "@apollo/client";
+import { gql, useApolloClient, useMutation, useQuery } from "@apollo/client";
+import { GET_BOXES } from "../screens/Boxes";
+
+const GET_DROPDOWN_BOXES_FOR_ROW = gql`
+  query GetDropdownBoxesForRow {
+    getDropdownBoxesForRow {
+      _id @client
+      name @client
+    }
+  }
+`;
 
 const UPDATE_ITEM = gql`
   mutation UpdateItem($input: ItemUpdateInput!) {
@@ -37,7 +47,7 @@ export default function ColumnTwo({
   defaultDropdownValue = "",
   description = "",
   disableDropdown = true,
-  dropdown = [],
+  // dropdown = [],
   name,
   isFragile = false,
   showDropdown = false,
@@ -46,10 +56,44 @@ export default function ColumnTwo({
 }: IColumnTwo) {
   const [dropdownValue, setDropdownValue] = useState(null);
   const [isChecked, setIsChecked] = useState(isFragile);
-  const [items, setItems] = useState(dropdown);
+  const [dropdownValues, setDropdownValues] = useState([]); // (dropdown);
   const [open, setOpen] = useState(false);
 
   value = parseFloat(value?.toFixed(2)) || 0;
+
+  const {
+    // data: dropdownData,
+    loading: dropdownLoading,
+    error: dropdownError,
+  } = useQuery(GET_BOXES, {
+    onCompleted: (data) => {
+      // console.log(`COLUMN2: defaultDropdownValue: ${defaultDropdownValue}`);
+      // console.log(`QUERY COLUNMN TWO `);
+      // console.log(data.getBoxesByUserId);
+      // defaultValue was removed in 5.x series.
+      // https://github.com/hossein-zare/react-native-dropdown-picker/issues/550#issuecomment-1122804565
+      setDropdownValues(data.getBoxesByUserId);
+      const obj = data.getBoxesByUserId.find((obj) => {
+        // console.log(`looking at`);
+        // console.log(obj);
+        // console.log(
+        //   `looking at: ${obj._id} is it a match with ${defaultDropdownValue}: ${
+        //     obj?._id === defaultDropdownValue
+        //   }`
+        // );
+        return obj?._id === defaultDropdownValue;
+      });
+      // console.log(`setting default obj`);
+      // console.log(obj);
+      setDropdownValue(obj?.name);
+    },
+    onError: (error) => console.log(`Query Dropdown Error: ${error.message}`),
+  });
+
+  // const client = useApolloClient();
+  // const dropdownData = client.readQuery({
+  //   query: GET_BOXES,
+  // });
 
   const [updateItem, { data, loading, error }] = useMutation(UPDATE_ITEM, {
     // variables: {
@@ -64,16 +108,21 @@ export default function ColumnTwo({
     },
   });
 
-  useEffect(() => {
-    // defaultValue was removed in 5.x series.
-    // https://github.com/hossein-zare/react-native-dropdown-picker/issues/550#issuecomment-1122804565
-    const setDropdownDefaultValue = () => {
-      const obj = dropdown.find((obj) => obj?._id === defaultDropdownValue);
-      setDropdownValue(obj?.name);
-    };
-    setDropdownDefaultValue();
-  }, []);
+  // useEffect(() => {
+  //   // defaultValue was removed in 5.x series.
+  //   // https://github.com/hossein-zare/react-native-dropdown-picker/issues/550#issuecomment-1122804565
+  //   const setDropdownDefaultValue = () => {
+  //     // const obj = dropdown.find((obj) => obj?._id === defaultDropdownValue);
+  //     console.log(`defaultDropdownValue: ${defaultDropdownValue}`);
+  //     // const obj = dropdownData.find((obj) => obj?._id === defaultDropdownValue);
+  //     // setDropdownValue(obj?.name);
+  //   };
+  //   if (dropdownData) setDropdownDefaultValue();
+  // }, []);
 
+  // console.log(`\n\n=================== dropdownData \n\n`);
+  // console.log(dropdownData);
+  // console.log(`\n\n=================== dropdownData \n\n`);
   return (
     <View style={styles.column}>
       <View style={styles.text} pointerEvents={!canEdit ? "none" : "auto"}>
@@ -83,10 +132,11 @@ export default function ColumnTwo({
           onChangeText={(text) => console.log(`text: ${text}`)}
         />
         {/* <Text style={styles.name}>{name?.slice(0, 20) || "Header"}</Text> */}
-        {showDropdown && dropdown?.length ? (
+        {/* {showDropdown && dropdown?.length ? ( */}
+        {showDropdown && dropdownValues?.length ? (
           <DropDownPicker
             disabled={disableDropdown}
-            items={items}
+            items={dropdownValues}
             itemKey="_id"
             listMode="SCROLLVIEW"
             open={open}
@@ -95,14 +145,14 @@ export default function ColumnTwo({
               value: "name",
             }}
             setOpen={setOpen}
-            setItems={setItems}
+            setItems={setDropdownValues}
             style={{
               minHeight: 4,
               backgroundColor: disableDropdown
                 ? "lightgray"
                 : COLORS.light.background,
             }}
-            setValue={setDropdownValue}
+            setValue={setDropdownValues}
             value={dropdownValue}
             onSelectItem={(item) => {
               console.log("selected", item);

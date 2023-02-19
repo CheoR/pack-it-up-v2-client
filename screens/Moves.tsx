@@ -22,11 +22,12 @@ export const GET_MOVES = gql`
   query GetMoves {
     getMovesByUserId {
       _id
-      name
       count
-      user_id
-      total
+      description
       isFragile
+      name
+      value
+      user_id
     }
   }
 `;
@@ -81,7 +82,7 @@ export default function MovesScreen() {
                   isFragile={move.isFragile}
                   name={move.name}
                   showValues={true}
-                  value={move.total}
+                  value={move.value}
                 />
                 <ColumnThree
                   dropdown={[]}

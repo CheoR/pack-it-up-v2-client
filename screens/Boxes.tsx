@@ -38,7 +38,7 @@ export const GET_BOXES = gql`
       isFragile
       move_id
       name
-      total
+      value
     }
   }
 `;
@@ -132,7 +132,7 @@ export default function BoxesScreen() {
     //               isFragile={box.isFragile}
     //               name={box.name}
     //               showValues={true}
-    //               value={box.total}
+    //               value={box.value}
     //             />
     //             <ColumnThree
     //               dropdown={[]}
