@@ -23,81 +23,6 @@ export interface ItemInput {
   };
 }
 
-// export const GET_PAGE_DATA = gql`
-//   query GetItems {
-//     getItemsByUserId {
-//       _id
-//       name
-//       box_id
-//       description
-//       isFragile
-//       value
-//     }
-//   }
-//   query getBoxesDropdown {
-//     getBoxesByUserId {
-//       _id
-//       name
-//     }
-//   }
-// `;
-
-// TODO: fetch subset of move data from cache
-// export const GET_BOXES_DROPDOWN = gql`
-//   query getBoxesDropdown {
-//     getBoxesByUserId {
-//       _id
-//       name
-//     }
-//   }
-// `;
-
-const CREATE_ITEM = gql`
-  mutation CreateItem($input: CreateItemInput!) {
-    createItem(input: $input) {
-      _id
-      name
-      box_id
-      description
-      isFragile
-      user_id
-    }
-  }
-`;
-export const GET_ITEMS = gql`
-  query GetItems {
-    getItemsByUserId {
-      _id
-      name
-      box_id
-      description
-      isFragile
-      value
-    }
-  }
-`;
-
-const REMOVE_ITEM = gql`
-  mutation RemoveItem($input: ItemIdInput!) {
-    removeItem(input: $input) {
-      ok
-    }
-  }
-`;
-
-const UPDATE_ITEM = gql`
-  mutation ($input: ItemUpdateInput!) {
-    updateItem(input: $input) {
-      _id
-      box_id
-      description
-      isFragile
-      name
-      value
-    }
-  }
-`;
-
 const defaultItemCreate = {
   // TODO: update to add a default box and/or
   // allow for unbounded items
@@ -173,7 +98,7 @@ export default function ItemsScreen() {
   if (loading) return <Loading text="Items" />;
   if (error) console.log(`Item Error: ${error.message}`);
   // console.log(dropdownData.getBoxesByUserId);
-  // console.log(data.getItemsByUserId);
+  console.log(data.getItemsByUserId);
   return (
     <ScrollAndCounter
       screen="Items"
@@ -193,19 +118,21 @@ export default function ItemsScreen() {
           defaultDropdownValue: item.box_id,
           type: "item",
         };
+        // console.log(`item `);
+        // console.log(item);
         let column3 = {
+          showIcon: true,
+          iconType: "dots",
           obj: item,
           updateObj: updateItem,
           deleteObj: removeItem,
-          // updateObj: (id) => console.log(`deleting ${id}`),
           columns: {
             ...column1,
             ...column2,
           },
         };
         return (
-          //   <Row key={item._id} obj={item} rest={rest} type="item" />
-          <Row2
+          <Row3
             key={item._id}
             column1={column1}
             column2={column2}
@@ -214,100 +141,5 @@ export default function ItemsScreen() {
         );
       })}
     </ScrollAndCounter>
-    // <ScrollData
-    //   data={data.getItemsByUserId}
-    //   dropdown={dropdownData.getBoxesByUserId}
-    //   columns={{
-    //     one: {
-    //       showType: false,
-    //     },
-    //     two: {
-    //       disableDropdown: true,
-    //       showDropdown: true,
-    //       showValues: true,
-    //     },
-    //     three: {
-    //       disableDropdown: false,
-    //       showIcon: true,
-    //     },
-    //   }}
-    //   createObj={createItem}
-    // rest={{
-    //   // TODO: update to add a default box and/or
-    //   // allow for unbounded items
-    //   box_id: "63d58f28e9c4ff10994a0dca",
-    //   description: "",
-    //   name: "Item",
-    //   value: 0,
-    //   isFragile: false,
-    // }}
-    //   screen="Items"
-    //   type="item"
-    // />
-    // ></ScrollData>
-    // <LoggedInLayout>
-    //   <View style={styles.screen}>
-    //     <View>
-    //       <Text>Items: {data.getItemsByUserId.length}</Text>
-    //     </View>
-    //     <View style={styles.scrollViewCntr}>
-    //       <ScrollView nestedScrollEnabled={true}>
-    //         {data.getItemsByUserId.map((item) => (
-    //           <ListItem key={item._id}>
-    //             <ColumnOne
-    //               badge1={{ count: item.count, type: "item", showType: false }}
-    //             />
-    // <ColumnTwo
-    //   defaultDropdownValue={item.box_id}
-    //   description={item.description}
-    //   disableDropdown={true}
-    //   dropdown={dropdownData.getBoxesByUserId}
-    //   isFragile={item.isFragile}
-    //   name={item.name}
-    //   showDropdown={true}
-    //   showValues={true}
-    //   value={item.value}
-    // />
-    // <ColumnThree
-    //   disableDropdown={false}
-    //   dropdown={dropdownData.getBoxesByUserId}
-    //   iconType="chevron"
-    //   listView="item"
-    //   obj={item}
-    //   objKey={item._id}
-    //   showIcon={true}
-    // />
-    //           </ListItem>
-    //         ))}
-    //       </ScrollView>
-    //     </View>
-    //     <Counter
-    //       mutation={createItem}
-    //       type="Item"
-    //       rest={{
-    // // TODO: update to add a default box and/or
-    // // allow for unbounded items
-    // box_id: "63d58f28e9c4ff10994a0dca",
-    // description: "",
-    // name: "Item",
-    // value: 0,
-    // isFragile: false,
-    //       }}
-    //     />
-    //   </View>
-    // </LoggedInLayout>
   );
 }
-
-// const styles = StyleSheet.create({
-//   screen: {
-//     alignItems: "center",
-//     flex: 1,
-//     justifyContent: "space-between",
-//     width: "100%",
-//   },
-//   scrollViewCntr: {
-//     flex: 1,
-//     width: "100%",
-//   },
-// });

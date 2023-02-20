@@ -19,31 +19,6 @@ export interface Move {
   };
 }
 
-export const GET_MOVES = gql`
-  query GetMoves {
-    getMovesByUserId {
-      _id
-      count
-      description
-      isFragile
-      name
-      value
-      user_id
-    }
-  }
-`;
-
-const CREATE_MOVE = gql`
-  mutation CreateMove($input: CreateMoveInput!) {
-    createMove(input: $input) {
-      _id
-      name
-      description
-      user_id
-    }
-  }
-`;
-
 export default function MovesScreen() {
   const { data, loading, error } = useQuery(GET_MOVES, {
     onError: (error) => console.log(`Query Move Error: ${error.message}`),
