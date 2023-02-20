@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { Alert, Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { gql, useMutation } from "@apollo/client";
+import { useMutation } from "@apollo/client";
 
+import { GET_ITEMS, REMOVE_ITEM } from "../graphql/item";
+import { GET_MOVES, REMOVE_MOVE } from "../graphql/move";
+import { GET_BOXES, REMOVE_BOX } from "../graphql/box";
 import { Icon, NavIcons } from "../constants/Icon";
 import { GET_ITEMS } from "../screens/Items";
 import { GET_BOXES } from "../screens/Boxes";

@@ -4,8 +4,8 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { useQuery } from "@apollo/client";
 import Checkbox from "expo-checkbox";
 
-import { GET_BOXES } from "../../screens/Boxes";
-import { GET_MOVES } from "../../screens/Moves";
+import { GET_MOVES } from "../../graphql/move";
+import { GET_BOXES } from "../../graphql/box";
 import COLORS from "../../constants/Colors";
 
 interface IColumnTwo {

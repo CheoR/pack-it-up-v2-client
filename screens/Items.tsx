@@ -1,20 +1,17 @@
 import React from "react";
-// import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 
-// import LoggedInLayout from "../layout/LoggedInLayout";
-// import ColumnThree from "../components/ColumnThree";
-// import ColumnTwo from "../components/ColumnTwo";
-// import ColumnOne from "../components/ColumnOne";
-// import ListItem from "../components/ListItem";
-import Loading from "../components/Loading";
-// import Counter from "../components/Counter";
-// import ScrollData from "../components/ScrollData";
 import ScrollAndCounter from "../components/ScrollAndCounter";
-// import Row from "../components/Row";
-import Row2 from "../components/Row/Row2";
-import { GET_BOXES } from "./Boxes";
-import { GET_MOVES } from "./Moves";
+import Loading from "../components/Loading";
+import { GET_MOVES } from "../graphql/move";
+import { GET_BOXES } from "../graphql/box";
+import Row3 from "../components/Row/Row3";
+import {
+  CREATE_ITEM,
+  GET_ITEMS,
+  REMOVE_ITEM,
+  UPDATE_ITEM,
+} from "../graphql/item";
 export interface ItemInput {
   input: {
     box_id: string;

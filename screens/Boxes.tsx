@@ -1,15 +1,10 @@
 import React from "react";
-// import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 
-// import LoggedInLayout from "../layout/LoggedInLayout";
-// import ListItem from "../components/ListItem";
-// import Counter from "../components/Counter";
-import Loading from "../components/Loading";
+import { CREATE_BOX, GET_BOXES } from "../graphql/box";
+import { GET_MOVES_DROPDOWN } from "../graphql/move";
 import ScrollData from "../components/ScrollData";
-// import ColumnOne from "../components/ColumnOne";
-// import ColumnTwo from "../components/ColumnTwo";
-// import ColumnThree from "../components/ColumnThree";
+import Loading from "../components/Loading";
 
 export interface BoxInput {
   input: {

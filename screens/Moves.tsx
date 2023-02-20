@@ -1,7 +1,8 @@
 import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
-import { gql, useMutation, useQuery } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 
+import { CREATE_MOVE, GET_MOVES } from "../graphql/move";
 import LoggedInLayout from "../layout/LoggedInLayout";
 import ColumnThree from "../components/ColumnThree";
 import ColumnTwo from "../components/ColumnTwo";
