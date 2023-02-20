@@ -30,8 +30,8 @@ export default function Column3({
   columns,
 }: ColumnThree<typeof obj>) {
   const [modalVisible, setModalVisible] = useState({
-    actions: false,
-    edit: false,
+    actionsModal: false,
+    editModal: false,
   });
   const [formData, setFormData] = useState({});
 
@@ -39,12 +39,12 @@ export default function Column3({
     <View style={styles.column}>
       <Modal
         transparent={true}
-        visible={modalVisible.edit}
+        visible={modalVisible.editModal}
         onRequestClose={() => {
           Alert.alert("Modal Edit closed.");
           setModalVisible((prevState) => ({
             ...prevState,
-            edit: !prevState.edit,
+            editModal: !prevState.editModal,
           }));
         }}
         style={styles.modalEdit}
@@ -71,15 +71,14 @@ export default function Column3({
                     variables: {
                       input: {
                         _id: obj._id,
-                        box_id: "63d58f28e9c4ff10994a0dca",
                         ...formData,
                       },
                     },
                   });
                   setModalVisible((prevState) => ({
                     ...prevState,
-                    edit: false,
-                    actions: false,
+                    editModal: false,
+                    actionsModal: false,
                   }));
                 }}
               >
@@ -90,8 +89,8 @@ export default function Column3({
                 onPress={() =>
                   setModalVisible((prevState) => ({
                     ...prevState,
-                    edit: false,
-                    actions: false,
+                    editModal: false,
+                    actionsModal: false,
                   }))
                 }
               >
@@ -103,15 +102,15 @@ export default function Column3({
       </Modal>
       <Modal
         transparent={true}
-        visible={modalVisible.actions}
+        visible={modalVisible.actionsModal}
         onRequestClose={() => {
           Alert.alert("Modal has been closed.");
           setModalVisible((prevState) => ({
             ...prevState,
-            actions: !prevState.actions,
+            actionsModal: !prevState.actionsModal,
           }));
         }}
-        style={styles.modalActions}
+        style={styles.actionsModal}
       >
         <View style={styles.centerModal}>
           <View style={styles.centeredView}>
@@ -122,7 +121,7 @@ export default function Column3({
                 onPress={() =>
                   setModalVisible((prevState) => ({
                     ...prevState,
-                    actions: false,
+                    actionsModal: false,
                   }))
                 }
               >
@@ -136,7 +135,7 @@ export default function Column3({
                 onPress={() =>
                   setModalVisible((prevState) => ({
                     ...prevState,
-                    actions: false,
+                    actionsModal: false,
                   }))
                 }
               >
@@ -157,7 +156,7 @@ export default function Column3({
                   });
                   setModalVisible((prevState) => ({
                     ...prevState,
-                    actions: false,
+                    actionsModal: false,
                   }));
                 }}
               >
@@ -171,8 +170,8 @@ export default function Column3({
                 onPress={() => {
                   // getData();
                   setModalVisible((prevState) => ({
-                    edit: true,
-                    actions: false,
+                    editModal: true,
+                    actionsModal: false,
                   }));
                 }}
               >
@@ -186,7 +185,7 @@ export default function Column3({
         onPress={() => {
           setModalVisible((prevState) => ({
             ...prevState,
-            actions: !prevState.actions,
+            actionsModal: !prevState.actionsModal,
           }));
           // }
         }}
@@ -207,7 +206,7 @@ export default function Column3({
 }
 
 const styles = StyleSheet.create({
-  actions: {
+  actionsModal: {
     height: 150,
     width: 700,
     backgroundColor: "pink",
@@ -244,7 +243,7 @@ const styles = StyleSheet.create({
     height: "100%",
     borderRadius: 5,
   },
-  modalActions: {
+  modalactionsModal: {
     backgroundColor: "blue",
     marginLeft: 50,
   },

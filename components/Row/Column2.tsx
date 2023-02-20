@@ -20,7 +20,8 @@ interface IColumnTwo {
   showValues?: boolean;
   type: string;
   value?: number;
-  updateObj: (obj) => {};
+  updateObj: ({}) => void;
+  deleteObj: ({}) => void;
 }
 
 export default function Column2({
