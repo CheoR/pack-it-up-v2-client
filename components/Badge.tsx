@@ -19,28 +19,31 @@ export default function Badge({
   type = "none",
 }: Badge) {
   return (
-    <View style={styles.box}>
-      <View style={styles.iconBox}>
-        <View style={styles.countCircle}>
-          <Text style={styles.countText}>{count}</Text>
+    <View style={styles.iconCntr}>
+      <View style={styles.icon}>
+        <View style={styles.countCntr}>
+          <Text style={styles.count}>{count}</Text>
         </View>
         <Icon type={type} size={size} />
       </View>
-      {showType && <Text style={styles.typeText}>{type.toUpperCase()}</Text>}
+      {showType && <Text style={styles.text}>{type}</Text>}
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  box: {
-    justifyContent: "space-between",
-    width: 64,
-  },
-  iconBox: {
+  icon: {
     alignItems: "center",
     justifyContent: "center",
   },
-  countCircle: {
+  iconCntr: {
+    justifyContent: "space-between",
+    width: 64,
+  },
+  count: {
+    fontSize: 12,
+  },
+  countCntr: {
     alignItems: "center",
     borderRadius: 50,
     borderWidth: 2,
@@ -51,10 +54,8 @@ const styles = StyleSheet.create({
     top: 10,
     width: 20,
   },
-  countText: {
-    fontSize: 12,
-  },
-  typeText: {
+  text: {
     textAlign: "center",
+    textTransform: "uppercase",
   },
 });
