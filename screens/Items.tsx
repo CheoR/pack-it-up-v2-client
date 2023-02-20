@@ -94,11 +94,10 @@ export default function ItemsScreen() {
     },
   });
 
-  // if (loading || dropdownLoading) return <Loading text="Items" />;
   if (loading) return <Loading text="Items" />;
   if (error) console.log(`Item Error: ${error.message}`);
   // console.log(dropdownData.getBoxesByUserId);
-  console.log(data.getItemsByUserId);
+  // console.log(data.getItemsByUserId);
   return (
     <ScrollAndCounter
       screen="Items"
@@ -109,8 +108,10 @@ export default function ItemsScreen() {
       {data.getItemsByUserId.map((item) => {
         let column1 = {
           badge1: {
-            type: "item",
-            size: 24,
+            // need as const else get this error
+            // Type 'string' is not assignable to type 'PossibleIcons'.
+            type: "item" as const,
+            size: 24 as const,
           },
         };
         let column2 = {
@@ -118,11 +119,9 @@ export default function ItemsScreen() {
           defaultDropdownValue: item.box_id,
           type: "item",
         };
-        // console.log(`item `);
-        // console.log(item);
         let column3 = {
           showIcon: true,
-          iconType: "dots",
+          iconType: "dots" as const,
           obj: item,
           updateObj: updateItem,
           deleteObj: removeItem,

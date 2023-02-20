@@ -18,9 +18,9 @@ export default function EditModal({
   setModalVisible,
   updateObj,
 }: EditModal<typeof obj, typeof columns, typeof modalVisible>) {
-  const [formData, setFormData] = useState({});
-  // console.log(`obj`);
-  // console.log(obj);
+  const [formData, setFormData] = useState({
+    ...obj,
+  });
   return (
     <Modal
       transparent={true}
@@ -37,18 +37,18 @@ export default function EditModal({
       <View style={styles.centerModal}>
         <View style={styles.centeredView}>
           <Row3
-            column1={{ ...columns.column1 }}
+            column1={{ ...columns }}
             column2={{
-              ...columns.column2,
+              ...columns,
               canEdit: true,
               disableDropdown: true,
               updateObj: setFormData,
-              obj: columns.column3.obj,
+              obj: obj,
             }}
             column3={{
-              ...columns.column3,
+              ...columns,
               showIcon: false,
-              obj: columns.column3.obj,
+              obj: obj,
             }}
           />
 
@@ -60,6 +60,7 @@ export default function EditModal({
                 variables: {
                   input: {
                     _id: obj._id,
+                    ...obj,
                     ...formData,
                   },
                 },

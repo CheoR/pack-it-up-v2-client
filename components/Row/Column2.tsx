@@ -8,7 +8,7 @@ import { GET_MOVES } from "../../graphql/move";
 import { GET_BOXES } from "../../graphql/box";
 import COLORS from "../../constants/Colors";
 
-interface IColumnTwo {
+export interface ColumnTwo {
   canEdit?: boolean;
   defaultDropdownValue?: string;
   description?: string;
@@ -20,8 +20,8 @@ interface IColumnTwo {
   showValues?: boolean;
   type: string;
   value?: number;
-  updateObj: ({}) => void;
-  deleteObj: ({}) => void;
+  updateObj: () => void;
+  deleteObj: () => void;
 }
 
 export default function Column2({
@@ -36,7 +36,7 @@ export default function Column2({
   type = "",
   value = 0,
   updateObj,
-}: IColumnTwo) {
+}: ColumnTwo) {
   const [isChecked, setIsChecked] = useState(isFragile);
   const [dropdownData, setDropdownData] = useState([]);
   const [selected, setSelected] = useState(null);
@@ -53,7 +53,7 @@ export default function Column2({
         // https://github.com/hossein-zare/react-native-dropdown-picker/issues/550#issuecomment-1122804565
         setDropdownData(data.getBoxesByUserId);
         let obj;
-        console.log(data);
+        // console.log(data);
         if (type === "item") {
           obj = data.getBoxesByUserId.find(
             (obj) => obj?._id === defaultDropdownValue
@@ -64,6 +64,8 @@ export default function Column2({
             (obj) => obj?._id === defaultDropdownValue
           );
         }
+        console.log(`object is obj`);
+        console.log(obj);
         console.log(`default selection: ${obj?.name}`);
         setSelected(obj?.name);
       },
@@ -108,10 +110,16 @@ export default function Column2({
                 ? "lightgray"
                 : COLORS.light.background,
             }}
-            setValue={setDropdownData}
+            setValue={setSelected}
             value={selected}
             onSelectItem={(item) => {
               console.log("selected", item);
+              updateObj((prevState) => {
+                return {
+                  ...prevState,
+                  ...item,
+                };
+              });
             }}
           />
         ) : (

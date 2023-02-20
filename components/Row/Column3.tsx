@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 
-import { Alert, Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import { Icon, NavIcons } from "../../constants/Icon";
 import COLORS from "../../constants/Colors";
+import ActionsModal from "./ActionsModal";
+import EditModal from "./EditModal";
 
-import Row2 from "./Row2";
-
-interface ColumnThree<T> {
+export interface ColumnThree<T> {
   disableDropdown?: boolean;
   dropdown: object[];
   listView?: string;
@@ -16,8 +16,8 @@ interface ColumnThree<T> {
   type: string;
   rest: object;
   columns: object;
-  deleteObj: ({}) => void;
-  updateObj: ({}) => void;
+  deleteObj: () => void;
+  updateObj: () => void;
 }
 
 export default function Column3({
@@ -37,7 +37,7 @@ export default function Column3({
 
   return (
     <View style={styles.column}>
-      <Modal
+      {/* <Modal
         transparent={true}
         visible={modalVisible.editModal}
         onRequestClose={() => {
@@ -180,14 +180,27 @@ export default function Column3({
             </View>
           </View>
         </View>
-      </Modal>
+      </Modal> */}
+      <ActionsModal
+        deleteObj={deleteObj}
+        modalVisible={modalVisible}
+        obj={obj}
+        setModalVisible={setModalVisible}
+      />
+      <EditModal
+        modalVisible={modalVisible}
+        obj={obj}
+        setModalVisible={setModalVisible}
+        updateObj={updateObj}
+        columns={columns}
+      />
       <Pressable
         onPress={() => {
+          console.log("dots button pressable pressed");
           setModalVisible((prevState) => ({
             ...prevState,
             actionsModal: !prevState.actionsModal,
           }));
-          // }
         }}
         style={({ pressed }) => [
           {
