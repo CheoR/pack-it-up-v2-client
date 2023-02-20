@@ -1,36 +1,14 @@
-import React, { useEffect, useState } from "react";
-import DropDownPicker from "react-native-dropdown-picker";
+import React, { useState } from "react";
 import { StyleSheet, Text, TextInput, View } from "react-native";
+import DropDownPicker from "react-native-dropdown-picker";
 import { useMutation, useQuery } from "@apollo/client";
 import Checkbox from "expo-checkbox";
+
 import { UPDATE_ITEM } from "../graphql/item";
 import { GET_BOXES } from "../graphql/box";
 import COLORS from "../constants/Colors";
-import { gql, useApolloClient, useMutation, useQuery } from "@apollo/client";
-import { GET_BOXES } from "../screens/Boxes";
 
-const GET_DROPDOWN_BOXES_FOR_ROW = gql`
-  query GetDropdownBoxesForRow {
-    getDropdownBoxesForRow {
-      _id @client
-      name @client
-    }
-  }
-`;
-
-const UPDATE_ITEM = gql`
-  mutation UpdateItem($input: ItemUpdateInput!) {
-    updateItem(input: $input) {
-      _id
-      box_id
-      description
-      isFragile
-      name
-      value
-    }
-  }
-`;
-// TODO: use util to make all optional
+// TODO: use Partial util to make all optional
 // except name
 interface IColumnTwo {
   canEdit?: boolean;
@@ -92,11 +70,6 @@ export default function ColumnTwo({
     },
     onError: (error) => console.log(`Query Dropdown Error: ${error.message}`),
   });
-
-  // const client = useApolloClient();
-  // const dropdownData = client.readQuery({
-  //   query: GET_BOXES,
-  // });
 
   const [updateItem, { data, loading, error }] = useMutation(UPDATE_ITEM, {
     // variables: {

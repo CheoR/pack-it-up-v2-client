@@ -7,54 +7,10 @@ import { GET_ITEMS, REMOVE_ITEM } from "../graphql/item";
 import { GET_MOVES, REMOVE_MOVE } from "../graphql/move";
 import { GET_BOXES, REMOVE_BOX } from "../graphql/box";
 import { Icon, NavIcons } from "../constants/Icon";
-import { GET_ITEMS } from "../screens/Items";
-import { GET_BOXES } from "../screens/Boxes";
-import { GET_MOVES } from "../screens/Moves";
+
 import COLORS from "../constants/Colors";
 import ROUTES from "../constants/Routes";
-import ColumnTwo from "./ColumnTwo";
-import ColumnOne from "./ColumnOne";
-import ListItem from "./ListItem";
 import Row from "./Row";
-
-const formatRoute = {
-  box: ROUTES.Boxes,
-  item: ROUTES.Items,
-  move: ROUTES.Moves,
-};
-
-const REMOVE_ITEM = gql`
-  mutation RemoveItem($input: ItemIdInput!) {
-    removeItem(input: $input) {
-      ok
-    }
-  }
-`;
-
-const REMOVE_BOX = gql`
-  mutation RemoveBox($input: BoxIdInput!) {
-    removeBox(input: $input) {
-      ok
-    }
-  }
-`;
-
-const REMOVE_MOVE = gql`
-  mutation RemoveMove($input: MoveIdInput!) {
-    removeMove(input: $input) {
-      ok
-    }
-  }
-`;
-
-export const GET_BOXES_DROPDOWN = gql`
-  query getBoxesDropdown {
-    getBoxesByUserId {
-      _id
-      name
-    }
-  }
-`;
 
 interface ColumnThree<T> {
   disableDropdown?: boolean;
@@ -67,6 +23,12 @@ interface ColumnThree<T> {
   type: string;
   rest: object;
 }
+
+const formatRoute = {
+  box: ROUTES.Boxes,
+  item: ROUTES.Items,
+  move: ROUTES.Moves,
+};
 
 function isItem(obj: any) {
   return "box_id" in obj;
