@@ -6,11 +6,16 @@ import { Icon, PossibleIcons, PossibleIconSizes } from "../constants/Icon";
 // TODO: add option to display image url else
 // show Item icon as default
 export type Badge = {
-  count: number;
+  count?: number;
   type: PossibleIcons;
   size?: PossibleIconSizes;
   showType?: boolean;
 };
+
+export interface Badges {
+  badge1: Badge;
+  badge2?: Badge;
+}
 
 export default function Badge({
   count = 0,

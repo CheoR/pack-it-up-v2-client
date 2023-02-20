@@ -1,12 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import React from "react";
 
-import { Badge as BadgeType } from "../Badge";
-import Badge from "../Badge";
-interface Badges {
-  badge1: BadgeType;
-  badge2?: BadgeType;
-}
+import Badge, { Badges } from "../Badge";
 
 export default function Column1(badges: Badges) {
   return (
