@@ -1,15 +1,10 @@
 import React, { useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 
+import { Counter as CI } from "../types/types";
 import COLORS from "../constants/Colors";
 
-interface ICounter {
-  mutation: (variables: object) => void;
-  type: string;
-  rest: object;
-}
-
-export default function Counter({ mutation, type, rest }: ICounter) {
+export default function Counter({ mutation, type, rest }: CI) {
   const [count, setCount] = useState(0);
 
   return (
