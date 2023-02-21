@@ -1,30 +1,8 @@
 import React from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+
+import { Dictionary, Icons } from "../types/types";
 import COLORS from "./Colors";
-
-// type IconResponse = typeof MaterialCommunityIcons | React.ReactFragment;
-type TwoOhEight = 208;
-type TwentyFour = 24;
-type Sixteen = 16;
-
-export type PossibleIconSizes = Sixteen | TwentyFour | TwoOhEight;
-export type NavIcons = "chevron" | "dots";
-export type PossibleIcons =
-  | "box"
-  | "camera"
-  | "chevron"
-  | "closedPackage"
-  | "delete"
-  | "dots"
-  | "edit"
-  | "item"
-  | "move"
-  | "none"
-  | "plusSign";
-
-type Dictionary = {
-  [key in PossibleIcons]: string;
-};
 
 const IconDictionary: Dictionary = {
   box: "package-variant-closed",
@@ -39,11 +17,6 @@ const IconDictionary: Dictionary = {
   none: "none",
   plusSign: "plus",
 };
-
-interface Icons {
-  type: PossibleIcons;
-  size: PossibleIconSizes;
-}
 
 export function Icon({
   type,
