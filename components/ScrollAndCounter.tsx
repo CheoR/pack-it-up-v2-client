@@ -1,6 +1,7 @@
 import React from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 
+import { ScrollAndCounter as SCI } from "../types/types";
 import LoggedInLayout from "../layout/LoggedInLayout";
 import Counter from "./Counter";
 
@@ -10,7 +11,7 @@ export default function ScrollAndCounter({
   rest,
   screen,
   type,
-}) {
+}: SCI) {
   return (
     <LoggedInLayout>
       <View style={styles.screen}>
