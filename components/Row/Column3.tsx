@@ -7,180 +7,34 @@ import ActionsModal from "./ActionsModal";
 import EditModal from "./EditModal";
 
 export interface ColumnThree<T> {
+  columns: object;
   disableDropdown?: boolean;
+  deleteObj: () => void;
   dropdown: object[];
-  listView?: string;
   iconType?: NavIcons;
   obj?: T;
-  showIcon: boolean;
-  type: string;
-  rest: object;
-  columns: object;
-  deleteObj: () => void;
+  showIcon?: boolean;
   updateObj: () => void;
 }
 
 export default function Column3({
   iconType = "dots",
-  obj,
-  listView = "home",
-  showIcon = true,
-  deleteObj,
-  updateObj,
   columns,
+  deleteObj,
+  obj,
+  showIcon = true,
+  updateObj,
 }: ColumnThree<typeof obj>) {
   const [modalVisible, setModalVisible] = useState({
     actionsModal: false,
     editModal: false,
   });
-  const [formData, setFormData] = useState({});
+  // const [formData, setFormData] = useState({
+  //   ...obj,
+  // });
 
   return (
     <View style={styles.column}>
-      {/* <Modal
-        transparent={true}
-        visible={modalVisible.editModal}
-        onRequestClose={() => {
-          Alert.alert("Modal Edit closed.");
-          setModalVisible((prevState) => ({
-            ...prevState,
-            editModal: !prevState.editModal,
-          }));
-        }}
-        style={styles.modalEdit}
-      >
-        <View style={styles.centerModal}>
-          <View style={styles.centeredView2}>
-            <Row2
-              column1={{ ...columns }}
-              column2={{
-                ...columns,
-                canEdit: true,
-                disableDropdown: true,
-                updateObj: setFormData,
-              }}
-              column3={{ showIcon: false }}
-            />
-            <View style={styles.modalView2}>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => {
-                  console.log(`formData`);
-                  console.log(formData);
-                  updateObj({
-                    variables: {
-                      input: {
-                        _id: obj._id,
-                        ...formData,
-                      },
-                    },
-                  });
-                  setModalVisible((prevState) => ({
-                    ...prevState,
-                    editModal: false,
-                    actionsModal: false,
-                  }));
-                }}
-              >
-                <Text style={styles.textStyle}>Confirm</Text>
-              </Pressable>
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() =>
-                  setModalVisible((prevState) => ({
-                    ...prevState,
-                    editModal: false,
-                    actionsModal: false,
-                  }))
-                }
-              >
-                <Text style={styles.textStyle}>Cancel</Text>
-              </Pressable>
-            </View>
-          </View>
-        </View>
-      </Modal>
-      <Modal
-        transparent={true}
-        visible={modalVisible.actionsModal}
-        onRequestClose={() => {
-          Alert.alert("Modal has been closed.");
-          setModalVisible((prevState) => ({
-            ...prevState,
-            actionsModal: !prevState.actionsModal,
-          }));
-        }}
-        style={styles.actionsModal}
-      >
-        <View style={styles.centerModal}>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <Icon size={24} type="plusSign" />
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() =>
-                  setModalVisible((prevState) => ({
-                    ...prevState,
-                    actionsModal: false,
-                  }))
-                }
-              >
-                <Text style={styles.textStyle}>Add</Text>
-              </Pressable>
-            </View>
-            <View style={styles.modalView}>
-              <Icon size={24} type="camera" />
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() =>
-                  setModalVisible((prevState) => ({
-                    ...prevState,
-                    actionsModal: false,
-                  }))
-                }
-              >
-                <Text style={styles.textStyle}>Camera</Text>
-              </Pressable>
-            </View>
-            <View style={styles.modalView}>
-              <Icon size={24} type="delete" />
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => {
-                  deleteObj({
-                    variables: {
-                      input: {
-                        _id: obj._id,
-                      },
-                    },
-                  });
-                  setModalVisible((prevState) => ({
-                    ...prevState,
-                    actionsModal: false,
-                  }));
-                }}
-              >
-                <Text style={styles.textStyle}>Delete</Text>
-              </Pressable>
-            </View>
-            <View style={styles.modalView}>
-              <Icon size={24} type="edit" />
-              <Pressable
-                style={[styles.button, styles.buttonClose]}
-                onPress={() => {
-                  // getData();
-                  setModalVisible((prevState) => ({
-                    editModal: true,
-                    actionsModal: false,
-                  }));
-                }}
-              >
-                <Text style={styles.textStyle}>Edit</Text>
-              </Pressable>
-            </View>
-          </View>
-        </View>
-      </Modal> */}
       <ActionsModal
         deleteObj={deleteObj}
         modalVisible={modalVisible}
@@ -188,11 +42,11 @@ export default function Column3({
         setModalVisible={setModalVisible}
       />
       <EditModal
+        columns={columns}
         modalVisible={modalVisible}
         obj={obj}
         setModalVisible={setModalVisible}
         updateObj={updateObj}
-        columns={columns}
       />
       <Pressable
         onPress={() => {

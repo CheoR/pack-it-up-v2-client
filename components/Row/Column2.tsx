@@ -11,6 +11,7 @@ import COLORS from "../../constants/Colors";
 export interface ColumnTwo {
   canEdit?: boolean;
   defaultDropdownValue?: string;
+  deleteObj: () => void;
   description?: string;
   disableDropdown?: boolean;
   dropdown?: object[];
@@ -19,9 +20,8 @@ export interface ColumnTwo {
   showDropdown?: boolean;
   showValues?: boolean;
   type: string;
+  updateObj: ({}) => void;
   value?: number;
-  updateObj: () => void;
-  deleteObj: () => void;
 }
 
 export default function Column2({
@@ -34,8 +34,8 @@ export default function Column2({
   showDropdown = true,
   showValues = true,
   type = "",
-  value = 0,
   updateObj,
+  value = 0,
 }: ColumnTwo) {
   const [isChecked, setIsChecked] = useState(isFragile);
   const [dropdownData, setDropdownData] = useState([]);
@@ -45,33 +45,30 @@ export default function Column2({
   value = parseFloat(value?.toFixed(2)) || 0;
   console.log(`defaultDropdownValue: ${defaultDropdownValue}`);
 
-  const { loading: dropdownLoading, error: dropdownError } = useQuery(
-    type === "item" ? GET_BOXES : GET_MOVES,
-    {
-      onCompleted: (data) => {
-        // defaultValue was removed in 5.x series.
-        // https://github.com/hossein-zare/react-native-dropdown-picker/issues/550#issuecomment-1122804565
-        setDropdownData(data.getBoxesByUserId);
-        let obj;
-        // console.log(data);
-        if (type === "item") {
-          obj = data.getBoxesByUserId.find(
-            (obj) => obj?._id === defaultDropdownValue
-          );
-        }
-        if (type === "box") {
-          obj = data.getMovesByUserId.find(
-            (obj) => obj?._id === defaultDropdownValue
-          );
-        }
-        console.log(`object is obj`);
-        console.log(obj);
-        console.log(`default selection: ${obj?.name}`);
-        setSelected(obj?.name);
-      },
-      onError: (error) => console.log(`Query Dropdown Error: ${error.message}`),
-    }
-  );
+  useQuery(type === "item" ? GET_BOXES : GET_MOVES, {
+    onCompleted: (data) => {
+      // defaultValue was removed in 5.x series.
+      // https://github.com/hossein-zare/react-native-dropdown-picker/issues/550#issuecomment-1122804565
+      setDropdownData(data.getBoxesByUserId);
+      let obj;
+      // console.log(data);
+      if (type === "item") {
+        obj = data.getBoxesByUserId.find(
+          (obj) => obj?._id === defaultDropdownValue
+        );
+      }
+      if (type === "box") {
+        obj = data.getMovesByUserId.find(
+          (obj) => obj?._id === defaultDropdownValue
+        );
+      }
+      console.log(`object is obj`);
+      console.log(obj);
+      console.log(`default selection: ${obj?.name}`);
+      setSelected(obj?.name);
+    },
+    onError: (error) => console.log(`Query Dropdown Error: ${error.message}`),
+  });
 
   console.log(`dropdowndata lenght: ${dropdownData.length}`);
 

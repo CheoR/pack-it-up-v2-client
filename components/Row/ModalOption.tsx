@@ -29,6 +29,11 @@ export default function ModalOption({
         style={[styles.button, styles.buttonClose]}
         onPress={() => {
           if (optionalFunc !== undefined) {
+            delete optionalFuncExtras?.input?.count;
+            delete optionalFuncExtras?.variables?.input?.move_id;
+            console.log(`\n\n============ this is what i'm eneidn back`);
+            console.log(optionalFuncExtras);
+            console.log(`=========\n\n`);
             optionalFunc(optionalFuncExtras);
           }
           setState((prevState) => ({

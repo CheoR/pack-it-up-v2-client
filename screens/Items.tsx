@@ -33,16 +33,18 @@ const defaultItemCreate = {
   isFragile: false,
 };
 
+const column1 = {
+  badge1: {
+    // need as const else get this error
+    // Type 'string' is not assignable to type 'PossibleIcons'.
+    type: "item" as const,
+    size: 24 as const,
+  },
+};
+
 export default function ItemsScreen() {
   // TODO: reread polling vs refetch
   // https://www.apollographql.com/docs/react/data/queries/
-  // const {
-  //   data: dropdownData,
-  //   loading: dropdownLoading,
-  //   error: dropDownError,
-  // } = useQuery(GET_BOXES_DROPDOWN, {
-  //   onError: (error) => console.log(`Query Dropdown Error: ${error.message}`),
-  // });
 
   const { data, loading, error } = useQuery(GET_ITEMS, {
     // onCompleted: (data) => {
@@ -106,22 +108,12 @@ export default function ItemsScreen() {
       type="item"
     >
       {data.getItemsByUserId.map((item) => {
-        let column1 = {
-          badge1: {
-            // need as const else get this error
-            // Type 'string' is not assignable to type 'PossibleIcons'.
-            type: "item" as const,
-            size: 24 as const,
-          },
-        };
         let column2 = {
           ...item,
           defaultDropdownValue: item.box_id,
           type: "item",
         };
         let column3 = {
-          showIcon: true,
-          iconType: "dots" as const,
           obj: item,
           updateObj: updateItem,
           deleteObj: removeItem,

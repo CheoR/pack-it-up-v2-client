@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Alert, Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import { Alert, Modal, StyleSheet, View } from "react-native";
 
 import ModalOption from "./ModalOption";
 import Row3 from "./Row3";
@@ -8,7 +8,7 @@ interface EditModal<Obj, C, M> {
   columns: C;
   modalVisible: M;
   obj: Obj;
-  setModalVisible: any;
+  setModalVisible: ({}) => void;
   updateObj: () => void;
 }
 export default function EditModal({
@@ -23,8 +23,6 @@ export default function EditModal({
   });
   return (
     <Modal
-      transparent={true}
-      visible={modalVisible.editModal}
       onRequestClose={() => {
         Alert.alert("EditModal closed.");
         setModalVisible((prevState) => ({
@@ -33,6 +31,8 @@ export default function EditModal({
         }));
       }}
       style={styles.modalEdit}
+      transparent={true}
+      visible={modalVisible.editModal}
     >
       <View style={styles.centerModal}>
         <View style={styles.centeredView}>
@@ -52,19 +52,47 @@ export default function EditModal({
             }}
           />
 
-          <View style={styles.modalView2}>
+          <View style={styles.modalView}>
             <ModalOption
               text="confirm"
               optionalFunc={updateObj}
               optionalFuncExtras={{
                 variables: {
                   input: {
-                    _id: obj._id,
                     ...obj,
                     ...formData,
+                    _id: obj._id,
                   },
                 },
               }}
+              // optionalFuncExtras={() => {
+              //   let input;
+
+              //   if (obj.name === "item") {
+              //     input = {
+              //       ...obj,
+              //       ...formData,
+              //       _id: obj._id,
+              //     };
+              //     delete input.count;
+              //     delete input.move_id;
+              //     delete input.__typename;
+              //   } else {
+              //     input = {
+              //       ...obj,
+              //       ...formData,
+              //       _id: obj._id,
+              //     };
+              //   }
+              //   console.log(`\n\n**** this is input`);
+              //   console.log(input);
+              //   console.log(`******\n\n`);
+              //   return {
+              //     variables: {
+              //       input,
+              //     },
+              //   };
+              // }}
               setState={setModalVisible}
               setStateExtras={{
                 editModal: false,
@@ -72,18 +100,14 @@ export default function EditModal({
               }}
             />
 
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() =>
-                setModalVisible((prevState) => ({
-                  ...prevState,
-                  editModal: false,
-                  actionsModal: false,
-                }))
-              }
-            >
-              <Text style={styles.textStyle}>Cancel</Text>
-            </Pressable>
+            <ModalOption
+              text="cancel"
+              setState={setModalVisible}
+              setStateExtras={{
+                editModal: false,
+                actionsModal: false,
+              }}
+            />
           </View>
         </View>
       </View>
@@ -119,7 +143,7 @@ const styles = StyleSheet.create({
   modalEdit: {
     backgroundColor: "yellow",
   },
-  modalView2: {
+  modalView: {
     margin: 5,
     backgroundColor: "red",
     borderRadius: 8,
