@@ -1,30 +1,20 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-import { Icon, PossibleIcons, PossibleIconSizes } from "../constants/Icon";
+import { Badge as BI } from "../types/types";
+import { Icon } from "../constants/Icon";
 
 // TODO: add option to display image url else
 // show Item icon as default
-export type Badge = {
-  count?: number;
-  type: PossibleIcons;
-  size?: PossibleIconSizes;
-  showType?: boolean;
-};
-
-export interface Badges {
-  badge1: Badge;
-  badge2?: Badge;
-}
 
 export default function Badge({
   count = 0,
   size = 16,
   showType = true,
   type = "none",
-}: Badge) {
+}: BI) {
   return (
-    <View style={styles.iconCntr}>
+    <View style={styles.img}>
       <View style={styles.icon}>
         <View style={styles.countCntr}>
           <Text style={styles.count}>{count}</Text>
@@ -37,14 +27,6 @@ export default function Badge({
 }
 
 const styles = StyleSheet.create({
-  icon: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  iconCntr: {
-    justifyContent: "space-between",
-    width: 64,
-  },
   count: {
     fontSize: 12,
   },
@@ -58,6 +40,14 @@ const styles = StyleSheet.create({
     position: "relative",
     top: 10,
     width: 20,
+  },
+  icon: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  img: {
+    justifyContent: "space-between",
+    width: 64,
   },
   text: {
     textAlign: "center",
