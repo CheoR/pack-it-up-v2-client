@@ -1,9 +1,10 @@
-import { StyleSheet, View } from "react-native";
 import React from "react";
+import { StyleSheet, View } from "react-native";
 
-import Badge, { Badges } from "../Badge";
+import { ColumnOne as COI } from "../../types/types";
+import Badge from "../Badge";
 
-export default function Column1(badges: Badges) {
+export default function Column1(badges: COI) {
   return (
     <View style={styles.column}>
       <Badge
