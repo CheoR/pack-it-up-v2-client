@@ -46,7 +46,6 @@ export const GET_DROPDOWN_BOXES_FOR_ROW = gql`
   }
 `;
 
-
 export const REMOVE_BOX = gql`
   mutation RemoveBox($input: BoxIdInput!) {
     removeBox(input: $input) {
@@ -54,3 +53,17 @@ export const REMOVE_BOX = gql`
     }
   }
 `;
+
+export const UPDATE_BOX = gql`
+  mutation UpdateBoxx($input: BoxUpdateInput!) {
+    updateBox(input: $input) {
+      _id
+      count
+      description
+      isFragile
+      name
+      move_id
+      value
+    }
+  }
+`

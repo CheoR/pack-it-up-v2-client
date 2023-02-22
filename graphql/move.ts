@@ -25,7 +25,6 @@ export const GET_MOVES = gql`
   }
 `;
 
-
 export const GET_MOVES_DROPDOWN = gql`
   query getMovesDropdown {
     getMovesByUserId {
@@ -42,3 +41,14 @@ export const REMOVE_MOVE = gql`
     }
   }
 `;
+
+
+export const UPDATE_MOVE = gql`
+  mutation UPdateMove($input: MoveUpdateInput!) {
+    updateMove(input: $input) {
+      _id
+      name
+      description
+    }
+  }
+`
