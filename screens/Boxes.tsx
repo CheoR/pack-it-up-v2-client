@@ -6,9 +6,9 @@ import { defaultBoxCreate } from "../constants/Defaults";
 import { CREATE_BOX, GET_BOXES } from "../graphql/box";
 import Loading from "../components/Loading";
 import Row2 from "../components/Row/Row2";
-import { Box } from "../types/types";
+import { Boxes, ColumnOne } from "../types/types";
 
-const column1 = {
+const defaultColumnOne: ColumnOne = {
   badge1: {
     // need as const else get this error
     // Type 'string' is not assignable to type 'PossibleIcons'.
@@ -39,7 +39,10 @@ export default function BoxesScreen() {
       screen="Boxes"
       type="box"
     >
-      {data.getBoxesByUserId.map((box: Box) => {
+      {data.getBoxesByUserId.map((box: Boxes) => {
+        let column1: ColumnOne = {
+          badge1: { ...defaultColumnOne.badge1, count: box.count },
+        };
         return <Row2 key={box._id} column1={column1} />;
       })}
     </ScrollAndCounter>
