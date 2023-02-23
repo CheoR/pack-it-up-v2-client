@@ -1,33 +1,23 @@
 import React from "react";
 import { useMutation, useQuery } from "@apollo/client";
 
+import ScrollAndCounter from "../components/ScrollAndCounter";
+import { defaultBoxCreate } from "../constants/Defaults";
 import { CREATE_BOX, GET_BOXES } from "../graphql/box";
-import { GET_MOVES_DROPDOWN } from "../graphql/move";
-import ScrollData from "../components/ScrollData";
 import Loading from "../components/Loading";
+import Row2 from "../components/Row/Row2";
+import { Box } from "../types/types";
 
-export interface BoxInput {
-  input: {
-    count: number;
-    description: string;
-    name: string;
-    move_id: string;
-  };
-}
+const column1 = {
+  badge1: {
+    // need as const else get this error
+    // Type 'string' is not assignable to type 'PossibleIcons'.
+    type: "item" as const,
+    size: 24 as const,
+  },
+};
 
 export default function BoxesScreen() {
-  const {
-    data: dropdownData,
-    loading: dropdownLoading,
-    error: dropDownError,
-  } = useQuery(GET_MOVES_DROPDOWN, {
-    // onCompleted: (data) => {
-    //   console.log(`movees data`);
-    //   console.log(data);
-    // },
-    onError: (error) => console.log(`Query Dropdown Error: ${error.message}`),
-  });
-
   const { data, loading, error } = useQuery(GET_BOXES, {
     onError: (error) => console.log(`Query Box Error: ${error.message}`),
   });
@@ -39,37 +29,19 @@ export default function BoxesScreen() {
     },
   });
 
-  if (loading || dropdownLoading) return <Loading text="Boxes" />;
+  if (loading) return <Loading text="Boxes" />;
   if (error) console.log(`Box Error: ${error.message}`);
 
   return (
-    <ScrollData
-      data={data.getBoxesByUserId}
-      dropdown={dropdownData.getMovesByUserId}
-      columns={{
-        one: {
-          showType: true,
-        },
-        two: {
-          disableDropdown: true,
-          showDropdown: true,
-          showValues: true,
-        },
-        three: {
-          disableDropdown: false,
-          showIcon: true,
-        },
-      }}
-      createObj={createBox}
-      rest={{
-        // TODO: update to add a default box and/or
-        // allow for unbounded items
-        move_id: "63d2f72669850c57c9184e3c",
-        description: "",
-        name: "Box",
-      }}
-      screen="Items"
+    <ScrollAndCounter
+      mutation={createBox}
+      rest={defaultBoxCreate}
+      screen="Boxes"
       type="box"
-    />
+    >
+      {data.getBoxesByUserId.map((box: Box) => {
+        return <Row2 key={box._id} column1={column1} />;
+      })}
+    </ScrollAndCounter>
   );
 }

@@ -1,23 +1,25 @@
 import React from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useMutation, useQuery } from "@apollo/client";
 
+import { Move } from "../types/types";
+import ScrollAndCounter from "../components/ScrollAndCounter";
+import { defaultMoveCreate } from "../constants/Defaults";
 import { CREATE_MOVE, GET_MOVES } from "../graphql/move";
-import LoggedInLayout from "../layout/LoggedInLayout";
-import ColumnThree from "../components/ColumnThree";
-import ColumnTwo from "../components/ColumnTwo";
-import ColumnOne from "../components/ColumnOne";
-import ListItem from "../components/ListItem";
-import Counter from "../components/Counter";
 import Loading from "../components/Loading";
+import Row2 from "../components/Row/Row2";
 
-export interface Move {
-  input: {
-    count: number;
-    name: string;
-    description: string;
-  };
-}
+const column1 = {
+  badge1: {
+    // need as const else get this error
+    // Type 'string' is not assignable to type 'PossibleIcons'.
+    type: "box" as const,
+    size: 24 as const,
+  },
+  badge2: {
+    type: "item" as const,
+    size: 24 as const,
+  },
+};
 
 export default function MovesScreen() {
   const { data, loading, error } = useQuery(GET_MOVES, {
@@ -37,63 +39,15 @@ export default function MovesScreen() {
   if (error) console.log(`Move Error: ${error.message}`);
 
   return (
-    <LoggedInLayout>
-      <View style={styles.screen}>
-        <View>
-          <Text>Moves: {data.getMovesByUserId.length}</Text>
-        </View>
-        <View style={styles.scrollViewCntr}>
-          <ScrollView>
-            {data.getMovesByUserId.map((move) => (
-              <ListItem key={move._id}>
-                <ColumnOne
-                  badge1={{
-                    count: move.count,
-                    type: "box",
-                    showType: true,
-                  }}
-                />
-                <ColumnTwo
-                  description={move.descripion}
-                  isFragile={move.isFragile}
-                  name={move.name}
-                  showValues={true}
-                  value={move.value}
-                />
-                <ColumnThree
-                  dropdown={[]}
-                  iconType="chevron"
-                  listView=""
-                  obj={move}
-                  objKey={move._id}
-                  showIcon={true}
-                />
-              </ListItem>
-            ))}
-          </ScrollView>
-        </View>
-        <Counter
-          mutation={createMove}
-          type="Move"
-          rest={{
-            name: "Move",
-            description: "",
-          }}
-        />
-      </View>
-    </LoggedInLayout>
+    <ScrollAndCounter
+      mutation={createMove}
+      rest={defaultMoveCreate}
+      screen="Moves"
+      type="move"
+    >
+      {data.getMovesByUserId.map((move: Move) => {
+        return <Row2 key={move._id} column1={column1} />;
+      })}
+    </ScrollAndCounter>
   );
 }
-
-const styles = StyleSheet.create({
-  screen: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "space-between",
-    width: "100%",
-  },
-  scrollViewCntr: {
-    flex: 1,
-    width: "100%",
-  },
-});
