@@ -1,45 +1,21 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
+import { Row as RTI } from "../types/types";
 import COLORS from "../constants/Colors";
+import Column1 from "./Row/Column1";
+import Column2 from "./Row/Column2";
+import Column3 from "./Row/Column3";
 
-import ColumnThree from "./ColumnThree";
-import ColumnTwo from "./ColumnTwo";
-import ColumnOne from "./ColumnOne";
-
-export default function Row({ obj, rest, type }) {
+// TODO: either use 3rd components
+// or this package to get the drop shadows
+// https://github.com/SrBrahma/react-native-shadow-2
+export default function Row({ column1, column2, column3 }: RTI) {
   return (
     <View style={styles.row}>
-      <ColumnOne badge1={{ type: type, showType: rest.showType }} />
-      <ColumnTwo
-        description={obj.description}
-        isFragile={obj.isFragile}
-        name={obj.name}
-        value={obj.value}
-        defaultDropdownValue={rest.defaultDropdownValue}
-        disableDropdown={rest.disableDropdown}
-        showDropdown={rest.showDropdown}
-        showValues={rest.showValues}
-      />
-      <ColumnThree
-        disableDropdown={false}
-        iconType="chevron"
-        listView={type}
-        obj={obj}
-        objKey={obj._id}
-        showIcon={true}
-        type={type}
-        dropdown={rest.dropdown}
-        rest={{
-          defaultDropdownValue: rest.defaultDropdownValue,
-          disableDropdown: true,
-          showDropdown: true,
-          showType: false,
-          showValues: true,
-          updateObj: rest.updateObj,
-          showIcon: false,
-        }}
-      />
+      <Column1 {...column1} />
+      <Column2 {...column2} />
+      <Column3 {...column3} />
     </View>
   );
 }

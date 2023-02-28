@@ -1,21 +1,15 @@
 import React from "react";
 import { Alert, Modal, View, StyleSheet } from "react-native";
 
+import { ActionsModal as AMI } from "../../types/types";
 import ModalOption from "./ModalOption";
-
-interface ActionsModal<Obj, M> {
-  deleteObj: () => void;
-  modalVisible: M;
-  obj: Obj;
-  setModalVisible: any;
-}
 
 export default function ActionsModal({
   deleteObj,
   modalVisible,
   obj,
   setModalVisible,
-}: ActionsModal<typeof obj, typeof modalVisible>) {
+}: AMI) {
   return (
     <Modal
       transparent={true}

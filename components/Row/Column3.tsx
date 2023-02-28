@@ -1,21 +1,11 @@
 import React, { useState } from "react";
-
 import { Pressable, StyleSheet, View } from "react-native";
-import { Icon, NavIcons } from "../../constants/Icon";
+
+import { ColumnThree as CTI } from "../../types/types";
+import { Icon } from "../../constants/Icon";
 import COLORS from "../../constants/Colors";
 import ActionsModal from "./ActionsModal";
 import EditModal from "./EditModal";
-
-export interface ColumnThree<T> {
-  columns: object;
-  disableDropdown?: boolean;
-  deleteObj: () => void;
-  dropdown: object[];
-  iconType?: NavIcons;
-  obj?: T;
-  showIcon?: boolean;
-  updateObj: () => void;
-}
 
 export default function Column3({
   iconType = "dots",
@@ -24,14 +14,11 @@ export default function Column3({
   obj,
   showIcon = true,
   updateObj,
-}: ColumnThree<typeof obj>) {
+}: CTI) {
   const [modalVisible, setModalVisible] = useState({
     actionsModal: false,
     editModal: false,
   });
-  // const [formData, setFormData] = useState({
-  //   ...obj,
-  // });
 
   return (
     <View style={styles.column}>
@@ -42,7 +29,6 @@ export default function Column3({
         setModalVisible={setModalVisible}
       />
       <EditModal
-        columns={columns}
         modalVisible={modalVisible}
         obj={obj}
         setModalVisible={setModalVisible}

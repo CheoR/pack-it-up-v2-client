@@ -1,17 +1,8 @@
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-import { Icon, PossibleIcons, PossibleIconSizes } from "../../constants/Icon";
-
-interface Option {
-  iconSize?: PossibleIconSizes;
-  iconType?: PossibleIcons;
-  optionalFunc?: ({}) => void;
-  optionalFuncExtras?: Object;
-  setState: ({}) => void;
-  setStateExtras: Object;
-  text: string;
-}
+import { Option as OI } from "../../types/types";
+import { Icon } from "../../constants/Icon";
 
 export default function ModalOption({
   iconSize = 24,
@@ -21,7 +12,7 @@ export default function ModalOption({
   setState,
   text,
   setStateExtras,
-}: Option) {
+}: OI) {
   return (
     <View style={styles.modalView}>
       <Icon size={iconSize} type={iconType} />

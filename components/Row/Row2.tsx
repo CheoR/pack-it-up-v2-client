@@ -1,13 +1,16 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
+import { Row2 as RTI } from "../../types/types";
 import COLORS from "../../constants/Colors";
 import Column1 from "./Column1";
 import Column2 from "./Column2";
 import Column3 from "./Column3";
 
-//  Its purpose is to manage business logic and styling.
-export default function Row2({ column1, column2, column3 }) {
+// TODO: either use 3rd components
+// or this package to get the drop shadows
+// https://github.com/SrBrahma/react-native-shadow-2
+export default function Row2({ column1, column2, column3 }: RTI) {
   return (
     <View style={styles.row}>
       <Column1 {...column1} />

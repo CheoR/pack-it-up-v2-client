@@ -1,23 +1,13 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-import Column3, { ColumnThree } from "./Column3";
-import Column2, { ColumnTwo } from "./Column2";
 import COLORS from "../../constants/Colors";
-import { Badges } from "../Badge";
+import { Row } from "../../types/types";
+import Column3 from "./Column3";
+import Column2 from "./Column2";
 import Column1 from "./Column1";
 
-interface Row3<T> {
-  column1: Badges;
-  column2: ColumnTwo;
-  column3: ColumnThree<T>;
-}
-
-export default function Row3({
-  column1,
-  column2,
-  column3,
-}: Row3<typeof column3.obj>) {
+export default function Row3({ column1, column2, column3 }: Row) {
   return (
     <View style={styles.row}>
       <Column1 {...column1} />
