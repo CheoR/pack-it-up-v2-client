@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Alert, Modal, StyleSheet, View } from "react-native";
 
-import { EditModal as EMI } from "../../types/types";
+import { EditModal as EMI } from "../types/types";
 import ModalOption from "./ModalOption";
-import Row from "../Row";
+import Row from "./Row";
 
 export default function EditModal({
   columns,

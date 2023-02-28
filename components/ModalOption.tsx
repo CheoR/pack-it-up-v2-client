@@ -1,8 +1,8 @@
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-import { Option as OI } from "../../types/types";
-import { Icon } from "../../constants/Icon";
+import { Option as OI } from "../types/types";
+import { Icon } from "../constants/Icon";
 
 export default function ModalOption({
   iconSize = 24,

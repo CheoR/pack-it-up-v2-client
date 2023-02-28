@@ -4,8 +4,8 @@ import { Pressable, StyleSheet, View } from "react-native";
 import { ColumnThree as CTI } from "../../types/types";
 import { Icon } from "../../constants/Icon";
 import COLORS from "../../constants/Colors";
-import ActionsModal from "./ActionsModal";
-import EditModal from "./EditModal";
+import ActionsModal from "../ActionsModal";
+import EditModal from "../EditModal";
 
 export default function Column3({
   iconType = "dots",
