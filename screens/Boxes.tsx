@@ -4,9 +4,9 @@ import { useMutation, useQuery } from "@apollo/client";
 import ScrollAndCounter from "../components/ScrollAndCounter";
 import { defaultBoxCreate } from "../constants/Defaults";
 import { CREATE_BOX, GET_BOXES } from "../graphql/box";
-import Loading from "../components/Loading";
-import Row2 from "../components/Row/Row2";
 import { Boxes, ColumnOne } from "../types/types";
+import Loading from "../components/Loading";
+import Row from "../components/Row";
 
 const defaultColumnOne: ColumnOne = {
   badge1: {
@@ -43,7 +43,7 @@ export default function BoxesScreen() {
         let column1: ColumnOne = {
           badge1: { ...defaultColumnOne.badge1, count: box.count },
         };
-        return <Row2 key={box._id} column1={column1} />;
+        return <Row key={box._id} column1={column1} />;
       })}
     </ScrollAndCounter>
   );
