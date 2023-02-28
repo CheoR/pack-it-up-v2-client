@@ -1,8 +1,8 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 
-import { ColumnOne as COI } from "../../types/types";
-import Badge from "../Badge";
+import { ColumnOne as COI } from "../types/types";
+import Badge from "./Badge";
 
 export default function Column1(badges: COI) {
   return (

@@ -3,7 +3,7 @@ import { StyleSheet, View } from "react-native";
 
 import { Row as RTI } from "../types/types";
 import COLORS from "../constants/Colors";
-import Column1 from "./Row/Column1";
+import Column1 from "./Column1";
 import Column2 from "./Row/Column2";
 import Column3 from "./Row/Column3";
 

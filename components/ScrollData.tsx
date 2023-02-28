@@ -4,10 +4,10 @@ import { ScrollView, StyleSheet, Text, View } from "react-native";
 import LoggedInLayout from "../layout/LoggedInLayout";
 // import { PossibleIcons } from "../constants/Icon";
 import ColumnThree from "./ColumnThree";
-import ColumnOne from "./ColumnOne";
 import ColumnTwo from "./ColumnTwo";
 import ListItem from "./ListItem";
 import Counter from "./Counter";
+import Column1 from "./Column1";
 // import Row from "./Row";
 
 // interface ScreenData<
@@ -124,7 +124,7 @@ export default function ScrollData({
                 //     }}
                 //   />
                 <ListItem key={obj._id}>
-                  <ColumnOne
+                  <Column1
                     badge1={{
                       count: obj.count,
                       type: type,

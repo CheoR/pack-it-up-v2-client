@@ -6,9 +6,9 @@ import Checkbox from "expo-checkbox";
 import LoggedInLayout from "../layout/LoggedInLayout";
 import ColumnThree from "../components/ColumnThree";
 import ColumnTwo from "../components/ColumnTwo";
-import ColumnOne from "../components/ColumnOne";
 import ListItem from "../components/ListItem";
 import Loading from "../components/Loading";
+import Column1 from "../components/Column1";
 import COLORS from "../constants/Colors";
 
 const GET_HOME_DATA = gql`
@@ -49,7 +49,7 @@ export default function HomeScreen() {
             contentContainerStyle={styles.list}
             renderItem={({ item }) => (
               <ListItem key={item._id}>
-                <ColumnOne
+                <Column1
                   badge1={{
                     count: item.count,
                     type: item._id,
