@@ -3,7 +3,7 @@ import { Alert, Modal, StyleSheet, View } from "react-native";
 
 import { EditModal as EMI } from "../../types/types";
 import ModalOption from "./ModalOption";
-import Row3 from "./Row3";
+import Row from "../Row";
 
 export default function EditModal({
   columns,
@@ -28,7 +28,7 @@ export default function EditModal({
     >
       <View style={styles.centerModal}>
         <View style={styles.centeredView}>
-          <Row3
+          <Row
             column1={{
               badge1: {
                 type: columns?.column1.badge1.type || "none",
