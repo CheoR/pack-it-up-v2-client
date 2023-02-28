@@ -10,7 +10,6 @@ import { Icon, NavIcons } from "../constants/Icon";
 
 import COLORS from "../constants/Colors";
 import ROUTES from "../constants/Routes";
-import Row from "./Row";
 
 interface ColumnThree<T> {
   disableDropdown?: boolean;
@@ -137,7 +136,7 @@ export default function ColumnThree({
       >
         <View style={styles.centerModal}>
           <View style={styles.centeredView2}>
-            <Row obj={obj} rest={rest} type={type} />
+            {/* <Row obj={obj} rest={rest} type={type} /> */}
             {/* <ListItem key={obj._id}>
               <ColumnOne
                 badge1={{
