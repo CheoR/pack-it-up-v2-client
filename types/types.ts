@@ -1,5 +1,6 @@
 interface Base {
   _id: string;
+  __typename?: string;
   description? : string;
   name: string;
 }
@@ -8,6 +9,11 @@ export interface Box extends Base {
   move_id: string;
 }
 
+export interface Boxes extends Box {
+  count?: number
+  isFragile?: boolean;
+  value?: number;
+}
 export interface Item extends Base {
   box_id: string;
   isFragile: boolean;
@@ -26,16 +32,30 @@ export interface ItemInput {
 
 export interface BoxInput {
   input: {
-
+    count?: number;
   } & Box
 }
 
 export interface MoveInput {
   input: {
-
+    count?: number;
   } & Move
 }
 
+
+export interface ActionsModal {
+  deleteObj: () => void;
+  modalVisible: {
+    actionsModal: boolean;
+    editModal: boolean;
+  };
+  obj: PossibleTypeObj;
+  setModalVisible: React.Dispatch<
+    React.SetStateAction<{
+      actionsModal: boolean;
+      editModal: boolean;
+    }>>
+}
 
 export interface Badges {
   badge1: Badge;
@@ -48,9 +68,31 @@ export interface Counter {
   rest: PossibleTypeCreate;
 }
 
+export interface EditableFields {
+  item: {
+
+  } & isEditabe
+  box: {
+
+  } & isEditabe
+  
+  default: {
+
+  } & isEditabe
+  
+  move: {
+  }  & isEditabe
+}
 export interface Icons {
   type: PossibleIcons;
   size: PossibleIconSizes;
+}
+
+
+export interface isEditabe {
+  showDropdown: boolean
+  disableDropdown: boolean
+  showValues: boolean
 }
 
 export interface ColumnOne {
@@ -60,25 +102,49 @@ export interface ColumnOne {
 
 export interface ColumnTwo extends Item {
   canEdit?: boolean;
-  defaultDropdownValue?: string;
-  deleteObj: () => void;
-  disableDropdown?: boolean;
   dropdown?: object[];
-  showDropdown?: boolean;
-  showValues?: boolean;
-  type: string;
-  updateObj: ({}) => void;
+  obj: PossibleTypeObj;
+  value: number;
 }
 
 export interface ColumnThree {
-  columns: object;
-  disableDropdown?: boolean;
-  deleteObj: () => void;
-  dropdown?: object[]; // TODO: Create type with Pick to only include { _id: , name } 
+  columns?: object;
+  deleteObj?: () => void;
   iconType?: NavIcons;
   obj?: PossibleTypeObj;
   showIcon?: boolean;
-  updateObj: ({}) => void;
+  updateObj?: () => void;
+}
+
+
+export interface EditModal {
+  columns?: {
+    column1: ColumnOne,
+    column2: ColumnTwo,
+  };
+  modalVisible: {
+    actionsModal: boolean;
+    editModal: boolean;
+  };
+  obj?: PossibleTypeObj;
+  setModalVisible: React.Dispatch<
+    React.SetStateAction<{
+      actionsModal: boolean;
+      editModal: boolean;
+    }>
+  >;
+  updateObj?: () => void;
+}
+
+
+export interface Option {
+  iconSize?: PossibleIconSizes;
+  iconType?: PossibleIcons;
+  optionalFunc?: ({}) => void;
+  optionalFuncExtras?: Object;
+  setState: ({}) => void;
+  setStateExtras: Object;
+  text: string;
 }
 
 export interface Row {
@@ -86,6 +152,7 @@ export interface Row {
   column2: ColumnTwo
   column3: ColumnThree
 }
+
 export interface ScrollAndCounter {
   children: JSX.Element[];
   mutation: () => Promise<any>;
@@ -96,9 +163,10 @@ export interface ScrollAndCounter {
 
 export type Badge = {
   count?: number;
-  type: PossibleIcons;
   size?: PossibleIconSizes;
+  showCount?: boolean;
   showType?: boolean;
+  type: PossibleIcons;
 };
 
 export type CreateItem = Omit<ItemInput["input"], "_id">
