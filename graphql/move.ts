@@ -4,9 +4,12 @@ export const CREATE_MOVE = gql`
   mutation CreateMove($input: CreateMoveInput!) {
     createMove(input: $input) {
       _id
-      name
+      boxItems
+      count
       description
+      name
       user_id
+      value
     }
   }
 `;
@@ -15,12 +18,12 @@ export const GET_MOVES = gql`
   query GetMoves {
     getMovesByUserId {
       _id
+      boxItemsCount
       count
       description
       isFragile
       name
       value
-      user_id
     }
   }
 `;
