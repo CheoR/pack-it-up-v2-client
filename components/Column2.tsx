@@ -4,24 +4,31 @@ import DropDownPicker from "react-native-dropdown-picker";
 import { useMutation, useQuery } from "@apollo/client";
 import Checkbox from "expo-checkbox";
 
-import { GET_MOVES, GET_MOVES_DROPDOWN, UPDATE_MOVE } from "../../graphql/move";
-import { GET_BOXES, GET_BOXES_DROPDOWN, UPDATE_BOX } from "../../graphql/box";
-import { GET_ITEMS, UPDATE_ITEM } from "../../graphql/item";
-import COLORS from "../../constants/Colors";
+import { GET_MOVES, GET_MOVES_DROPDOWN, UPDATE_MOVE } from "../graphql/move";
+import { GET_BOXES, GET_BOXES_DROPDOWN, UPDATE_BOX } from "../graphql/box";
+import { GET_ITEMS, UPDATE_ITEM } from "../graphql/item";
+import COLORS from "../constants/Colors";
 import {
   Box,
   ColumnTwo as CTI,
   EditableFields,
+  isEditabe,
   Item,
   Move,
   PossibleTypeObj,
-} from "../../types/types";
+} from "../types/types";
 
 function isBox(obj: Box | Item | Move): obj is Box {
   return (obj as Box).move_id !== undefined;
 }
 
-function isItem(obj: Item | Item | Move): obj is Item {
+function isHome(obj: Box | Item | Move): obj is Item {
+  console.log(obj);
+  console.log(`obj has .box_id === none: ${(obj as Item).box_id === "none"}`);
+  return (obj as Item).box_id === "none";
+}
+
+function isItem(obj: Box | Item | Move): obj is Item {
   return (obj as Item).box_id !== undefined;
 }
 
@@ -58,6 +65,11 @@ const editableFields: EditableFields = {
     showDropdown: true,
     showValues: true,
   },
+  home: {
+    disableDropdown: true,
+    showDropdown: false,
+    showValues: false,
+  },
   item: {
     disableDropdown: true,
     showDropdown: true,
@@ -81,6 +93,11 @@ const nonEditableFields: EditableFields = {
     showDropdown: true,
     showValues: true,
   },
+  home: {
+    disableDropdown: true,
+    showDropdown: false,
+    showValues: false,
+  },
   item: {
     disableDropdown: true,
     showDropdown: true,
@@ -93,13 +110,10 @@ const nonEditableFields: EditableFields = {
   },
 };
 
-export default function Column2({
-  canEdit = false,
-  isFragile = false,
-  obj,
-  value = 0,
-}: CTI) {
-  const [isChecked, setIsChecked] = useState(isFragile);
+export default function Column2(column2: PossibleTypeObj & isEditabe) {
+  console.log(`column2 obj`);
+  console.log(column2);
+  const [isChecked, setIsChecked] = useState(column2.isFragile);
   const [dropdownData, setDropdownData] = useState<PossibleTypeObj[]>([]);
   const [selected, setSelected] = useState("");
   const [open, setOpen] = useState(false);
@@ -110,15 +124,19 @@ export default function Column2({
   let type: string = "default";
   let isEditable = editableFields[type as keyof EditableFields];
 
-  if (isItem(obj)) {
+  if (isItem(column2)) {
     type = "item";
-    defaultDropdownValue = obj.box_id;
+    defaultDropdownValue = column2.box_id;
     MUTATION = UPDATE_ITEM;
     QUERY = GET_BOXES_DROPDOWN;
-  } else if (isBox(obj)) {
+  } else if (isBox(column2)) {
     type = "box";
-    defaultDropdownValue = obj.move_id;
+    defaultDropdownValue = column2.move_id;
     MUTATION = UPDATE_BOX;
+    QUERY = GET_MOVES_DROPDOWN;
+  } else if (isHome(column2)) {
+    type = "home";
+    MUTATION = UPDATE_MOVE;
     QUERY = GET_MOVES_DROPDOWN;
   } else {
     type = "move";
@@ -126,72 +144,76 @@ export default function Column2({
     QUERY = GET_MOVES_DROPDOWN;
   }
 
+  console.log(`type: ${type}`);
   // TODO: FLIP FLAGS TO MAKE MORE READABLE
-  if (!canEdit) {
+  if (!column2.canEdit) {
     isEditable = editableFields[type as keyof EditableFields];
   }
 
-  useQuery(QUERY, {
-    onCompleted: (data) => {
-      // defaultValue was removed in 5.x series.
-      // https://github.com/hossein-zare/react-native-dropdown-picker/issues/550#issuecomment-1122804565
-      let obj: PossibleTypeObj;
-      let dropdownData: PossibleTypeObj[] = [];
-      if (type === "item") {
-        dropdownData = data.getBoxesByUserId as Item[];
-        obj = data.getBoxesByUserId.find(
-          (obj: Box) => obj?._id === defaultDropdownValue
-        );
-        setDropdownData(dropdownData);
-        setSelected(obj?.name);
-      }
-      if (type === "box") {
-        dropdownData = data.getMovesByUserId as Move[];
-        obj = data.getMovesByUserId.find(
-          (obj: Move) => obj?._id === defaultDropdownValue
-        );
-        setDropdownData(dropdownData);
-        setSelected(obj?.name);
-      }
-    },
-    onError: (error) => console.log(`Query Dropdown Error: ${error.message}`),
-  });
+  // useQuery(QUERY, {
+  //   onCompleted: (data) => {
+  //     // defaultValue was removed in 5.x series.
+  //     // https://github.com/hossein-zare/react-native-dropdown-picker/issues/550#issuecomment-1122804565
+  //     let obj: PossibleTypeObj;
+  //     let dropdownData: PossibleTypeObj[] = [];
+  //     if (type === "item") {
+  //       dropdownData = data.getBoxesByUserId as Item[];
+  //       obj = data.getBoxesByUserId.find(
+  //         (obj: Box) => obj?._id === defaultDropdownValue
+  //       );
+  //       setDropdownData(dropdownData);
+  //       setSelected(obj?.name);
+  //     }
+  //     if (type === "box") {
+  //       dropdownData = data.getMovesByUserId as Move[];
+  //       obj = data.getMovesByUserId.find(
+  //         (obj: Move) => obj?._id === defaultDropdownValue
+  //       );
+  //       setDropdownData(dropdownData);
+  //       setSelected(obj?.name);
+  //     }
+  //   },
+  //   onError: (error) => console.log(`Query Dropdown Error: ${error.message}`),
+  // });
 
-  const [updateObj] = useMutation(MUTATION, {
-    refetchQueries: [
-      {
-        query: GET_ITEMS,
-      },
-      {
-        query: GET_BOXES,
-      },
-      {
-        query: GET_MOVES,
-      },
-      "GetHomeData",
-    ],
-    onError: (error) => {
-      console.log(`Create Item Error: ${error.message}`);
-    },
-  });
+  // const [updateObj] = useMutation(MUTATION, {
+  //   refetchQueries: [
+  //     {
+  //       query: GET_ITEMS,
+  //     },
+  //     {
+  //       query: GET_BOXES,
+  //     },
+  //     {
+  //       query: GET_MOVES,
+  //     },
+  //     "GetHomeData",
+  //   ],
+  //   onError: (error) => {
+  //     console.log(`Create Item Error: ${error.message}`);
+  //   },
+  // });
   return (
     <View style={styles.column}>
-      <View style={styles.text} pointerEvents={!canEdit ? "none" : "auto"}>
+      <View
+        style={styles.text}
+        pointerEvents={!column2.canEdit ? "none" : "auto"}
+      >
         <TextInput
           style={styles.name}
-          placeholder={obj.name.slice(0, 20) || "Header"}
-          onChangeText={(text) => {
-            updateObj((prevState) => {
-              return {
-                ...prevState,
-                name: text,
-              };
-            });
-          }}
+          placeholder={column2.name.slice(0, 20) || "Header"}
+          // onChangeText={(text) => {
+          //   updateObj((prevState) => {
+          //     return {
+          //       ...prevState,
+          //       name: text,
+          //     };
+          //   });
+          // }}
         />
-        {isEditable.showDropdown && dropdownData?.length ? (
+        {column2.showDropdown && dropdownData?.length ? (
           <DropDownPicker
-            disabled={!isEditable.disableDropdown}
+            disabled={!column2.disableDropdown}
             items={dropdownData}
             itemKey="_id"
             listMode="SCROLLVIEW"
@@ -204,7 +226,7 @@ export default function Column2({
             setItems={setDropdownData}
             style={{
               minHeight: 4,
-              backgroundColor: isEditable.disableDropdown
+              backgroundColor: column2.disableDropdown
                 ? "lightgray"
                 : COLORS.light.background,
             }}
@@ -212,12 +234,12 @@ export default function Column2({
             value={selected}
             onSelectItem={(item) => {
               console.log("selected", item);
-              updateObj((prevState) => {
-                return {
-                  ...prevState,
-                  ...item,
-                };
-              });
+              // updateObj((prevState) => {
+              //   return {
+              //     ...prevState,
+              //     ...item,
+              //   };
+              // });
             }}
           />
         ) : (
@@ -225,58 +247,62 @@ export default function Column2({
         )}
         <TextInput
           style={styles.description}
+          multiline={true}
           placeholder={
-            obj.description?.slice(0, 55) ||
-            `${obj.name} description`.slice(0, 55)
+            column2.description?.slice(0, 100) ||
+            `${column2.name} description`.slice(0, 100)
           }
-          onChangeText={(text) => {
-            updateObj((prevState) => {
-              return {
-                ...prevState,
-                description: text,
-              };
-            });
-          }}
+          // onChangeText={(text) => {
+          //   updateObj((prevState) => {
+          //     return {
+          //       ...prevState,
+          //       description: text,
+          //     };
+          //   });
+          // }}
         />
       </View>
-      {isEditable.showValues && (
-        <View style={styles.values} pointerEvents={!canEdit ? "none" : "auto"}>
+      {column2.showValues && (
+        <View
+          style={styles.values}
+          pointerEvents={!column2.canEdit ? "none" : "auto"}
+        >
           {/* TODO: swap out checkbox and remove from packages */}
           <View style={styles.checkboxContainer}>
             <Checkbox
               style={styles.checkbox}
               value={isChecked}
-              onValueChange={() => {
-                setIsChecked((prevState) => {
-                  updateObj((prevState) => {
-                    console.log(
-                      `prevState: ${prevState} new state: ${!prevState}`
-                    );
-                    return {
-                      ...prevState,
-                      isFragile: !prevState,
-                    };
-                  });
+              // onValueChange={() => {
+              //   setIsChecked((prevState) => {
+              //     updateObj((prevState) => {
+              //       console.log(
+              //         `prevState: ${prevState} new state: ${!prevState}`
+              //       );
+              //       return {
+              //         ...prevState,
+              //         isFragile: !prevState,
+              //       };
+              //     });
 
-                  return !prevState;
-                });
-              }}
-              disabled={!canEdit} // true => isDisabled = false
+              //     return !prevState;
+              //   });
+              // }}
+              disabled={!column2.canEdit} // true => isDisabled = false
               color={isChecked ? COLORS.light.action : undefined}
             />
             <Text style={styles.label}>Fragile</Text>
           </View>
           <TextInput
             style={styles.value}
-            placeholder={`$${parseFloat(value?.toFixed(2)) || 0.0}`}
-            onChangeText={(text) => {
-              updateObj((prevState) => {
-                return {
-                  ...prevState,
-                  value: Number(text),
-                };
-              });
-            }}
+            placeholder={`$${parseFloat(column2.value?.toFixed(2)) || 0.0}`}
+            // onChangeText={(text) => {
+            //   updateObj((prevState) => {
+            //     return {
+            //       ...prevState,
+            //       value: Number(text),
+            //     };
+            //   });
+            // }}
             keyboardType="numeric"
           />
         </View>
