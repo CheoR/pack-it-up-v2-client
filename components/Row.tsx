@@ -3,9 +3,9 @@ import { StyleSheet, View } from "react-native";
 
 import { Row as RTI } from "../types/types";
 import COLORS from "../constants/Colors";
+import Column2 from "./Column2";
 import Column1 from "./Column1";
-import Column2 from "./Row/Column2";
-import Column3 from "./Row/Column3";
+import Column3 from "./Column3";
 
 // TODO: either use 3rd components
 // or this package to get the drop shadows
