@@ -4,7 +4,7 @@ export const CREATE_MOVE = gql`
   mutation CreateMove($input: CreateMoveInput!) {
     createMove(input: $input) {
       _id
-      boxItems
+      boxItemsCount
       count
       description
       name
@@ -45,7 +45,6 @@ export const REMOVE_MOVE = gql`
   }
 `;
 
-
 export const UPDATE_MOVE = gql`
   mutation UPdateMove($input: MoveUpdateInput!) {
     updateMove(input: $input) {
@@ -54,4 +53,4 @@ export const UPDATE_MOVE = gql`
       description
     }
   }
-`
+`;
