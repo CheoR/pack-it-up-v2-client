@@ -1,8 +1,8 @@
 interface Base {
   _id: string;
   __typename?: string;
-  count?: number
-  description? : string;
+  count?: number;
+  description?: string;
   isFragile?: boolean;
   name: string;
   value?: number;
@@ -12,40 +12,32 @@ export interface Box extends Base {
   move_id: string;
 }
 
-export interface Boxes extends Box {
-
-}
+export interface Boxes extends Box {}
 export interface Item extends Base {
   box_id: string;
 }
 
-export interface Home extends Base {
+export interface Home extends Base {}
 
-}
-
-export interface Move extends Base {
-
-}
-
+export interface Move extends Base {}
 
 export interface ItemInput {
   input: {
     count?: number;
-  } & Item
+  } & Item;
 }
 
 export interface BoxInput {
   input: {
     count?: number;
-  } & Box
+  } & Box;
 }
 
 export interface MoveInput {
   input: {
     count?: number;
-  } & Move
+  } & Move;
 }
-
 
 export interface ActionsModal {
   deleteObj: () => void;
@@ -58,7 +50,8 @@ export interface ActionsModal {
     React.SetStateAction<{
       actionsModal: boolean;
       editModal: boolean;
-    }>>
+    }>
+  >;
 }
 
 export interface Badges {
@@ -70,7 +63,6 @@ export interface ColumnOne {
   badge1: Badge;
   badge2?: Badge;
 }
-
 
 export interface ColumnTwo extends Item, Box, Move, Home {
   obj: PossibleTypeObj & isEditabe;
@@ -93,42 +85,32 @@ export interface Counter {
 }
 
 export interface EditableFields {
-  box: {
-    
-  } & isEditabe
-  
-  default: {
-    
-  } & isEditabe
+  box: {} & isEditabe;
 
-  home: {
+  default: {} & isEditabe;
 
-  } & isEditabe
-  
-  item: {
+  home: {} & isEditabe;
 
-  } & isEditabe
-  
-  move: {
-  }  & isEditabe
+  item: {} & isEditabe;
+
+  move: {} & isEditabe;
 }
 export interface Icons {
   type: PossibleIcons;
   size: PossibleIconSizes;
 }
 
-
 export interface isEditabe {
-  canEdit: boolean
-  disableDropdown: boolean
-  showDropdown: boolean
-  showValues: boolean
+  canEdit: boolean;
+  disableDropdown: boolean;
+  showDropdown: boolean;
+  showValues: boolean;
 }
 
 export interface EditModal {
   columns?: {
-    column1: ColumnOne,
-    column2: ColumnTwo,
+    column1: ColumnOne;
+    column2: ColumnTwo;
   };
   modalVisible: {
     actionsModal: boolean;
@@ -144,7 +126,6 @@ export interface EditModal {
   updateObj?: () => void;
 }
 
-
 export interface Option {
   iconSize?: PossibleIconSizes;
   iconType?: PossibleIcons;
@@ -156,9 +137,9 @@ export interface Option {
 }
 
 export interface Row {
-  column1: Badges
-  column2?: PossibleTypeObj & isEditabe
-  column3?: ColumnThree
+  column1: Badges;
+  column2?: PossibleTypeObj & isEditabe;
+  column3?: ColumnThree;
 }
 
 export interface ScrollAndCounter {
@@ -177,9 +158,9 @@ export type Badge = {
   type: PossibleIcons;
 };
 
-export type CreateItem = Omit<ItemInput["input"], "_id">
-export type CreateBox = Omit<BoxInput["input"], "_id">
-export type CreateMove = Omit<MoveInput["input"], "_id">
+export type CreateItem = Omit<ItemInput["input"], "_id">;
+export type CreateBox = Omit<BoxInput["input"], "_id">;
+export type CreateMove = Omit<MoveInput["input"], "_id">;
 
 export type Dictionary = {
   [key in PossibleIcons]: string;
@@ -199,10 +180,10 @@ export type PossibleIcons =
   | "none"
   | "plusSign";
 export type PossibleIconSizes = Sixteen | TwentyFour | TwoOhEight;
-export type PossibleTypeCreate = Partial<CreateItem & CreateBox & CreateMove>
-export type PossibleTypeObj = Item | Box | Move | Home
-export type PossibleTypeName = "item" | "box" | "move"
-export type PossibleScreens = "Items" | "Boxes" | "Moves" | "Home"
+export type PossibleTypeCreate = Partial<CreateItem & CreateBox & CreateMove>;
+export type PossibleTypeObj = Item | Box | Move | Home;
+export type PossibleTypeName = "item" | "box" | "move";
+export type PossibleScreens = "Items" | "Boxes" | "Moves" | "Home";
 
 export type TwentyFour = 24;
 export type TwoOhEight = 208;
