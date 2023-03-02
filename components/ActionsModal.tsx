@@ -1,7 +1,7 @@
 import React from "react";
 import { Alert, Modal, View, StyleSheet } from "react-native";
 
-import { ActionsModal as AMI } from "../../types/types";
+import { ActionsModal as AMI } from "../types/types";
 import ModalOption from "./ModalOption";
 
 export default function ActionsModal({

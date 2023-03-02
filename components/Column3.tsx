@@ -1,28 +1,28 @@
 import React, { useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 
-import { ColumnThree as CTI } from "../../types/types";
-import { Icon } from "../../constants/Icon";
-import COLORS from "../../constants/Colors";
-import ActionsModal from "../ActionsModal";
-import EditModal from "../EditModal";
+import { ColumnThree as CTI } from "../types/types";
+import { Icon } from "../constants/Icon";
+import COLORS from "../constants/Colors";
+// import ActionsModal from "./ActionsModal";
+// import EditModal from "./EditModal";
 
 export default function Column3({
   iconType = "dots",
-  columns,
-  deleteObj,
-  obj,
+  // columns,
+  // deleteObj,
+  // obj,
   showIcon = true,
-  updateObj,
-}: CTI) {
-  const [modalVisible, setModalVisible] = useState({
-    actionsModal: false,
-    editModal: false,
-  });
+}: // updateObj,
+CTI) {
+  // const [modalVisible, setModalVisible] = useState({
+  //   actionsModal: false,
+  //   editModal: false,
+  // });
 
   return (
     <View style={styles.column}>
-      <ActionsModal
+      {/* <ActionsModal
         deleteObj={deleteObj}
         modalVisible={modalVisible}
         obj={obj}
@@ -34,13 +34,14 @@ export default function Column3({
         setModalVisible={setModalVisible}
         updateObj={updateObj}
       />
+       */}
       <Pressable
         onPress={() => {
           console.log("dots button pressable pressed");
-          setModalVisible((prevState) => ({
-            ...prevState,
-            actionsModal: !prevState.actionsModal,
-          }));
+          // setModalVisible((prevState) => ({
+          //   ...prevState,
+          //   actionsModal: !prevState.actionsModal,
+          // }));
         }}
         style={({ pressed }) => [
           {
