@@ -1,8 +1,11 @@
 interface Base {
   _id: string;
   __typename?: string;
+  count?: number
   description? : string;
+  isFragile?: boolean;
   name: string;
+  value?: number;
 }
 
 export interface Box extends Base {
@@ -10,19 +13,20 @@ export interface Box extends Base {
 }
 
 export interface Boxes extends Box {
-  count?: number
-  isFragile?: boolean;
-  value?: number;
+
 }
 export interface Item extends Base {
   box_id: string;
-  isFragile: boolean;
-  value: number;
+}
+
+export interface Home extends Base {
+
 }
 
 export interface Move extends Base {
 
 }
+
 
 export interface ItemInput {
   input: {
@@ -62,21 +66,46 @@ export interface Badges {
   badge2?: Badge;
 }
 
+export interface ColumnOne {
+  badge1: Badge;
+  badge2?: Badge;
+}
+
+
+export interface ColumnTwo extends Item, Box, Move, Home {
+  obj: PossibleTypeObj & isEditabe;
+}
+
+export interface ColumnThree {
+  // columns?: object;
+  // deleteObj?: () => void;
+  iconType?: NavIcons;
+  // obj?: PossibleTypeObj;
+  showIcon?: boolean;
+  // updateObj?: () => void;
+}
+
 export interface Counter {
+  // PossibleTypeObj
   mutation: ({}) => Promise<any>;
   type: PossibleTypeName;
   rest: PossibleTypeCreate;
 }
 
 export interface EditableFields {
-  item: {
-
-  } & isEditabe
   box: {
-
+    
   } & isEditabe
   
   default: {
+    
+  } & isEditabe
+
+  home: {
+
+  } & isEditabe
+  
+  item: {
 
   } & isEditabe
   
@@ -90,32 +119,11 @@ export interface Icons {
 
 
 export interface isEditabe {
-  showDropdown: boolean
+  canEdit: boolean
   disableDropdown: boolean
+  showDropdown: boolean
   showValues: boolean
 }
-
-export interface ColumnOne {
-  badge1: Badge;
-  badge2?: Badge;
-}
-
-export interface ColumnTwo extends Item {
-  canEdit?: boolean;
-  dropdown?: object[];
-  obj: PossibleTypeObj;
-  value: number;
-}
-
-export interface ColumnThree {
-  columns?: object;
-  deleteObj?: () => void;
-  iconType?: NavIcons;
-  obj?: PossibleTypeObj;
-  showIcon?: boolean;
-  updateObj?: () => void;
-}
-
 
 export interface EditModal {
   columns?: {
@@ -149,8 +157,8 @@ export interface Option {
 
 export interface Row {
   column1: Badges
-  column2: ColumnTwo
-  column3: ColumnThree
+  column2?: PossibleTypeObj & isEditabe
+  column3?: ColumnThree
 }
 
 export interface ScrollAndCounter {
@@ -192,7 +200,7 @@ export type PossibleIcons =
   | "plusSign";
 export type PossibleIconSizes = Sixteen | TwentyFour | TwoOhEight;
 export type PossibleTypeCreate = Partial<CreateItem & CreateBox & CreateMove>
-export type PossibleTypeObj = Item | Box | Move
+export type PossibleTypeObj = Item | Box | Move | Home
 export type PossibleTypeName = "item" | "box" | "move"
 export type PossibleScreens = "Items" | "Boxes" | "Moves" | "Home"
 
