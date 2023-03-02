@@ -5,7 +5,7 @@ import ScrollAndCounter from "../components/ScrollAndCounter";
 import { GET_MOVES } from "../graphql/move";
 import Loading from "../components/Loading";
 import { GET_BOXES } from "../graphql/box";
-import { Item } from "../types/types";
+import { isEditabe, Item } from "../types/types";
 import Row from "../components/Row";
 import {
   defaultItemColumnOne as column1,
@@ -17,6 +17,13 @@ import {
   REMOVE_ITEM,
   // UPDATE_ITEM,
 } from "../graphql/item";
+
+const isEditable: isEditabe = {
+  canEdit: false,
+  disableDropdown: true,
+  showDropdown: true,
+  showValues: true,
+};
 
 export default function ItemsScreen() {
   // TODO: reread polling vs refetch
@@ -80,7 +87,7 @@ export default function ItemsScreen() {
       {data.getItemsByUserId.map((item: Item) => {
         let column2 = {
           ...item,
-          obj: item,
+          ...isEditable,
         };
         let column3 = {
           obj: item,
@@ -95,7 +102,7 @@ export default function ItemsScreen() {
             key={item._id}
             column1={column1}
             column2={column2}
-            column3={column3}
+            // column3={column3}
           />
         );
       })}

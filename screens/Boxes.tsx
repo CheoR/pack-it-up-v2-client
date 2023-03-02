@@ -2,9 +2,9 @@ import React from "react";
 import { useMutation, useQuery } from "@apollo/client";
 
 import ScrollAndCounter from "../components/ScrollAndCounter";
+import { Boxes, ColumnOne, ColumnTwo, isEditabe } from "../types/types";
 import { defaultBoxCreate } from "../constants/Defaults";
 import { CREATE_BOX, GET_BOXES } from "../graphql/box";
-import { Boxes, ColumnOne } from "../types/types";
 import Loading from "../components/Loading";
 import Row from "../components/Row";
 
@@ -15,6 +15,13 @@ const defaultColumnOne: ColumnOne = {
     type: "item" as const,
     size: 24 as const,
   },
+};
+
+const isEditable: isEditabe = {
+  canEdit: false,
+  disableDropdown: true,
+  showDropdown: true,
+  showValues: true,
 };
 
 export default function BoxesScreen() {
@@ -43,7 +50,13 @@ export default function BoxesScreen() {
         let column1: ColumnOne = {
           badge1: { ...defaultColumnOne.badge1, count: box.count },
         };
-        return <Row key={box._id} column1={column1} />;
+
+        let column2: ColumnTwo = {
+          ...box,
+          ...isEditable,
+        };
+
+        return <Row key={box._id} column1={column1} column2={column2} />;
       })}
     </ScrollAndCounter>
   );

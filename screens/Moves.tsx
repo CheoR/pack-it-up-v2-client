@@ -4,8 +4,8 @@ import { useMutation, useQuery } from "@apollo/client";
 import ScrollAndCounter from "../components/ScrollAndCounter";
 import { defaultMoveCreate } from "../constants/Defaults";
 import { CREATE_MOVE, GET_MOVES } from "../graphql/move";
+import { ColumnOne, ColumnTwo, isEditabe } from "../types/types";
 import Loading from "../components/Loading";
-import { ColumnOne } from "../types/types";
 import { Move } from "../types/types";
 import Row from "../components/Row";
 
@@ -20,6 +20,13 @@ const defaultColumnOne: ColumnOne = {
     type: "item" as const,
     size: 24 as const,
   },
+};
+
+const isEditable: isEditabe = {
+  canEdit: false,
+  disableDropdown: true,
+  showDropdown: false,
+  showValues: true,
 };
 
 export default function MovesScreen() {
@@ -39,6 +46,9 @@ export default function MovesScreen() {
   if (loading) return <Loading text="Moves" />;
   if (error) console.log(`Move Error: ${error.message}`);
 
+  console.log(`move data`);
+  console.log(data);
+
   return (
     <ScrollAndCounter
       mutation={createMove}
@@ -49,15 +59,19 @@ export default function MovesScreen() {
       {data.getMovesByUserId.map((move: Move) => {
         console.log(move);
         let column1: ColumnOne = {
-          badge1: { ...defaultColumnOne.badge1, count: 9 },
+          badge1: { ...defaultColumnOne.badge1, count: move.count },
           badge2: {
             ...defaultColumnOne.badge2,
             // TODO: why does the bottom not error but not the above line
             // type: "item",
-            count: 5,
+            count: move.boxItemsCount,
           },
         };
-        return <Row key={move._id} column1={column1} />;
+        let column2: ColumnTwo = {
+          ...move,
+          ...isEditable,
+        };
+        return <Row key={move._id} column1={column1} column2={column2} />;
       })}
     </ScrollAndCounter>
   );

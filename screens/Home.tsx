@@ -3,26 +3,43 @@ import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
 import { gql, useQuery } from "@apollo/client";
 import Checkbox from "expo-checkbox";
 
+import { ColumnOne, isEditabe, PossibleTypeObj } from "../types/types";
 import LoggedInLayout from "../layout/LoggedInLayout";
-import ColumnThree from "../components/ColumnThree";
-import ColumnTwo from "../components/ColumnTwo";
-import ListItem from "../components/ListItem";
 import Loading from "../components/Loading";
-import Column1 from "../components/Column1";
 import COLORS from "../constants/Colors";
+import Row from "../components/Row";
 
 const GET_HOME_DATA = gql`
   query GetHomeData {
     getHomeData {
-      data {
-        _id
-        count
-        isFragile
-        value
-      }
+      _id
+      count
+      description
+      isFragile
+      name
+      value
     }
   }
 `;
+
+const badges: ColumnOne = {
+  badge1: {
+    // need as const else get this error
+    // Type 'string' is not assignable to type 'PossibleIcons'.
+    size: 24 as const,
+    showCount: false,
+    showType: false,
+    type: "item" as const,
+  },
+};
+
+const isEditable: isEditabe = {
+  canEdit: false,
+  disableDropdown: true,
+  showDropdown: false,
+  showValues: false,
+};
+
 export default function HomeScreen() {
   const [isChecked, setIsChecked] = React.useState(false);
 
@@ -33,8 +50,10 @@ export default function HomeScreen() {
   if (loading) return <Loading text="Data" />;
   if (error) console.log(`Home Error: ${error.message}`);
 
-  const { data: DATA } = data.getHomeData;
-  const items = DATA.find((obj) => obj._id === "item");
+  console.log(data.getHomeData);
+  const move = data.getHomeData.find(
+    (obj: PossibleTypeObj) => obj._id === "move"
+  );
 
   return (
     <LoggedInLayout>
@@ -44,44 +63,50 @@ export default function HomeScreen() {
         </View>
         <View style={styles.listItems}>
           <FlatList
-            data={DATA}
+            data={data.getHomeData}
             keyExtractor={(item) => item._id}
             contentContainerStyle={styles.list}
-            renderItem={({ item }) => (
-              <ListItem key={item._id}>
-                <Column1
-                  badge1={{
-                    count: item.count,
-                    type: item._id,
-                    showType: false,
-                  }}
+            renderItem={({ item }) => {
+              let column1 = {
+                badge1: {
+                  ...badges.badge1,
+                  type: item._id,
+                  count: item.count,
+                },
+              };
+              let column2 = {
+                ...item,
+                ...isEditable,
+              };
+              let column3 = {
+                iconType: "chevron",
+                showIcon: true,
+              };
+              return (
+                <Row
+                  key={item._id}
+                  column1={column1}
+                  column2={column2}
+                  column3={column3}
                 />
-                <ColumnTwo name={item._id} />
-                <ColumnThree
-                  iconType="chevron"
-                  listView={item._id}
-                  showIcon={true}
-                  objKey={{ test: "test" }}
-                  dropdown={[]}
-                />
-              </ListItem>
-            )}
+              );
+            }}
           />
         </View>
         <View style={styles.values}>
           <View style={styles.valueInput}>
             <Text>Total</Text>
-            <TextInput editable={false}>${items.value.toFixed(2)}</TextInput>
+            <TextInput editable={false}>${move.value.toFixed(2)}</TextInput>
           </View>
           <View style={styles.checkboxContainer}>
             {/* TODO: swap out checkbox and remove from packages */}
             <Checkbox
               style={styles.checkbox}
-              value={items.isFragile}
+              value={move.isFragile}
               onValueChange={setIsChecked}
               disabled
               color={
-                items.isFragile
+                move.isFragile
                   ? COLORS.light.warning
                   : COLORS.light.tabIconSelected
               }
