@@ -7,6 +7,7 @@ import Checkbox from "expo-checkbox";
 import { GET_MOVES, GET_MOVES_DROPDOWN, UPDATE_MOVE } from "../graphql/move";
 import { GET_BOXES, GET_BOXES_DROPDOWN, UPDATE_BOX } from "../graphql/box";
 import { GET_ITEMS, UPDATE_ITEM } from "../graphql/item";
+import { isBox, isItem, isHome } from "../utils/utils";
 import COLORS from "../constants/Colors";
 import {
   Box,
@@ -17,20 +18,6 @@ import {
   Move,
   PossibleTypeObj,
 } from "../types/types";
-
-function isBox(obj: Box | Item | Move): obj is Box {
-  return (obj as Box).move_id !== undefined;
-}
-
-function isHome(obj: Box | Item | Move): obj is Item {
-  console.log(obj);
-  console.log(`obj has .box_id === none: ${(obj as Item).box_id === "none"}`);
-  return (obj as Item).box_id === "none";
-}
-
-function isItem(obj: Box | Item | Move): obj is Item {
-  return (obj as Item).box_id !== undefined;
-}
 
 const editable = {
   box: {
@@ -150,31 +137,31 @@ export default function Column2(column2: PossibleTypeObj & isEditabe) {
     isEditable = editableFields[type as keyof EditableFields];
   }
 
-  // useQuery(QUERY, {
-  //   onCompleted: (data) => {
-  //     // defaultValue was removed in 5.x series.
-  //     // https://github.com/hossein-zare/react-native-dropdown-picker/issues/550#issuecomment-1122804565
-  //     let obj: PossibleTypeObj;
-  //     let dropdownData: PossibleTypeObj[] = [];
-  //     if (type === "item") {
-  //       dropdownData = data.getBoxesByUserId as Item[];
-  //       obj = data.getBoxesByUserId.find(
-  //         (obj: Box) => obj?._id === defaultDropdownValue
-  //       );
-  //       setDropdownData(dropdownData);
-  //       setSelected(obj?.name);
-  //     }
-  //     if (type === "box") {
-  //       dropdownData = data.getMovesByUserId as Move[];
-  //       obj = data.getMovesByUserId.find(
-  //         (obj: Move) => obj?._id === defaultDropdownValue
-  //       );
-  //       setDropdownData(dropdownData);
-  //       setSelected(obj?.name);
-  //     }
-  //   },
-  //   onError: (error) => console.log(`Query Dropdown Error: ${error.message}`),
-  // });
+  useQuery(QUERY, {
+    onCompleted: (data) => {
+      // defaultValue was removed in 5.x series.
+      // https://github.com/hossein-zare/react-native-dropdown-picker/issues/550#issuecomment-1122804565
+      let obj: PossibleTypeObj;
+      let dropdownData: PossibleTypeObj[] = [];
+      if (type === "item") {
+        dropdownData = data.getBoxesByUserId as Item[];
+        obj = data.getBoxesByUserId.find(
+          (obj: Box) => obj?._id === defaultDropdownValue
+        );
+        setDropdownData(dropdownData);
+        setSelected(obj?.name);
+      }
+      if (type === "box") {
+        dropdownData = data.getMovesByUserId as Move[];
+        obj = data.getMovesByUserId.find(
+          (obj: Move) => obj?._id === defaultDropdownValue
+        );
+        setDropdownData(dropdownData);
+        setSelected(obj?.name);
+      }
+    },
+    onError: (error) => console.log(`Query Dropdown Error: ${error.message}`),
+  });
 
   // const [updateObj] = useMutation(MUTATION, {
   //   refetchQueries: [
@@ -249,8 +236,11 @@ export default function Column2(column2: PossibleTypeObj & isEditabe) {
           style={styles.description}
           multiline={true}
           placeholder={
-            column2.description?.slice(0, 100) ||
-            `${column2.name} description`.slice(0, 100)
+            column2.description?.slice(0, dropdownData?.length ? 65 : 100) ||
+            `${column2.name} description`.slice(
+              0,
+              dropdownData?.length ? 65 : 100
+            )
           }
           // onChangeText={(text) => {
           //   updateObj((prevState) => {

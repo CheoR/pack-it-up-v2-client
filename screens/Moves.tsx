@@ -1,10 +1,10 @@
 import React from "react";
 import { useMutation, useQuery } from "@apollo/client";
 
+import { ColumnOne, ColumnTwo, isEditabe } from "../types/types";
 import ScrollAndCounter from "../components/ScrollAndCounter";
 import { defaultMoveCreate } from "../constants/Defaults";
 import { CREATE_MOVE, GET_MOVES } from "../graphql/move";
-import { ColumnOne, ColumnTwo, isEditabe } from "../types/types";
 import Loading from "../components/Loading";
 import { Move } from "../types/types";
 import Row from "../components/Row";
