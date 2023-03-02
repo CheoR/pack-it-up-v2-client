@@ -19,7 +19,9 @@ export interface Item extends Base {
 
 export interface Home extends Base {}
 
-export interface Move extends Base {}
+export interface Move extends Base {
+  boxItemsCount?: number;
+}
 
 export interface ItemInput {
   input: {
@@ -64,8 +66,8 @@ export interface ColumnOne {
   badge2?: Badge;
 }
 
-export interface ColumnTwo extends Item, Box, Move, Home {
-  obj: PossibleTypeObj & isEditabe;
+export interface ColumnTwo extends Item, Box, Move, Home, isEditabe {
+  // obj: PossibleTypeObj & isEditabe;
 }
 
 export interface ColumnThree {
