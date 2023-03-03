@@ -1,4 +1,4 @@
-import { ColumnOne } from "../types/types";
+import { isEditabe, ViewIconOption } from "../types/types";
 
 const defaultBoxId = "63d58f28e9c4ff10994a0dca";
 const defaultMoveId = "63d2f72669850c57c9184e3c";
@@ -26,13 +26,15 @@ export const defaultBoxCreate = {
   name: "Box",
 };
 
-export const defaultItemColumnOne: ColumnOne = {
-  badge1: {
-    // need as const else get this error
-    // Type 'string' is not assignable to type 'PossibleIcons'.
-    size: 24 as const,
-    showCount: false,
-    showType: false,
-    type: "item" as const,
-  },
+export const defaultListViewIconOptions: ViewIconOption = {
+  showIcon: true,
+  showCount: true,
+  showType: true,
+};
+
+export const defaultListViewIsEditable: isEditabe = {
+  canEdit: false,
+  disableDropdown: true,
+  showDropdown: true,
+  showValues: true,
 };

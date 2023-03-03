@@ -8,6 +8,10 @@ import LoggedInLayout from "../layout/LoggedInLayout";
 import Loading from "../components/Loading";
 import COLORS from "../constants/Colors";
 import Row from "../components/Row";
+import {
+  defaultListViewIconOptions,
+  defaultListViewIsEditable,
+} from "../constants/Defaults";
 
 const GET_HOME_DATA = gql`
   query GetHomeData {
@@ -68,11 +72,7 @@ export default function HomeScreen() {
             contentContainerStyle={styles.list}
             renderItem={({ item }) => {
               let column1 = {
-                badge1: {
-                  ...badges.badge1,
-                  type: item._id,
-                  count: item.count,
-                },
+                obj: { ...item, ...defaultListViewIconOptions },
               };
               let column2 = {
                 ...item,

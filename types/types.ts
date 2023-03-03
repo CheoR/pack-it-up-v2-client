@@ -61,10 +61,16 @@ export interface Badges {
   badge2?: Badge;
 }
 
-export interface ColumnOne {
-  badge1: Badge;
-  badge2?: Badge;
+export interface ViewIconOption {
+  showIcon: boolean;
+  showCount: boolean;
+  showType: boolean;
 }
+export interface ColumnOne {
+  obj: PossibleTypeObj & ViewIconOption;
+}
+// badge1: Badge;
+// badge2?: Badge;
 
 export interface ColumnTwo extends Item, Box, Move, Home, isEditabe {
   // obj: PossibleTypeObj & isEditabe;
@@ -139,7 +145,7 @@ export interface Option {
 }
 
 export interface Row {
-  column1: Badges;
+  column1: ColumnOne; // Badges;
   column2?: PossibleTypeObj & isEditabe;
   column3?: ColumnThree;
 }

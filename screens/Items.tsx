@@ -1,6 +1,7 @@
 import React from "react";
 import { useMutation, useQuery } from "@apollo/client";
 
+import { ColumnOne, ColumnThree, ColumnTwo, Item } from "../types/types";
 import ScrollAndCounter from "../components/ScrollAndCounter";
 import { GET_MOVES } from "../graphql/move";
 import Loading from "../components/Loading";
@@ -10,6 +11,8 @@ import Row from "../components/Row";
 import {
   defaultItemColumnOne as column1,
   defaultItemCreate,
+  defaultListViewIconOptions,
+  defaultListViewIsEditable,
 } from "../constants/Defaults";
 import {
   CREATE_ITEM,
@@ -85,7 +88,9 @@ export default function ItemsScreen() {
       type="item"
     >
       {data.getItemsByUserId.map((item: Item) => {
-        let column2 = {
+        let column1: ColumnOne = {
+          obj: { ...item, ...defaultListViewIconOptions },
+        };
           ...item,
           ...isEditable,
         };

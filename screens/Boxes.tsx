@@ -1,28 +1,16 @@
 import React from "react";
 import { useMutation, useQuery } from "@apollo/client";
 
+import { Boxes, ColumnOne, ColumnThree, ColumnTwo } from "../types/types";
 import ScrollAndCounter from "../components/ScrollAndCounter";
-import { Boxes, ColumnOne, ColumnTwo, isEditabe } from "../types/types";
-import { defaultBoxCreate } from "../constants/Defaults";
 import { CREATE_BOX, GET_BOXES } from "../graphql/box";
 import Loading from "../components/Loading";
 import Row from "../components/Row";
-
-const defaultColumnOne: ColumnOne = {
-  badge1: {
-    // need as const else get this error
-    // Type 'string' is not assignable to type 'PossibleIcons'.
-    type: "item" as const,
-    size: 24 as const,
-  },
-};
-
-const isEditable: isEditabe = {
-  canEdit: false,
-  disableDropdown: true,
-  showDropdown: true,
-  showValues: true,
-};
+import {
+  defaultBoxCreate,
+  defaultListViewIconOptions,
+  defaultListViewIsEditable,
+} from "../constants/Defaults";
 
 export default function BoxesScreen() {
   const { data, loading, error } = useQuery(GET_BOXES, {
@@ -48,7 +36,7 @@ export default function BoxesScreen() {
     >
       {data.getBoxesByUserId.map((box: Boxes) => {
         let column1: ColumnOne = {
-          badge1: { ...defaultColumnOne.badge1, count: box.count },
+          obj: { ...box, ...defaultListViewIconOptions },
         };
 
         let column2: ColumnTwo = {
