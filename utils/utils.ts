@@ -5,11 +5,13 @@ export function isBox(obj: Box | Item | Move): obj is Box {
 }
 
 export function isHome(obj: Box | Item | Move): obj is Item {
-  console.log(obj);
-  console.log(`obj has .box_id === none: ${(obj as Item).box_id === "none"}`);
   return (obj as Item).box_id === "none";
 }
 
 export function isItem(obj: Box | Item | Move): obj is Item {
   return (obj as Item).box_id !== undefined;
+}
+
+export function isMove(obj: Box | Item | Move): obj is Move {
+  return (obj as Move).boxItemsCount !== undefined;
 }
