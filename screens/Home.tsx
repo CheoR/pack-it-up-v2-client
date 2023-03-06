@@ -26,24 +26,6 @@ const GET_HOME_DATA = gql`
   }
 `;
 
-const badges: ColumnOne = {
-  badge1: {
-    // need as const else get this error
-    // Type 'string' is not assignable to type 'PossibleIcons'.
-    size: 24 as const,
-    showCount: false,
-    showType: false,
-    type: "item" as const,
-  },
-};
-
-const isEditable: isEditabe = {
-  canEdit: false,
-  disableDropdown: true,
-  showDropdown: false,
-  showValues: false,
-};
-
 export default function HomeScreen() {
   const [isChecked, setIsChecked] = React.useState(false);
 
@@ -71,8 +53,9 @@ export default function HomeScreen() {
             keyExtractor={(item) => item._id}
             contentContainerStyle={styles.list}
             renderItem={({ item }) => {
-              let column1 = {
-                obj: { ...item, ...defaultListViewIconOptions },
+              let column1: ColumnOne = {
+                ...item,
+                ...defaultListViewIconOptions,
               };
               let column2 = {
                 ...item,
