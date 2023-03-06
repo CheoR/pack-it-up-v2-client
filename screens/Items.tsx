@@ -3,13 +3,12 @@ import { useMutation, useQuery } from "@apollo/client";
 
 import { ColumnOne, ColumnThree, ColumnTwo, Item } from "../types/types";
 import ScrollAndCounter from "../components/ScrollAndCounter";
-import { GET_MOVES } from "../graphql/move";
+
+// import { GET_MOVES } from "../graphql/move";
 import Loading from "../components/Loading";
-import { GET_BOXES } from "../graphql/box";
-import { isEditabe, Item } from "../types/types";
+// import { GET_BOXES } from "../graphql/box";
 import Row from "../components/Row";
 import {
-  defaultItemColumnOne as column1,
   defaultItemCreate,
   defaultListViewIconOptions,
   defaultListViewIsEditable,
@@ -17,16 +16,9 @@ import {
 import {
   CREATE_ITEM,
   GET_ITEMS,
-  REMOVE_ITEM,
+  // REMOVE_ITEM,
   // UPDATE_ITEM,
 } from "../graphql/item";
-
-const isEditable: isEditabe = {
-  canEdit: false,
-  disableDropdown: true,
-  showDropdown: true,
-  showValues: true,
-};
 
 export default function ItemsScreen() {
   // TODO: reread polling vs refetch
@@ -47,23 +39,23 @@ export default function ItemsScreen() {
     },
   });
 
-  const [removeItem] = useMutation(REMOVE_ITEM, {
-    refetchQueries: [
-      {
-        query: GET_ITEMS,
-      },
-      {
-        query: GET_BOXES,
-      },
-      {
-        query: GET_MOVES,
-      },
-      "GetHomeData",
-    ],
-    onError: (error) => {
-      console.log(`Create Item Error: ${error.message}`);
-    },
-  });
+  // const [removeItem] = useMutation(REMOVE_ITEM, {
+  //   refetchQueries: [
+  //     {
+  //       query: GET_ITEMS,
+  //     },
+  //     {
+  //       query: GET_BOXES,
+  //     },
+  //     {
+  //       query: GET_MOVES,
+  //     },
+  //     "GetHomeData",
+  //   ],
+  //   onError: (error) => {
+  //     console.log(`Create Item Error: ${error.message}`);
+  //   },
+  // });
 
   // const [updateItem] = useMutation(UPDATE_ITEM, {
   //   // TODO:
@@ -76,7 +68,6 @@ export default function ItemsScreen() {
   //     console.log(`Create Item Error: ${error.message}`);
   //   },
   // });
-
   if (loading) return <Loading text="Items" />;
   if (error) console.info(`Item Error: ${error.message}`);
 
@@ -89,25 +80,26 @@ export default function ItemsScreen() {
     >
       {data.getItemsByUserId.map((item: Item) => {
         let column1: ColumnOne = {
-          obj: { ...item, ...defaultListViewIconOptions },
-        };
           ...item,
-          ...isEditable,
+          ...defaultListViewIconOptions,
         };
-        let column3 = {
-          obj: item,
-          deleteObj: removeItem,
-          columns: {
-            column1,
-            column2,
-          },
+
+        let column2: ColumnTwo<Item> = {
+          ...item,
+          ...defaultListViewIsEditable,
         };
+
+        let column3: ColumnThree<Item> = {
+          ...item,
+          showIcon: true,
+        };
+
         return (
           <Row
             key={item._id}
             column1={column1}
             column2={column2}
-            // column3={column3}
+            column3={column3}
           />
         );
       })}
