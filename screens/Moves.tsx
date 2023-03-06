@@ -30,9 +30,6 @@ export default function MovesScreen() {
   if (loading) return <Loading text="Moves" />;
   if (error) console.log(`Move Error: ${error.message}`);
 
-  console.log(`move data`);
-  console.log(data);
-
   return (
     <ScrollAndCounter
       mutation={createMove}
@@ -41,15 +38,27 @@ export default function MovesScreen() {
       type="move"
     >
       {data.getMovesByUserId.map((move: Move) => {
-        console.log(move);
         let column1: ColumnOne = {
-          obj: { ...move, ...defaultListViewIconOptions },
-        };
-        let column2: ColumnTwo = {
           ...move,
-          ...isEditable,
+          ...defaultListViewIconOptions,
         };
-        return <Row key={move._id} column1={column1} column2={column2} />;
+        let column2: ColumnTwo<Move> = {
+          ...move,
+          ...defaultListViewIsEditable,
+        };
+
+        let column3: ColumnThree<Move> = {
+          ...move,
+          showIcon: true,
+        };
+        return (
+          <Row
+            key={move._id}
+            column1={column1}
+            column2={column2}
+            column3={column3}
+          />
+        );
       })}
     </ScrollAndCounter>
   );
