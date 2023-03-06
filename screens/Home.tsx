@@ -3,11 +3,17 @@ import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
 import { gql, useQuery } from "@apollo/client";
 import Checkbox from "expo-checkbox";
 
-import { ColumnOne, isEditabe, PossibleTypeObj } from "../types/types";
 import LoggedInLayout from "../layout/LoggedInLayout";
 import Loading from "../components/Loading";
 import COLORS from "../constants/Colors";
 import Row from "../components/Row";
+import {
+  ColumnOne,
+  ColumnThree,
+  ColumnTwo,
+  Home,
+  PossibleTypeObj,
+} from "../types/types";
 import {
   defaultListViewIconOptions,
   defaultListViewIsEditable,
@@ -36,7 +42,6 @@ export default function HomeScreen() {
   if (loading) return <Loading text="Data" />;
   if (error) console.log(`Home Error: ${error.message}`);
 
-  console.log(data.getHomeData);
   const move = data.getHomeData.find(
     (obj: PossibleTypeObj) => obj._id === "move"
   );
@@ -57,14 +62,16 @@ export default function HomeScreen() {
                 ...item,
                 ...defaultListViewIconOptions,
               };
-              let column2 = {
+              let column2: ColumnTwo<Home> = {
                 ...item,
-                ...isEditable,
+                ...defaultListViewIsEditable,
               };
-              let column3 = {
+              let column3: ColumnThree<Home> = {
+                ...item,
                 iconType: "chevron",
                 showIcon: true,
               };
+
               return (
                 <Row
                   key={item._id}
