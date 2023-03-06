@@ -12,7 +12,6 @@ export interface Box extends Base {
   move_id: string;
 }
 
-export interface Boxes extends Box {}
 export interface Item extends Base {
   box_id: string;
 }
@@ -42,7 +41,6 @@ export interface MoveInput {
 }
 
 export interface ActionsModal {
-  deleteObj: () => void;
   modalVisible: {
     actionsModal: boolean;
     editModal: boolean;
@@ -66,27 +64,30 @@ export interface ViewIconOption {
   showCount: boolean;
   showType: boolean;
 }
-export interface ColumnOne {
-  obj: PossibleTypeObj & ViewIconOption;
-}
-// badge1: Badge;
-// badge2?: Badge;
 
-export interface ColumnTwo extends Item, Box, Move, Home, isEditabe {
-  // obj: PossibleTypeObj & isEditabe;
-}
+export type ColumnOne = PossibleTypeObj & ViewIconOption;
 
-export interface ColumnThree {
-  // columns?: object;
-  // deleteObj?: () => void;
+export type ColumnTwo<T> = T & isEditabe;
+export type ColumnThree<T> = T & {
   iconType?: NavIcons;
-  // obj?: PossibleTypeObj;
   showIcon?: boolean;
-  // updateObj?: () => void;
+};
+
+export interface ConfirmCancel {
+  children: JSX.Element[] | JSX.Element;
+  parentModalVisible: {
+    actionsModal: boolean;
+    editModal: boolean;
+  };
+  parentSetModalVisiible: React.Dispatch<
+    React.SetStateAction<{
+      actionsModal: boolean;
+      editModal: boolean;
+    }>
+  >;
 }
 
 export interface Counter {
-  // PossibleTypeObj
   mutation: ({}) => Promise<any>;
   type: PossibleTypeName;
   rest: PossibleTypeCreate;
@@ -116,10 +117,6 @@ export interface isEditabe {
 }
 
 export interface EditModal {
-  columns?: {
-    column1: ColumnOne;
-    column2: ColumnTwo;
-  };
   modalVisible: {
     actionsModal: boolean;
     editModal: boolean;
@@ -131,23 +128,41 @@ export interface EditModal {
       editModal: boolean;
     }>
   >;
-  updateObj?: () => void;
+  // updateObj?: () => void;
 }
 
-export interface Option {
-  iconSize?: PossibleIconSizes;
+export interface ModalOption {
+  // iconSize?: PossibleIconSizes;
+  // iconType?: PossibleIcons;
+  // optionalFunc?: ({}) => void;
+  // optionalFuncExtras?: Object;
+  // setState: React.Dispatch<
+  //   React.SetStateAction<{
+  //     actionsModal: boolean;
+  //     editModal: boolean;
+  //   }>
+  // >;
+  // setStateExtras: Object;
+  // text: string;
   iconType?: PossibleIcons;
-  optionalFunc?: ({}) => void;
-  optionalFuncExtras?: Object;
-  setState: ({}) => void;
-  setStateExtras: Object;
+  obj: PossibleTypeObj;
+  parentModalVisible: {
+    actionsModal: boolean;
+    editModal: boolean;
+  };
+  parentSetModalVisiible: React.Dispatch<
+    React.SetStateAction<{
+      actionsModal: boolean;
+      editModal: boolean;
+    }>
+  >;
   text: string;
 }
 
 export interface Row {
-  column1: ColumnOne; // Badges;
-  column2?: PossibleTypeObj & isEditabe;
-  column3?: ColumnThree;
+  column1: ColumnOne;
+  column2?: ColumnTwo<unknown>;
+  column3?: ColumnThree<unknown>;
 }
 
 export interface ScrollAndCounter {
