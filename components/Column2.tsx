@@ -11,7 +11,7 @@ import { isBox, isItem, isHome } from "../utils/utils";
 import COLORS from "../constants/Colors";
 import {
   Box,
-  ColumnTwo as CTI,
+  ColumnTwo,
   EditableFields,
   isEditabe,
   Item,
@@ -43,26 +43,31 @@ const editable = {
 
 const editableFields: EditableFields = {
   box: {
+    canEdit: false,
     disableDropdown: true,
     showDropdown: true,
     showValues: true,
   },
   default: {
+    canEdit: false,
     disableDropdown: true,
     showDropdown: true,
     showValues: true,
   },
   home: {
+    canEdit: false,
     disableDropdown: true,
     showDropdown: false,
     showValues: false,
   },
   item: {
+    canEdit: false,
     disableDropdown: true,
     showDropdown: true,
     showValues: true,
   },
   move: {
+    canEdit: false,
     disableDropdown: true,
     showDropdown: false,
     showValues: true,
@@ -71,35 +76,37 @@ const editableFields: EditableFields = {
 
 const nonEditableFields: EditableFields = {
   box: {
+    canEdit: false,
     disableDropdown: true,
     showDropdown: true,
     showValues: true,
   },
   default: {
+    canEdit: false,
     disableDropdown: true,
     showDropdown: true,
     showValues: true,
   },
   home: {
+    canEdit: false,
     disableDropdown: true,
     showDropdown: false,
     showValues: false,
   },
   item: {
+    canEdit: false,
     disableDropdown: true,
     showDropdown: true,
     showValues: true,
   },
   move: {
+    canEdit: false,
     disableDropdown: true,
     showDropdown: false,
     showValues: true,
   },
 };
-
-export default function Column2(column2: PossibleTypeObj & isEditabe) {
-  console.log(`column2 obj`);
-  console.log(column2);
+export default function Column2(column2: ColumnTwo<PossibleTypeObj>) {
   const [isChecked, setIsChecked] = useState(column2.isFragile);
   const [dropdownData, setDropdownData] = useState<PossibleTypeObj[]>([]);
   const [selected, setSelected] = useState("");
@@ -109,6 +116,7 @@ export default function Column2(column2: PossibleTypeObj & isEditabe) {
   let MUTATION;
   let QUERY;
   let type: string = "default";
+
   let isEditable = editableFields[type as keyof EditableFields];
 
   if (isItem(column2)) {
@@ -131,7 +139,6 @@ export default function Column2(column2: PossibleTypeObj & isEditabe) {
     QUERY = GET_MOVES_DROPDOWN;
   }
 
-  console.log(`type: ${type}`);
   // TODO: FLIP FLAGS TO MAKE MORE READABLE
   if (!column2.canEdit) {
     isEditable = editableFields[type as keyof EditableFields];
@@ -236,7 +243,7 @@ export default function Column2(column2: PossibleTypeObj & isEditabe) {
           style={styles.description}
           multiline={true}
           placeholder={
-            column2.description?.slice(0, dropdownData?.length ? 65 : 100) ||
+            column2?.description?.slice(0, dropdownData?.length ? 65 : 100) ||
             `${column2.name} description`.slice(
               0,
               dropdownData?.length ? 65 : 100
@@ -284,7 +291,7 @@ export default function Column2(column2: PossibleTypeObj & isEditabe) {
           </View>
           <TextInput
             style={styles.value}
-            placeholder={`$${parseFloat(column2.value?.toFixed(2)) || 0.0}`}
+            placeholder={`$${parseFloat(column2?.value?.toFixed(2)) || 0.0}`}
             // onChangeText={(text) => {
             //   updateObj((prevState) => {
             //     return {
