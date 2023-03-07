@@ -1,47 +1,34 @@
 import React, { useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 
-import { ColumnThree as CTI } from "../types/types";
+import { ColumnThree, PossibleTypeObj } from "../types/types";
+import ActionsModal from "./ActionsModal";
 import { Icon } from "../constants/Icon";
 import COLORS from "../constants/Colors";
-// import ActionsModal from "./ActionsModal";
 // import EditModal from "./EditModal";
 
-export default function Column3({
-  iconType = "dots",
-  // columns,
-  // deleteObj,
-  // obj,
-  showIcon = true,
-}: // updateObj,
-CTI) {
-  // const [modalVisible, setModalVisible] = useState({
-  //   actionsModal: false,
-  //   editModal: false,
-  // });
+export default function Column3(column3: ColumnThree<PossibleTypeObj>) {
+  const [modalVisible, setModalVisible] = useState({
+    actionsModal: false,
+    editModal: false,
+  });
 
   return (
     <View style={styles.column}>
-      {/* <ActionsModal
-        deleteObj={deleteObj}
+      <ActionsModal
+        // deleteObj={deleteObj}
         modalVisible={modalVisible}
-        obj={obj}
+        obj={column3}
         setModalVisible={setModalVisible}
       />
-      <EditModal
-        modalVisible={modalVisible}
-        obj={obj}
-        setModalVisible={setModalVisible}
-        updateObj={updateObj}
-      />
-       */}
+
       <Pressable
         onPress={() => {
           console.log("dots button pressable pressed");
-          // setModalVisible((prevState) => ({
-          //   ...prevState,
-          //   actionsModal: !prevState.actionsModal,
-          // }));
+          setModalVisible((prevState) => ({
+            ...prevState,
+            actionsModal: !prevState.actionsModal,
+          }));
         }}
         style={({ pressed }) => [
           {
@@ -52,12 +39,29 @@ CTI) {
         ]}
       >
         {({ pressed }) =>
-          showIcon ? <Icon type={iconType} size={16} /> : <></>
+          column3.showIcon ? (
+            <Icon type={column3.iconType || "dots"} size={16} />
+          ) : (
+            <></>
+          )
         }
       </Pressable>
     </View>
   );
 }
+
+// <ActionsModal
+//   // deleteObj={deleteObj}
+//   modalVisible={modalVisible}
+//   obj={obj}
+//   setModalVisible={setModalVisible}
+// />
+// <EditModal
+//   modalVisible={modalVisible}
+//   obj={obj}
+//   setModalVisible={setModalVisible}
+//   // updateObj={updateObj}
+// />
 
 const styles = StyleSheet.create({
   actionsModal: {
