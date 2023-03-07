@@ -22,28 +22,28 @@ export default function Column1(column1: COI) {
 
   let objIsMove = false;
 
-  if (isMove(column1.obj)) {
+  if (isMove(column1)) {
     badge1 = {
       ...badge1,
       type: "box",
-      count: column1.obj.count,
-      showCount: column1.obj.showCount,
-      showType: column1.obj.showType,
+      count: column1.count,
+      showCount: column1.showCount,
+      showType: column1.showType,
     };
     badge2 = {
       ...badge2,
       type: "item",
-      count: column1.obj.boxItemsCount,
-      showCount: column1.obj.showCount,
-      showType: column1.obj.showType,
+      count: column1.boxItemsCount,
+      showCount: column1.showCount,
+      showType: column1.showType,
     };
     objIsMove = true;
   } else {
     badge1 = {
       ...badge1,
-      count: column1.obj.count,
-      showCount: column1.obj.showCount,
-      showType: column1.obj.showType,
+      count: column1.count,
+      showCount: column1.showCount,
+      showType: column1.showType,
     };
   }
 
