@@ -7,10 +7,6 @@ import { Icon } from "../constants/Icon";
 export default function ModalOption({
   iconSize = 24,
   iconType = "none",
-  // optionalFunc,
-  // optionalFuncExtras = {},
-  // setState,
-  // setStateExtras,
   obj,
   parentModalVisible,
   parentSetModalVisiible,
@@ -21,13 +17,12 @@ export default function ModalOption({
       <Icon size={iconSize} type={iconType} />
       <Pressable
         style={[styles.button, styles.buttonClose]}
-        onPress={(data) => {
-          console.log(`data`);
-          console.log(data);
+        onPress={() => {
           parentSetModalVisiible((prevState) => {
             return {
               ...prevState,
               actionsModal: false,
+              [text]: true,
             };
           });
         }}
@@ -37,27 +32,6 @@ export default function ModalOption({
     </View>
   );
 }
-
-// <Icon size={iconSize} type={iconType} />
-// <Pressable
-//   style={[styles.button, styles.buttonClose]}
-//   onPress={() => {
-//     if (optionalFunc !== undefined) {
-//       delete optionalFuncExtras?.input?.count;
-//       delete optionalFuncExtras?.variables?.input?.move_id;
-//       console.log(`\n\n============ this is what i'm eneidn back`);
-//       console.log(optionalFuncExtras);
-//       console.log(`=========\n\n`);
-//       optionalFunc(optionalFuncExtras);
-//     }
-//     setState((prevState) => ({
-//       ...prevState,
-//       ...setStateExtras,
-//     }));
-//   }}
-// >
-//   <Text style={styles.textStyle}>{text}</Text>
-// </Pressable>
 
 const styles = StyleSheet.create({
   button: {
