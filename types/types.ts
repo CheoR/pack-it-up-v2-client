@@ -78,11 +78,13 @@ export interface ConfirmCancel {
   parentModalVisible: {
     actionsModal: boolean;
     editModal: boolean;
+    showConfirmCancel: boolean;
   };
   parentSetModalVisiible: React.Dispatch<
     React.SetStateAction<{
       actionsModal: boolean;
       editModal: boolean;
+      showConfirmCancel: boolean;
     }>
   >;
 }
@@ -132,28 +134,19 @@ export interface EditModal {
 }
 
 export interface ModalOption {
-  // iconSize?: PossibleIconSizes;
-  // iconType?: PossibleIcons;
-  // optionalFunc?: ({}) => void;
-  // optionalFuncExtras?: Object;
-  // setState: React.Dispatch<
-  //   React.SetStateAction<{
-  //     actionsModal: boolean;
-  //     editModal: boolean;
-  //   }>
-  // >;
-  // setStateExtras: Object;
-  // text: string;
-  iconType?: PossibleIcons;
+  iconSize: PossibleIconSizes;
+  iconType: PossibleIcons;
   obj: PossibleTypeObj;
   parentModalVisible: {
     actionsModal: boolean;
     editModal: boolean;
+    showConfirmCancel: boolean;
   };
   parentSetModalVisiible: React.Dispatch<
     React.SetStateAction<{
       actionsModal: boolean;
       editModal: boolean;
+      showConfirmCancel: boolean;
     }>
   >;
   text: string;
@@ -161,8 +154,8 @@ export interface ModalOption {
 
 export interface Row {
   column1: ColumnOne;
-  column2?: ColumnTwo<unknown>;
-  column3?: ColumnThree<unknown>;
+  column2: ColumnTwo<unknown>;
+  column3: ColumnThree<unknown>;
 }
 
 export interface ScrollAndCounter {
