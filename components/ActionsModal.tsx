@@ -1,15 +1,21 @@
 import React from "react";
-import { Alert, Modal, View, StyleSheet } from "react-native";
+import { Alert, Modal, View, StyleSheet, Text } from "react-native";
 
 import { ActionsModal as AMI } from "../types/types";
+import ConfirmCancel from "./ConfirmCancel";
+import EditModal from "./EditModal";
 import ModalOption from "./ModalOption";
 
 export default function ActionsModal({
-  deleteObj,
   modalVisible,
   obj,
   setModalVisible,
 }: AMI) {
+  <EditModal
+    modalVisible={modalVisible}
+    obj={obj}
+    setModalVisible={setModalVisible}
+  />;
   return (
     <Modal
       transparent={true}
@@ -18,7 +24,7 @@ export default function ActionsModal({
         Alert.alert("ActionModal closed.");
         setModalVisible((prevState) => ({
           ...prevState,
-          actionsModal: !prevState.actionsModal,
+          actionsModal: false,
         }));
       }}
       style={styles.actionsModal}
@@ -26,46 +32,12 @@ export default function ActionsModal({
       <View style={styles.centerModal}>
         <View style={styles.centeredView}>
           <ModalOption
-            iconType="plusSign"
-            text="add"
-            setState={setModalVisible}
-            setStateExtras={{
-              actionsModal: false,
-            }}
-          />
-
-          <ModalOption
-            iconType="camera"
-            text="camera"
-            setState={setModalVisible}
-            setStateExtras={{
-              actionsModal: false,
-            }}
-          />
-          <ModalOption
-            iconType="delete"
-            text="delete"
-            optionalFunc={deleteObj}
-            optionalFuncExtras={{
-              variables: {
-                input: {
-                  _id: obj._id,
-                },
-              },
-            }}
-            setState={setModalVisible}
-            setStateExtras={{
-              actionsModal: false,
-            }}
-          />
-          <ModalOption
+            iconSize={24}
             iconType="edit"
+            obj={obj}
+            parentModalVisible={modalVisible}
+            parentSetModalVisiible={setModalVisible}
             text="edit"
-            setState={setModalVisible}
-            setStateExtras={{
-              editModal: true,
-              actionsModal: false,
-            }}
           />
         </View>
       </View>
@@ -91,3 +63,46 @@ const styles = StyleSheet.create({
     marginLeft: 50,
   },
 });
+
+// <ModalOption
+//   iconType="plusSign"
+//   text="add"
+//   setState={setModalVisible}
+//   setStateExtras={{
+//     actionsModal: false,
+//   }}
+// />
+
+// <ModalOption
+//   iconType="camera"
+//   text="camera"
+//   setState={setModalVisible}
+//   setStateExtras={{
+//     actionsModal: false,
+//   }}
+// />
+// <ModalOption
+//   iconType="delete"
+//   text="delete"
+//   // optionalFunc={deleteObj}
+//   optionalFuncExtras={{
+//     variables: {
+//       input: {
+//         _id: obj._id,
+//       },
+//     },
+//   }}
+//   setState={setModalVisible}
+//   setStateExtras={{
+//     actionsModal: false,
+//   }}
+// />
+// <ModalOption
+//   iconType="edit"
+//   text="edit"
+//   setState={setModalVisible}
+//   setStateExtras={{
+//     editModal: true,
+//     actionsModal: false,
+//   }}
+// />

@@ -1,25 +1,53 @@
 import React, { useState } from "react";
-import { Alert, Modal, StyleSheet, View } from "react-native";
+import { Alert, Modal, StyleSheet, Text, View } from "react-native";
 
-import { EditModal as EMI } from "../types/types";
-import ModalOption from "./ModalOption";
+// import ModalOption from "./ModalOption";
 import Row from "./Row";
+import {
+  defaultListViewIconOptions,
+  defaultListViewIsEditable,
+} from "../constants/Defaults";
+import {
+  ColumnOne,
+  ColumnThree,
+  ColumnTwo,
+  isEditabe,
+  EditModal as EMI,
+  PossibleTypeObj,
+} from "../types/types";
+// const isEditable: isEditabe = {
+//   canEdit: true,
+//   disableDropdown: true,
+//   showDropdown: true,
+//   showValues: true,
+// };
 
-export default function EditModal({
-  columns,
-  modalVisible,
-  obj,
-  setModalVisible,
-  updateObj,
-}: EMI) {
+export default function EditModal({ modalVisible, obj, setModalVisible }: EMI) {
   const [formData, setFormData] = useState({});
+
+  let column1: ColumnOne = {
+    ...obj,
+    ...defaultListViewIconOptions,
+  };
+
+  let column2: ColumnTwo<PossibleTypeObj> = {
+    ...obj,
+    ...defaultListViewIsEditable,
+    canEdit: true,
+  };
+
+  let column3: ColumnThree<PossibleTypeObj> = {
+    ...obj,
+    showIcon: false,
+  };
+
   return (
     <Modal
       onRequestClose={() => {
         Alert.alert("EditModal closed.");
         setModalVisible((prevState) => ({
           ...prevState,
-          editModal: !prevState.editModal,
+          editModal: true,
         }));
       }}
       style={styles.modalEdit}
@@ -28,87 +56,12 @@ export default function EditModal({
     >
       <View style={styles.centerModal}>
         <View style={styles.centeredView}>
-          <Row
-            column1={{
-              badge1: {
-                type: columns?.column1.badge1.type || "none",
-                count: columns?.column1.badge1.count,
-                size: columns?.column1.badge1.size,
-                showType: columns?.column1.badge1.showType,
-              },
-              badge2: {
-                type: columns?.column1.badge2?.type || "none",
-                count: columns?.column1.badge2?.count,
-                size: columns?.column1.badge2?.size,
-                showType: columns?.column1.badge2?.showType,
-              },
-            }}
-            column2={{
-              ...columns?.column2,
-              canEdit: true,
-              obj: obj,
-            }}
-            column3={{
-              showIcon: false,
-            }}
-          />
+          <Row column1={column1} column2={column2} column3={column3} />
 
           <View style={styles.modalView}>
-            <ModalOption
-              text="confirm"
-              optionalFunc={updateObj}
-              // optionalFuncExtras={{
-              //   variables: {
-              //     input: {
-              //       ...obj,
-              //       ...formData,
-              //       _id: obj._id,
-              //     },
-              //   },
-              // }}
-              optionalFuncExtras={() => {
-                let input;
-
-                if (obj.name === "item") {
-                  input = {
-                    ...obj,
-                    ...formData,
-                    _id: obj._id,
-                  };
-                  delete input.count;
-                  delete input.move_id;
-                  delete input.__typename;
-                } else {
-                  input = {
-                    ...obj,
-                    ...formData,
-                    _id: obj._id,
-                  };
-                }
-                console.log(`\n\n**** this is input`);
-                console.log(input);
-                console.log(`******\n\n`);
-                return {
-                  variables: {
-                    input,
-                  },
-                };
-              }}
-              setState={setModalVisible}
-              setStateExtras={{
-                editModal: false,
-                actionsModal: false,
-              }}
-            />
-
-            <ModalOption
-              text="cancel"
-              setState={setModalVisible}
-              setStateExtras={{
-                editModal: false,
-                actionsModal: false,
-              }}
-            />
+            <View>
+              <Text>moo</Text>
+            </View>
           </View>
         </View>
       </View>
@@ -116,6 +69,61 @@ export default function EditModal({
   );
 }
 
+// <ModalOption
+// text="confirm"
+// optionalFunc={updateObj}
+// optionalFuncExtras={{
+//   variables: {
+//     input: {
+//       ...obj,
+//       ...formData,
+//       _id: obj._id,
+//     },
+//   },
+// }}
+// optionalFuncExtras={() => {
+//   let input;
+
+//   if (obj.name === "item") {
+//     input = {
+//       ...obj,
+//       ...formData,
+//       _id: obj._id,
+//     };
+//     delete input.count;
+//     delete input.move_id;
+//     delete input.__typename;
+//   } else {
+//     input = {
+//       ...obj,
+//       ...formData,
+//       _id: obj._id,
+//     };
+//   }
+//   console.log(`\n\n**** this is input`);
+//   console.log(input);
+//   console.log(`******\n\n`);
+//   return {
+//     variables: {
+//       input,
+//     },
+//   };
+// }}
+//   setState={setModalVisible}
+//   setStateExtras={{
+//     editModal: false,
+//     actionsModal: false,
+//   }}
+// />
+
+// <ModalOption
+//   text="cancel"
+// parentSetModalVisiible={setModalVisible}
+// setStateExtras={{
+//   editModal: false,
+//   actionsModal: false,
+// }}
+// />
 const styles = StyleSheet.create({
   button: {
     borderRadius: 8,

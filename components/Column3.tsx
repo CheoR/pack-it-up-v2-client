@@ -1,33 +1,127 @@
 import React, { useState } from "react";
-import { Pressable, StyleSheet, View } from "react-native";
+import { Alert, Modal, Pressable, StyleSheet, View } from "react-native";
 
-import { ColumnThree, PossibleTypeObj } from "../types/types";
-import ActionsModal from "./ActionsModal";
+import ConfirmCancel from "./ConfirmCancel";
 import { Icon } from "../constants/Icon";
 import COLORS from "../constants/Colors";
-// import EditModal from "./EditModal";
+import ModalOption from "./ModalOption";
+import Row from "./Row";
+import {
+  ColumnOne,
+  ColumnThree,
+  ColumnTwo,
+  PossibleTypeObj,
+} from "../types/types";
+import {
+  defaultListViewIconOptions,
+  defaultListViewIsEditable,
+} from "../constants/Defaults";
 
 export default function Column3(column3: ColumnThree<PossibleTypeObj>) {
   const [modalVisible, setModalVisible] = useState({
     actionsModal: false,
     editModal: false,
+    showConfirmCancel: false,
   });
 
+  let column1: ColumnOne = {
+    ...column3,
+    ...defaultListViewIconOptions,
+  };
+  let column2: ColumnTwo<PossibleTypeObj> = {
+    ...column3,
+    ...defaultListViewIsEditable,
+    canEdit: true,
+  };
+
+  let c3: ColumnThree<PossibleTypeObj> = {
+    ...column3,
+    ...defaultListViewIconOptions,
+    showIcon: false,
+  };
   return (
     <View style={styles.column}>
-      <ActionsModal
-        // deleteObj={deleteObj}
-        modalVisible={modalVisible}
-        obj={column3}
-        setModalVisible={setModalVisible}
-      />
+      <Modal
+        transparent={true}
+        visible={modalVisible.showConfirmCancel}
+        onRequestClose={() => {
+          Alert.alert("confirmCancel closed.");
+          setModalVisible((prevState) => ({
+            ...prevState,
+            actionsModal: false,
+            showConfirmCancel: false,
+          }));
+        }}
+        style={styles.actionsModal}
+      >
+        <View style={styles.centerModal}>
+          <View style={styles.confirmCancel}>
+            <ConfirmCancel
+              parentModalVisible={modalVisible}
+              parentSetModalVisiible={setModalVisible}
+            >
+              <Row column1={column1} column2={column2} column3={c3} />
+            </ConfirmCancel>
+          </View>
+        </View>
+      </Modal>
+      <Modal
+        transparent={true}
+        visible={modalVisible.actionsModal}
+        onRequestClose={() => {
+          Alert.alert("ActionModal closed.");
+          setModalVisible((prevState) => ({
+            ...prevState,
+            actionsModal: false,
+          }));
+        }}
+        style={styles.actionsModal}
+      >
+        <View style={styles.centerModal}>
+          <View style={styles.centeredView}>
+            <ModalOption
+              iconType="plusSign"
+              text="add"
+              iconSize={24}
+              obj={column3}
+              parentModalVisible={modalVisible}
+              parentSetModalVisiible={setModalVisible}
+            />
 
+            <ModalOption
+              iconType="camera"
+              text="camera"
+              iconSize={24}
+              obj={column3}
+              parentModalVisible={modalVisible}
+              parentSetModalVisiible={setModalVisible}
+            />
+            <ModalOption
+              iconType="delete"
+              text="delete"
+              iconSize={24}
+              obj={column3}
+              parentModalVisible={modalVisible}
+              parentSetModalVisiible={setModalVisible}
+            />
+            <ModalOption
+              iconSize={24}
+              iconType="edit"
+              obj={column3}
+              parentModalVisible={modalVisible}
+              parentSetModalVisiible={setModalVisible}
+              text="edit"
+            />
+          </View>
+        </View>
+      </Modal>
       <Pressable
         onPress={() => {
           console.log("dots button pressable pressed");
           setModalVisible((prevState) => ({
             ...prevState,
-            actionsModal: !prevState.actionsModal,
+            // actionsModal: !prevState.actionsModal,
+            showConfirmCancel: true,
           }));
         }}
         style={({ pressed }) => [
@@ -49,19 +143,6 @@ export default function Column3(column3: ColumnThree<PossibleTypeObj>) {
     </View>
   );
 }
-
-// <ActionsModal
-//   // deleteObj={deleteObj}
-//   modalVisible={modalVisible}
-//   obj={obj}
-//   setModalVisible={setModalVisible}
-// />
-// <EditModal
-//   modalVisible={modalVisible}
-//   obj={obj}
-//   setModalVisible={setModalVisible}
-//   // updateObj={updateObj}
-// />
 
 const styles = StyleSheet.create({
   actionsModal: {
@@ -100,6 +181,11 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     borderRadius: 5,
+  },
+  confirmCancel: {
+    height: "100%",
+    width: "100%",
+    backgroundColor: "lightgray",
   },
   modalactionsModal: {
     backgroundColor: "blue",

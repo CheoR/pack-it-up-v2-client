@@ -1,36 +1,35 @@
 import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
-import { Option as OI } from "../types/types";
+import { ModalOption as MOI } from "../types/types";
 import { Icon } from "../constants/Icon";
 
 export default function ModalOption({
   iconSize = 24,
   iconType = "none",
-  optionalFunc,
-  optionalFuncExtras = {},
-  setState,
+  // optionalFunc,
+  // optionalFuncExtras = {},
+  // setState,
+  // setStateExtras,
+  obj,
+  parentModalVisible,
+  parentSetModalVisiible,
   text,
-  setStateExtras,
-}: OI) {
+}: MOI) {
   return (
     <View style={styles.modalView}>
       <Icon size={iconSize} type={iconType} />
       <Pressable
         style={[styles.button, styles.buttonClose]}
-        onPress={() => {
-          if (optionalFunc !== undefined) {
-            delete optionalFuncExtras?.input?.count;
-            delete optionalFuncExtras?.variables?.input?.move_id;
-            console.log(`\n\n============ this is what i'm eneidn back`);
-            console.log(optionalFuncExtras);
-            console.log(`=========\n\n`);
-            optionalFunc(optionalFuncExtras);
-          }
-          setState((prevState) => ({
-            ...prevState,
-            ...setStateExtras,
-          }));
+        onPress={(data) => {
+          console.log(`data`);
+          console.log(data);
+          parentSetModalVisiible((prevState) => {
+            return {
+              ...prevState,
+              actionsModal: false,
+            };
+          });
         }}
       >
         <Text style={styles.textStyle}>{text}</Text>
@@ -38,6 +37,27 @@ export default function ModalOption({
     </View>
   );
 }
+
+// <Icon size={iconSize} type={iconType} />
+// <Pressable
+//   style={[styles.button, styles.buttonClose]}
+//   onPress={() => {
+//     if (optionalFunc !== undefined) {
+//       delete optionalFuncExtras?.input?.count;
+//       delete optionalFuncExtras?.variables?.input?.move_id;
+//       console.log(`\n\n============ this is what i'm eneidn back`);
+//       console.log(optionalFuncExtras);
+//       console.log(`=========\n\n`);
+//       optionalFunc(optionalFuncExtras);
+//     }
+//     setState((prevState) => ({
+//       ...prevState,
+//       ...setStateExtras,
+//     }));
+//   }}
+// >
+//   <Text style={styles.textStyle}>{text}</Text>
+// </Pressable>
 
 const styles = StyleSheet.create({
   button: {
