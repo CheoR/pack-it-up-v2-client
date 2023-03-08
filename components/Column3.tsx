@@ -45,6 +45,33 @@ export default function Column3(column3: ColumnThree<PossibleTypeObj>) {
     <View style={styles.column}>
       <Modal
         transparent={true}
+        visible={modalVisible.delete}
+        onRequestClose={() => {
+          Alert.alert("delete closed.");
+          setModalVisible((prevState) => ({
+            ...prevState,
+            actionsModal: false,
+            delete: false,
+          }));
+        }}
+        style={styles.actionsModal}
+      >
+        <View style={styles.centerModal}>
+          <View style={styles.confirmCancel}>
+            <ConfirmCancel
+              parentModalVisible={modalVisible}
+              parentSetModalVisiible={setModalVisible}
+            >
+              <Text>are you sure you want to delete?</Text>
+              <Row
+                column1={column1}
+                column2={{ ...column2, canEdit: false }}
+                column3={c3}
+              />
+            </ConfirmCancel>
+          </View>
+        </View>
+      </Modal>
         visible={modalVisible.showConfirmCancel}
         onRequestClose={() => {
           Alert.alert("confirmCancel closed.");
