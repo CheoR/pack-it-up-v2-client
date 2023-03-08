@@ -25,7 +25,7 @@ export default function ConfirmCancel({
             }));
           }}
         >
-          <Text style={styles.textStyle}>Confirm</Text>
+          <Text style={styles.text}>confirm</Text>
         </Pressable>
         <Pressable
           style={[styles.button, styles.buttonClose]}
@@ -38,7 +38,7 @@ export default function ConfirmCancel({
             }));
           }}
         >
-          <Text style={styles.textStyle}>Cancel</Text>
+          <Text style={styles.text}>cancel</Text>
         </Pressable>
       </View>
     </View>
@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     elevation: 5,
     flexDirection: "row",
   },
-  textStyle: {
+  text: {
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
