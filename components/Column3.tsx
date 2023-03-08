@@ -20,6 +20,8 @@ import {
 export default function Column3(column3: ColumnThree<PossibleTypeObj>) {
   const [modalVisible, setModalVisible] = useState({
     actionsModal: false,
+    edit: false,
+    delete: false,
     editModal: false,
     showConfirmCancel: false,
   });
@@ -50,6 +52,30 @@ export default function Column3(column3: ColumnThree<PossibleTypeObj>) {
             ...prevState,
             actionsModal: false,
             showConfirmCancel: false,
+          }));
+        }}
+        style={styles.actionsModal}
+      >
+        <View style={styles.centerModal}>
+          <View style={styles.confirmCancel}>
+            <ConfirmCancel
+              parentModalVisible={modalVisible}
+              parentSetModalVisiible={setModalVisible}
+            >
+              <Row column1={column1} column2={column2} column3={c3} />
+            </ConfirmCancel>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        transparent={true}
+        visible={modalVisible.edit}
+        onRequestClose={() => {
+          Alert.alert("edit closed.");
+          setModalVisible((prevState) => ({
+            ...prevState,
+            edit: false,
           }));
         }}
         style={styles.actionsModal}

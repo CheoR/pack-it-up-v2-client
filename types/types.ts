@@ -77,12 +77,16 @@ export interface ConfirmCancel {
   children: JSX.Element[] | JSX.Element;
   parentModalVisible: {
     actionsModal: boolean;
+    edit: boolean;
+    delete: boolean;
     editModal: boolean;
     showConfirmCancel: boolean;
   };
   parentSetModalVisiible: React.Dispatch<
     React.SetStateAction<{
       actionsModal: boolean;
+      edit: boolean;
+      delete: boolean;
       editModal: boolean;
       showConfirmCancel: boolean;
     }>
@@ -139,12 +143,16 @@ export interface ModalOption {
   obj: PossibleTypeObj;
   parentModalVisible: {
     actionsModal: boolean;
+    edit: boolean;
+    delete: boolean;
     editModal: boolean;
     showConfirmCancel: boolean;
   };
   parentSetModalVisiible: React.Dispatch<
     React.SetStateAction<{
       actionsModal: boolean;
+      edit: boolean;
+      delete: boolean;
       editModal: boolean;
       showConfirmCancel: boolean;
     }>
