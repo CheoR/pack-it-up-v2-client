@@ -1,6 +1,11 @@
 import React, { useState } from "react";
-import { Alert, Modal, Pressable, StyleSheet, View } from "react-native";
+import { Alert, Modal, Pressable, StyleSheet, Text, View } from "react-native";
+import { DocumentNode, useMutation } from "@apollo/client";
 
+import { GET_ITEMS, REMOVE_ITEM } from "../graphql/item";
+import { GET_MOVES, REMOVE_MOVE } from "../graphql/move";
+import { GET_BOXES, REMOVE_BOX } from "../graphql/box";
+import { isBox, isItem } from "../utils/utils";
 import ConfirmCancel from "./ConfirmCancel";
 import { Icon } from "../constants/Icon";
 import COLORS from "../constants/Colors";
@@ -18,13 +23,7 @@ import {
 } from "../constants/Defaults";
 
 export default function Column3(column3: ColumnThree<PossibleTypeObj>) {
-  const [modalVisible, setModalVisible] = useState({
-    actionsModal: false,
-    edit: false,
-    delete: false,
-    editModal: false,
-    showConfirmCancel: false,
-  });
+  let MUTATION: DocumentNode;
 
   let column1: ColumnOne = {
     ...column3,
@@ -41,6 +40,41 @@ export default function Column3(column3: ColumnThree<PossibleTypeObj>) {
     ...defaultListViewIconOptions,
     showIcon: false,
   };
+
+  const [modalVisible, setModalVisible] = useState({
+    actionsModal: false,
+    edit: false,
+    delete: false,
+    editModal: false,
+    showConfirmCancel: false,
+  });
+
+  if (isItem(column3)) {
+    MUTATION = REMOVE_ITEM;
+  } else if (isBox(column3)) {
+    MUTATION = REMOVE_BOX;
+  } else {
+    MUTATION = REMOVE_MOVE;
+  }
+
+  const [removeObj] = useMutation(MUTATION, {
+    refetchQueries: [
+      {
+        query: GET_ITEMS,
+      },
+      {
+        query: GET_BOXES,
+      },
+      {
+        query: GET_MOVES,
+      },
+      "GetHomeData",
+    ],
+    onError: (error) => {
+      console.log(`Create Item Error: ${error.message}`);
+    },
+  });
+
   return (
     <View style={styles.column}>
       <Modal
@@ -61,6 +95,15 @@ export default function Column3(column3: ColumnThree<PossibleTypeObj>) {
             <ConfirmCancel
               parentModalVisible={modalVisible}
               parentSetModalVisiible={setModalVisible}
+              mutation={() =>
+                removeObj({
+                  variables: {
+                    input: {
+                      _id: column3._id,
+                    },
+                  },
+                })
+              }
             >
               <Text>are you sure you want to delete?</Text>
               <Row
@@ -72,6 +115,8 @@ export default function Column3(column3: ColumnThree<PossibleTypeObj>) {
           </View>
         </View>
       </Modal>
+      <Modal
+        transparent={true}
         visible={modalVisible.showConfirmCancel}
         onRequestClose={() => {
           Alert.alert("confirmCancel closed.");
@@ -173,8 +218,7 @@ export default function Column3(column3: ColumnThree<PossibleTypeObj>) {
           console.log("dots button pressable pressed");
           setModalVisible((prevState) => ({
             ...prevState,
-            // actionsModal: !prevState.actionsModal,
-            showConfirmCancel: true,
+            actionsModal: !prevState.actionsModal,
           }));
         }}
         style={({ pressed }) => [

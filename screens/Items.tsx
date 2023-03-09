@@ -3,10 +3,7 @@ import { useMutation, useQuery } from "@apollo/client";
 
 import { ColumnOne, ColumnThree, ColumnTwo, Item } from "../types/types";
 import ScrollAndCounter from "../components/ScrollAndCounter";
-
-// import { GET_MOVES } from "../graphql/move";
 import Loading from "../components/Loading";
-// import { GET_BOXES } from "../graphql/box";
 import Row from "../components/Row";
 import {
   defaultItemCreate,
@@ -16,7 +13,6 @@ import {
 import {
   CREATE_ITEM,
   GET_ITEMS,
-  // REMOVE_ITEM,
   // UPDATE_ITEM,
 } from "../graphql/item";
 
@@ -38,24 +34,6 @@ export default function ItemsScreen() {
       console.log(`Create Item Error: ${error.message}`);
     },
   });
-
-  // const [removeItem] = useMutation(REMOVE_ITEM, {
-  //   refetchQueries: [
-  //     {
-  //       query: GET_ITEMS,
-  //     },
-  //     {
-  //       query: GET_BOXES,
-  //     },
-  //     {
-  //       query: GET_MOVES,
-  //     },
-  //     "GetHomeData",
-  //   ],
-  //   onError: (error) => {
-  //     console.log(`Create Item Error: ${error.message}`);
-  //   },
-  // });
 
   // const [updateItem] = useMutation(UPDATE_ITEM, {
   //   // TODO:

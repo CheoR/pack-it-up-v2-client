@@ -3,8 +3,16 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { ConfirmCancel as CCI } from "../types/types";
 
+function makeFalse<T extends {}>(obj: T) {
+  const allFalse = Object.fromEntries(
+    Object.keys(obj).map((key: string) => [key, false])
+  );
+  return allFalse;
+}
+
 export default function ConfirmCancel({
   children,
+  mutation,
   parentModalVisible,
   parentSetModalVisiible,
 }: CCI) {
@@ -17,12 +25,14 @@ export default function ConfirmCancel({
         <Pressable
           style={[styles.button, styles.buttonClose]}
           onPress={() => {
+            if (mutation) {
+              mutation();
+            }
             // setModalVisible((prevState) => !prevState);
-            parentSetModalVisiible((prevState) => ({
-              ...prevState,
-              actionsModal: false,
-              showConfirmCancel: false,
-            }));
+            parentSetModalVisiible((prevState) => {
+              const res = makeFalse(prevState);
+              return res;
+            });
           }}
         >
           <Text style={styles.text}>confirm</Text>
@@ -30,12 +40,12 @@ export default function ConfirmCancel({
         <Pressable
           style={[styles.button, styles.buttonClose]}
           onPress={() => {
+            console.log(`cancel pressed`);
             // setModalVisible((prevState) => !prevState);
-            parentSetModalVisiible((prevState) => ({
-              ...prevState,
-              actionsModal: false,
-              showConfirmCancel: false,
-            }));
+            parentSetModalVisiible((prevState) => {
+              const res = makeFalse(prevState);
+              return res;
+            });
           }}
         >
           <Text style={styles.text}>cancel</Text>

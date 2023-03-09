@@ -75,6 +75,7 @@ export type ColumnThree<T> = T & {
 
 export interface ConfirmCancel {
   children: JSX.Element[] | JSX.Element;
+  mutation?: () => void;
   parentModalVisible: {
     actionsModal: boolean;
     edit: boolean;
