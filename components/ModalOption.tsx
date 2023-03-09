@@ -7,8 +7,6 @@ import { Icon } from "../constants/Icon";
 export default function ModalOption({
   iconSize = 24,
   iconType = "none",
-  obj,
-  parentModalVisible,
   parentSetModalVisiible,
   text,
 }: MOI) {
