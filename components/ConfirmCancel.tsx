@@ -1,23 +1,22 @@
-import React, { useState } from "react";
+import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { ConfirmCancel as CCI } from "../types/types";
+import { makeFalse as MFT } from "../types/types";
 
-function makeFalse<T extends {}>(obj: T) {
+function makeFalse<T extends {}>(obj: T): MFT<T> {
   const allFalse = Object.fromEntries(
     Object.keys(obj).map((key: string) => [key, false])
-  );
+  ) as MFT<T>;
+
   return allFalse;
 }
 
 export default function ConfirmCancel({
   children,
   mutation,
-  parentModalVisible,
   parentSetModalVisiible,
 }: CCI) {
-  // const [modalVisible, setModalVisible] = useState(false);
-
   return (
     <View style={styles.column}>
       {children}
@@ -28,7 +27,6 @@ export default function ConfirmCancel({
             if (mutation) {
               mutation();
             }
-            // setModalVisible((prevState) => !prevState);
             parentSetModalVisiible((prevState) => {
               const res = makeFalse(prevState);
               return res;
@@ -40,8 +38,6 @@ export default function ConfirmCancel({
         <Pressable
           style={[styles.button, styles.buttonClose]}
           onPress={() => {
-            console.log(`cancel pressed`);
-            // setModalVisible((prevState) => !prevState);
             parentSetModalVisiible((prevState) => {
               const res = makeFalse(prevState);
               return res;

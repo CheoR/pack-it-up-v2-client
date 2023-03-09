@@ -191,6 +191,10 @@ export type Dictionary = {
   [key in PossibleIcons]: string;
 };
 
+export type makeFalse<Type> = {
+  [Property in keyof Type]: boolean;
+};
+
 export type NavIcons = "chevron" | "dots";
 export type PossibleIcons =
   | "box"
