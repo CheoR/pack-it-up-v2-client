@@ -67,7 +67,15 @@ export interface ViewIconOption {
 
 export type ColumnOne = PossibleTypeObj & ViewIconOption;
 
-export type ColumnTwo<T> = T & isEditabe;
+export type ColumnTwo<T> = T &
+  isEditabe & {
+    setFormFields?: React.Dispatch<
+      React.SetStateAction<{
+        [key in keyof T]: T[key];
+      }>
+    >;
+  };
+
 export type ColumnThree<T> = T & {
   iconType?: NavIcons;
   showIcon?: boolean;

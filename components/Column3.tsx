@@ -22,8 +22,46 @@ import {
   defaultListViewIsEditable,
 } from "../constants/Defaults";
 
+function removeInvalidFieldsForObjType(obj: Omit<PossibleTypeObj, "Home">) {
+  let filtered;
+
+  if (isItem(obj)) {
+    filtered = Object.keys(obj)
+      .filter((key) => defaultUpdateItem.includes(key))
+      .reduce((acc, key) => {
+        return {
+          ...acc,
+          [key]: obj[key as keyof typeof obj],
+        };
+      }, {});
+  } else if (isBox(obj)) {
+    filtered = Object.keys(obj)
+      .filter((key) => defaultUpdateBox.includes(key))
+      .reduce((acc, key) => {
+        return {
+          ...acc,
+          [key]: obj[key as keyof typeof obj],
+        };
+      }, {});
+  } else {
+    filtered = Object.keys(obj)
+      .filter((key) => defaultUpdateMove.includes(key))
+      .reduce((acc, key) => {
+        return {
+          ...acc,
+          [key]: obj[key as keyof typeof obj],
+        };
+      }, {});
+  }
+
+  return {
+    ...filtered,
+  };
+}
+
 export default function Column3(column3: ColumnThree<PossibleTypeObj>) {
-  let MUTATION: DocumentNode;
+  let REMOVE_OBJ: DocumentNode;
+  let UPDATE_OBJ: DocumentNode;
 
   let column1: ColumnOne = {
     ...column3,
@@ -157,12 +195,31 @@ export default function Column3(column3: ColumnThree<PossibleTypeObj>) {
             <ConfirmCancel
               parentModalVisible={modalVisible}
               parentSetModalVisiible={setModalVisible}
+              mutation={() => {
+                const cleanedFields = removeInvalidFieldsForObjType(formFields);
+                updateObj({
+                  variables: {
+                    input: {
+                      ...cleanedFields,
+                    },
+                  },
+                });
+              }}
             >
-              <Row column1={column1} column2={column2} column3={c3} />
+              <Row
+                column1={column1}
+                column2={{
+                  ...column2,
+                  canEdit: true,
+                  setFormFields,
+                }}
+                column3={c3}
+              />
             </ConfirmCancel>
           </View>
         </View>
       </Modal>
+
       <Modal
         transparent={true}
         visible={modalVisible.actionsModal}

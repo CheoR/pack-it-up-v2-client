@@ -196,14 +196,16 @@ export default function Column2(column2: ColumnTwo<PossibleTypeObj>) {
         <TextInput
           style={styles.name}
           placeholder={column2.name.slice(0, 20) || "Header"}
-          // onChangeText={(text) => {
-          //   updateObj((prevState) => {
-          //     return {
-          //       ...prevState,
-          //       name: text,
-          //     };
-          //   });
-          // }}
+          onChangeText={(text) => {
+            // TODO: refactor
+            column2?.setFormFields &&
+              column2?.setFormFields((prevState) => {
+                return {
+                  ...prevState,
+                  name: text,
+                };
+              });
+          }}
         />
         {column2.showDropdown && dropdownData?.length ? (
           <DropDownPicker
