@@ -296,14 +296,16 @@ export default function Column2(column2: ColumnTwo<PossibleTypeObj>) {
           <TextInput
             style={styles.value}
             placeholder={`$${parseFloat(column2?.value?.toFixed(2)) || 0.0}`}
-            // onChangeText={(text) => {
-            //   updateObj((prevState) => {
-            //     return {
-            //       ...prevState,
-            //       value: Number(text),
-            //     };
-            //   });
-            // }}
+            onChangeText={(text) => {
+              // TODO: refactor
+              column2?.setFormFields &&
+                column2?.setFormFields((prevState) => {
+                  return {
+                    ...prevState,
+                    value: Number(text),
+                  };
+                });
+            }}
             keyboardType="numeric"
           />
         </View>
