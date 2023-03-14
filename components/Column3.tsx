@@ -2,10 +2,10 @@ import React, { useState } from "react";
 import { Alert, Modal, Pressable, StyleSheet, Text, View } from "react-native";
 import { DocumentNode, useMutation } from "@apollo/client";
 
-import { GET_ITEMS, REMOVE_ITEM } from "../graphql/item";
-import { GET_MOVES, REMOVE_MOVE } from "../graphql/move";
-import { GET_BOXES, REMOVE_BOX } from "../graphql/box";
-import { isBox, isItem } from "../utils/utils";
+import { isBox, isItem, removeInvalidFieldsForObjType } from "../utils/utils";
+import { GET_ITEMS, REMOVE_ITEM, UPDATE_ITEM } from "../graphql/item";
+import { GET_MOVES, REMOVE_MOVE, UPDATE_MOVE } from "../graphql/move";
+import { GET_BOXES, REMOVE_BOX, UPDATE_BOX } from "../graphql/box";
 import ConfirmCancel from "./ConfirmCancel";
 import { Icon } from "../constants/Icon";
 import COLORS from "../constants/Colors";
@@ -21,43 +21,6 @@ import {
   defaultListViewIconOptions,
   defaultListViewIsEditable,
 } from "../constants/Defaults";
-
-function removeInvalidFieldsForObjType(obj: Omit<PossibleTypeObj, "Home">) {
-  let filtered;
-
-  if (isItem(obj)) {
-    filtered = Object.keys(obj)
-      .filter((key) => defaultUpdateItem.includes(key))
-      .reduce((acc, key) => {
-        return {
-          ...acc,
-          [key]: obj[key as keyof typeof obj],
-        };
-      }, {});
-  } else if (isBox(obj)) {
-    filtered = Object.keys(obj)
-      .filter((key) => defaultUpdateBox.includes(key))
-      .reduce((acc, key) => {
-        return {
-          ...acc,
-          [key]: obj[key as keyof typeof obj],
-        };
-      }, {});
-  } else {
-    filtered = Object.keys(obj)
-      .filter((key) => defaultUpdateMove.includes(key))
-      .reduce((acc, key) => {
-        return {
-          ...acc,
-          [key]: obj[key as keyof typeof obj],
-        };
-      }, {});
-  }
-
-  return {
-    ...filtered,
-  };
-}
 
 export default function Column3(column3: ColumnThree<PossibleTypeObj>) {
   let REMOVE_OBJ: DocumentNode;
