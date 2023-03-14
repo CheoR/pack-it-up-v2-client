@@ -21,6 +21,21 @@ export function isMove(obj: Box | Item | Move): obj is Move {
   return (obj as Move).boxItemsCount !== undefined;
 }
 
+export function printKeysValues(obj: any, fileName: string = ""): void {
+  console.log(`------------ ${fileName} -----------`);
+  if (obj.constructor.name === "Object") {
+    Object.keys(obj).forEach((key) => {
+      console.log(`${key}: ${obj[key]}`);
+    });
+  } else if (Array.isArray(obj)) {
+    obj.forEach((key) => console.log(key));
+  } else {
+    console.log(obj);
+  }
+
+  console.log(`------------ ${fileName} -----------`);
+}
+
 export function removeInvalidFieldsForObjType(
   obj: Omit<PossibleTypeObj, "Home">
 ) {
