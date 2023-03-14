@@ -251,14 +251,16 @@ export default function Column2(column2: ColumnTwo<PossibleTypeObj>) {
               dropdownData?.length ? 65 : 100
             )
           }
-          // onChangeText={(text) => {
-          //   updateObj((prevState) => {
-          //     return {
-          //       ...prevState,
-          //       description: text,
-          //     };
-          //   });
-          // }}
+          onChangeText={(text) => {
+            // TODO: refactor
+            column2?.setFormFields &&
+              column2?.setFormFields((prevState) => {
+                return {
+                  ...prevState,
+                  description: text,
+                };
+              });
+          }}
         />
       </View>
       {column2.showValues && (
