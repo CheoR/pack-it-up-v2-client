@@ -195,6 +195,19 @@ export type CreateItem = Omit<ItemInput["input"], "_id">;
 export type CreateBox = Omit<BoxInput["input"], "_id">;
 export type CreateMove = Omit<MoveInput["input"], "_id">;
 
+export type UpdateItem = keyof Pick<
+  ItemInput["input"],
+  "_id" | "box_id" | "description" | "isFragile" | "name" | "value"
+>;
+export type UpdateBox = Pick<
+  BoxInput["input"],
+  "_id" | "description" | "name" | "move_id"
+>;
+export type UpdateMove = Pick<
+  MoveInput["input"],
+  "_id" | "description" | "name"
+>;
+
 export type Dictionary = {
   [key in PossibleIcons]: string;
 };
