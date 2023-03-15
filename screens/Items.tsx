@@ -3,6 +3,7 @@ import { useMutation, useQuery } from "@apollo/client";
 
 import { ColumnOne, ColumnThree, ColumnTwo, Item } from "../types/types";
 import ScrollAndCounter from "../components/ScrollAndCounter";
+import { CREATE_ITEM, GET_ITEMS } from "../graphql/item";
 import Loading from "../components/Loading";
 import Row from "../components/Row";
 import {
@@ -10,11 +11,6 @@ import {
   defaultListViewIconOptions,
   defaultListViewIsEditable,
 } from "../constants/Defaults";
-import {
-  CREATE_ITEM,
-  GET_ITEMS,
-  // UPDATE_ITEM,
-} from "../graphql/item";
 
 export default function ItemsScreen() {
   // TODO: reread polling vs refetch
@@ -35,17 +31,6 @@ export default function ItemsScreen() {
     },
   });
 
-  // const [updateItem] = useMutation(UPDATE_ITEM, {
-  //   // TODO:
-  //   // const [ createItem, { data, loading, error }]
-  //   // review update funciton to avoid making extra query call
-  //   // after mutation
-  //   // update(cache, { data })
-  //   refetchQueries: [{ query: GET_ITEMS }, "GetHomeData"],
-  //   onError: (error) => {
-  //     console.log(`Create Item Error: ${error.message}`);
-  //   },
-  // });
   if (loading) return <Loading text="Items" />;
   if (error) console.info(`Item Error: ${error.message}`);
 

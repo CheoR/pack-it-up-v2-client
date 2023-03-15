@@ -1,13 +1,13 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, TextInput } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
-import { useMutation, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import Checkbox from "expo-checkbox";
 
-import { GET_MOVES, GET_MOVES_DROPDOWN, UPDATE_MOVE } from "../graphql/move";
-import { GET_BOXES, GET_BOXES_DROPDOWN, UPDATE_BOX } from "../graphql/box";
-import { GET_ITEMS, UPDATE_ITEM } from "../graphql/item";
-import { isBox, isItem, isHome } from "../utils/utils";
+import { GET_MOVES_DROPDOWN, UPDATE_MOVE } from "../graphql/move";
+import { GET_BOXES_DROPDOWN, UPDATE_BOX } from "../graphql/box";
+import { isBox, isItem, isHome, printKeysValues } from "../utils/utils";
+import { UPDATE_ITEM } from "../graphql/item";
 import COLORS from "../constants/Colors";
 import {
   Box,
