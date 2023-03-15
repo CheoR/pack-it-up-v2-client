@@ -197,6 +197,16 @@ export type CreateMove = Omit<MoveInput["input"], "_id">;
 
 export type Routes = Record<string, string>;
 
+export type BottomStackParamList = {
+  CreatePost: undefined;
+  Boxes: undefined;
+  DisplayRoute: undefined;
+  Items: undefined;
+  Home: undefined;
+  Moves: undefined;
+  Settings: undefined;
+};
+
 export type RootStackParamList = {
   Landing: undefined;
   Login: undefined;

@@ -2,6 +2,7 @@ import React from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
+import { BottomStackParamList } from "../types/types";
 import SettingsScreen from "../components/Settings";
 import MovesScreen from "../screens/Moves";
 import BoxesScreen from "../screens/Boxes";
@@ -10,12 +11,12 @@ import HomeScreen from "../screens/Home";
 import ROUTES from "../constants/Routes";
 import COLORS from "../constants/Colors";
 
-const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator<BottomStackParamList>();
 
 export default function BottomTabNavigator() {
   return (
     <Tab.Navigator
-      initialRouteName={ROUTES.Home}
+      initialRouteName={ROUTES.Home as keyof BottomStackParamList}
       screenOptions={({ route }) => ({
         headerTintColor: "#00171F",
         headerStyle: {
@@ -52,27 +53,27 @@ export default function BottomTabNavigator() {
       })}
     >
       <Tab.Screen
-        name={ROUTES.Home}
+        name={ROUTES.Home as keyof BottomStackParamList}
         component={HomeScreen}
         options={{ title: ROUTES.Home }}
       />
       <Tab.Screen
-        name={ROUTES.Moves}
+        name={ROUTES.Moves as keyof BottomStackParamList}
         component={MovesScreen}
         options={{ title: "Moves" }}
       />
       <Tab.Screen
-        name={ROUTES.Boxes}
+        name={ROUTES.Boxes as keyof BottomStackParamList}
         component={BoxesScreen}
         options={{ title: "Boxes" }}
       />
       <Tab.Screen
-        name={ROUTES.Items}
+        name={ROUTES.Items as keyof BottomStackParamList}
         component={ItemsScreen}
         options={{ title: "Items" }}
       />
       <Tab.Screen
-        name={ROUTES.Settings}
+        name={ROUTES.Settings as keyof BottomStackParamList}
         component={SettingsScreen}
         options={{ title: "Settings" }}
       />
