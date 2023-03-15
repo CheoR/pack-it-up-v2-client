@@ -195,6 +195,15 @@ export type CreateItem = Omit<ItemInput["input"], "_id">;
 export type CreateBox = Omit<BoxInput["input"], "_id">;
 export type CreateMove = Omit<MoveInput["input"], "_id">;
 
+export type Routes = Record<string, string>;
+
+export type RootStackParamList = {
+  Landing: undefined;
+  Login: undefined;
+  LoggedIn: undefined;
+  Register: undefined;
+};
+
 export type UpdateItem = keyof Pick<
   ItemInput["input"],
   "_id" | "box_id" | "description" | "isFragile" | "name" | "value"

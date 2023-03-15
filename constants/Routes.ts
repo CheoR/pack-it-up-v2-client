@@ -1,4 +1,6 @@
-const ROUTES = {
+import { Routes } from "../types/types";
+
+const ROUTES: Routes = {
   Boxes: "Boxes",
   CreatePost: "CreatePost",
   DisplayRoute: "DisplayRoute",
@@ -12,4 +14,4 @@ const ROUTES = {
   Settings: "Settings",
 };
 
-export default ROUTES
+export default ROUTES;
