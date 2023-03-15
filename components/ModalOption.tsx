@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { ModalOption as MOI } from "../types/types";
 import { Icon } from "../constants/Icon";
+import COLORS from "../constants/Colors";
 
 export default function ModalOption({
   iconSize = 24,
@@ -25,7 +26,7 @@ export default function ModalOption({
           });
         }}
       >
-        <Text style={styles.textStyle}>{text}</Text>
+        <Text style={styles.text}>{text}</Text>
       </Pressable>
     </View>
   );
@@ -42,11 +43,11 @@ const styles = StyleSheet.create({
   },
   buttonClose: {
     width: 100,
-    backgroundColor: "#2196F3",
+    backgroundColor: COLORS.light.background,
   },
   modalView: {
     margin: 5,
-    backgroundColor: "red",
+    backgroundColor: COLORS.light.tabIconDefault,
     borderRadius: 8,
     padding: 10,
     alignItems: "center",
@@ -60,8 +61,8 @@ const styles = StyleSheet.create({
     elevation: 5,
     flexDirection: "row",
   },
-  textStyle: {
-    color: "white",
+  text: {
+    color: COLORS.light.text,
     fontWeight: "bold",
     textAlign: "center",
     fontSize: 8,
