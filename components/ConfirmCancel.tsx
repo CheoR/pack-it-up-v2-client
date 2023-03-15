@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { ConfirmCancel as CCI } from "../types/types";
 import { makeFalse as MFT } from "../types/types";
+import COLORS from "../constants/Colors";
 
 function makeFalse<T extends {}>(obj: T): MFT<T> {
   const allFalse = Object.fromEntries(
@@ -20,7 +21,7 @@ export default function ConfirmCancel({
   return (
     <View style={styles.column}>
       {children}
-      <View>
+      <View style={styles.buttons}>
         <Pressable
           style={[styles.button, styles.buttonClose]}
           onPress={() => {
@@ -55,9 +56,10 @@ const styles = StyleSheet.create({
   column: {
     height: "100%",
     width: "100%",
+    paddingHorizontal: 8,
     paddingVertical: 100,
     justifyContent: "space-around",
-    backgroundColor: "red",
+    backgroundColor: COLORS.light.background,
     alignItems: "center",
   },
   button: {
@@ -69,8 +71,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#F194FF",
   },
   buttonClose: {
-    width: 100,
-    backgroundColor: "#2196F3",
+    width: 400,
+    backgroundColor: COLORS.light.tint,
+  },
+  buttons: {
+    height: 100,
+    justifyContent: "space-between",
   },
   modalView: {
     margin: 5,
