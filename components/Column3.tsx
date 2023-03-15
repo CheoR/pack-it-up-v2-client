@@ -49,16 +49,43 @@ export default function Column3(column3: ColumnThree<PossibleTypeObj>) {
     editModal: false,
     showConfirmCancel: false,
   });
+  const [formFields, setFormFields] = useState<PossibleTypeObj>({ ...column3 });
 
   if (isItem(column3)) {
-    MUTATION = REMOVE_ITEM;
+    UPDATE_OBJ = UPDATE_ITEM;
+    REMOVE_OBJ = REMOVE_ITEM;
   } else if (isBox(column3)) {
-    MUTATION = REMOVE_BOX;
+    UPDATE_OBJ = UPDATE_BOX;
+    REMOVE_OBJ = REMOVE_BOX;
   } else {
-    MUTATION = REMOVE_MOVE;
+    UPDATE_OBJ = UPDATE_MOVE;
+    REMOVE_OBJ = REMOVE_MOVE;
   }
 
-  const [removeObj] = useMutation(MUTATION, {
+  const [removeObj] = useMutation(REMOVE_OBJ, {
+    refetchQueries: [
+      {
+        query: GET_ITEMS,
+      },
+      {
+        query: GET_BOXES,
+      },
+      {
+        query: GET_MOVES,
+      },
+      "GetHomeData",
+    ],
+    onError: (error) => {
+      console.log(`Create Item Error: ${error.message}`);
+    },
+  });
+
+  const [updateObj] = useMutation(UPDATE_OBJ, {
+    // TODO:
+    // const [ updateItem, { data, loading, error }]
+    // review update funciton to avoid making extra query call
+    // after mutation
+    // update(cache, { data })
     refetchQueries: [
       {
         query: GET_ITEMS,
@@ -116,40 +143,20 @@ export default function Column3(column3: ColumnThree<PossibleTypeObj>) {
           </View>
         </View>
       </Modal>
-      <Modal
-        transparent={true}
-        visible={modalVisible.showConfirmCancel}
-        onRequestClose={() => {
-          Alert.alert("confirmCancel closed.");
-          setModalVisible((prevState) => ({
-            ...prevState,
-            actionsModal: false,
-            showConfirmCancel: false,
-          }));
-        }}
-        style={styles.actionsModal}
-      >
-        <View style={styles.centerModal}>
-          <View style={styles.confirmCancel}>
-            <ConfirmCancel
-              parentModalVisible={modalVisible}
-              parentSetModalVisiible={setModalVisible}
-            >
-              <Row column1={column1} column2={column2} column3={c3} />
-            </ConfirmCancel>
-          </View>
-        </View>
-      </Modal>
 
       <Modal
         transparent={true}
         visible={modalVisible.edit}
         onRequestClose={() => {
           Alert.alert("edit closed.");
-          setModalVisible((prevState) => ({
-            ...prevState,
-            edit: false,
-          }));
+          setModalVisible((prevState) => {
+            return {
+              ...prevState,
+              actionModal: false,
+              showConfirmCancel: false,
+              edit: false,
+            };
+          });
         }}
         style={styles.actionsModal}
       >
@@ -233,9 +240,9 @@ export default function Column3(column3: ColumnThree<PossibleTypeObj>) {
           </View>
         </View>
       </Modal>
+
       <Pressable
         onPress={() => {
-          console.log("dots button pressable pressed");
           setModalVisible((prevState) => ({
             ...prevState,
             actionsModal: !prevState.actionsModal,
@@ -282,7 +289,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     // marginTop: 22,
-    backgroundColor: "orange", //
+    backgroundColor: "orange",
     height: 320,
     width: 160,
     borderRadius: 5,
@@ -292,7 +299,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     // marginTop: 22,
-    backgroundColor: "green", //
+    backgroundColor: "green",
     // height: 320,
     // width: 160,
     width: "100%",

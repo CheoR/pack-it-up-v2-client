@@ -6,14 +6,13 @@ import Checkbox from "expo-checkbox";
 
 import { GET_MOVES_DROPDOWN, UPDATE_MOVE } from "../graphql/move";
 import { GET_BOXES_DROPDOWN, UPDATE_BOX } from "../graphql/box";
-import { isBox, isItem, isHome, printKeysValues } from "../utils/utils";
+import { isBox, isItem, isHome } from "../utils/utils";
 import { UPDATE_ITEM } from "../graphql/item";
 import COLORS from "../constants/Colors";
 import {
   Box,
   ColumnTwo,
   EditableFields,
-  isEditabe,
   Item,
   Move,
   PossibleTypeObj,
@@ -107,7 +106,9 @@ const nonEditableFields: EditableFields = {
   },
 };
 export default function Column2(column2: ColumnTwo<PossibleTypeObj>) {
-  const [isChecked, setIsChecked] = useState(column2.isFragile);
+  const [isChecked, setIsChecked] = useState<boolean>(
+    column2.isFragile || false
+  );
   const [dropdownData, setDropdownData] = useState<PossibleTypeObj[]>([]);
   const [selected, setSelected] = useState("");
   const [open, setOpen] = useState(false);
@@ -157,6 +158,7 @@ export default function Column2(column2: ColumnTwo<PossibleTypeObj>) {
         );
         setDropdownData(dropdownData);
         setSelected(obj?.name);
+        setIsChecked(column2?.isFragile || false);
       }
       if (type === "box") {
         dropdownData = data.getMovesByUserId as Move[];
@@ -170,23 +172,6 @@ export default function Column2(column2: ColumnTwo<PossibleTypeObj>) {
     onError: (error) => console.log(`Query Dropdown Error: ${error.message}`),
   });
 
-  // const [updateObj] = useMutation(MUTATION, {
-  //   refetchQueries: [
-  //     {
-  //       query: GET_ITEMS,
-  //     },
-  //     {
-  //       query: GET_BOXES,
-  //     },
-  //     {
-  //       query: GET_MOVES,
-  //     },
-  //     "GetHomeData",
-  //   ],
-  //   onError: (error) => {
-  //     console.log(`Create Item Error: ${error.message}`);
-  //   },
-  // });
   return (
     <View style={styles.column}>
       <View
@@ -229,13 +214,21 @@ export default function Column2(column2: ColumnTwo<PossibleTypeObj>) {
             setValue={setSelected}
             value={selected}
             onSelectItem={(item) => {
-              console.log("selected", item);
-              // updateObj((prevState) => {
-              //   return {
-              //     ...prevState,
-              //     ...item,
-              //   };
-              // });
+              // TODO: refactor
+              column2?.setFormFields &&
+                column2?.setFormFields((prevState) => {
+                  let key = "";
+                  if (type === "item") {
+                    key = "box";
+                  }
+                  if (type === "box") {
+                    key = "move";
+                  }
+                  return {
+                    ...prevState,
+                    [`${key}_id`]: item["_id" as keyof typeof item],
+                  };
+                });
             }}
           />
         ) : (
@@ -273,21 +266,19 @@ export default function Column2(column2: ColumnTwo<PossibleTypeObj>) {
             <Checkbox
               style={styles.checkbox}
               value={isChecked}
-              // onValueChange={() => {
-              //   setIsChecked((prevState) => {
-              //     updateObj((prevState) => {
-              //       console.log(
-              //         `prevState: ${prevState} new state: ${!prevState}`
-              //       );
-              //       return {
-              //         ...prevState,
-              //         isFragile: !prevState,
-              //       };
-              //     });
-
-              //     return !prevState;
-              //   });
-              // }}
+              onValueChange={() => {
+                setIsChecked((prevState) => {
+                  // TODO: refactor
+                  return !prevState;
+                });
+                column2?.setFormFields &&
+                  column2?.setFormFields((prevState) => {
+                    return {
+                      ...prevState,
+                      isFragile: !prevState.isFragile,
+                    };
+                  });
+              }}
               disabled={!column2.canEdit} // true => isDisabled = false
               color={isChecked ? COLORS.light.action : undefined}
             />
