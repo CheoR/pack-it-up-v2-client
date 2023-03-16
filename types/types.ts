@@ -201,7 +201,8 @@ export type BottomStackParamList = {
   CreatePost: undefined;
   Boxes: undefined;
   DisplayRoute: undefined;
-  Items: undefined;
+  // TODO: fix
+  Items: { createObj: ({}) => Promise<any>; data: any[] };
   Home: undefined;
   Moves: undefined;
   Settings: undefined;
