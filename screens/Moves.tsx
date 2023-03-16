@@ -1,10 +1,9 @@
 import React from "react";
-import { useMutation, useQuery } from "@apollo/client";
 
 import { ColumnOne, ColumnThree, ColumnTwo } from "../types/types";
 import ScrollAndCounter from "../components/ScrollAndCounter";
 import { CREATE_MOVE, GET_MOVES } from "../graphql/move";
-import Loading from "../components/Loading";
+import { withMutation, withQuery } from "../HOC/HOC";
 import { Move } from "../types/types";
 import Row from "../components/Row";
 import {
@@ -13,26 +12,10 @@ import {
   defaultMoveCreate,
 } from "../constants/Defaults";
 
-export default function MovesScreen() {
-  const { data, loading, error } = useQuery(GET_MOVES, {
-    onError: (error) => console.log(`Query Move Error: ${error.message}`),
-  });
-
-  const [createMove] = useMutation(CREATE_MOVE, {
-    // query: DocumentNode object parsed with gql
-    // string: Query name
-    refetchQueries: [{ query: GET_MOVES }, "GetHomeData"],
-    onError: (error) => {
-      console.log(`Create Move Error: ${error.message}`);
-    },
-  });
-
-  if (loading) return <Loading text="Moves" />;
-  if (error) console.log(`Move Error: ${error.message}`);
-
+function MovesScreen({ createObj, data }) {
   return (
     <ScrollAndCounter
-      mutation={createMove}
+      mutation={createObj}
       rest={defaultMoveCreate}
       screen="Moves"
       type="move"
@@ -63,3 +46,10 @@ export default function MovesScreen() {
     </ScrollAndCounter>
   );
 }
+
+export default withMutation(
+  withQuery(MovesScreen, GET_MOVES, "Moves"),
+  CREATE_MOVE,
+  GET_MOVES,
+  "Moves"
+);
