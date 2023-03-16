@@ -1,11 +1,10 @@
 import React from "react";
 import { FlatList, StyleSheet, Text, TextInput, View } from "react-native";
-import { gql, useQuery } from "@apollo/client";
 import Checkbox from "expo-checkbox";
 
 import LoggedInLayout from "../layout/LoggedInLayout";
-import Loading from "../components/Loading";
 import COLORS from "../constants/Colors";
+import { withQuery } from "../HOC/HOC";
 import Row from "../components/Row";
 import {
   ColumnOne,
@@ -19,28 +18,8 @@ import {
   defaultListViewIsEditable,
 } from "../constants/Defaults";
 
-const GET_HOME_DATA = gql`
-  query GetHomeData {
-    getHomeData {
-      _id
-      count
-      description
-      isFragile
-      name
-      value
-    }
-  }
-`;
-
-export default function HomeScreen() {
+function HomeScreen({ data }) {
   const [isChecked, setIsChecked] = React.useState(false);
-
-  const { data, loading, error } = useQuery(GET_HOME_DATA, {
-    onError: (error) => console.log(`Query Home Data Error: ${error.message}`),
-  });
-
-  if (loading) return <Loading text="Data" />;
-  if (error) console.log(`Home Error: ${error.message}`);
 
   const move = data.getHomeData.find(
     (obj: PossibleTypeObj) => obj._id === "move"
@@ -159,3 +138,5 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
 });
+
+export default withQuery(HomeScreen, "home");

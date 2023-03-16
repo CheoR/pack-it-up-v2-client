@@ -1,10 +1,8 @@
 import React from "react";
 
-import { ColumnOne, ColumnThree, ColumnTwo } from "../types/types";
+import { ColumnOne, ColumnThree, ColumnTwo, Move } from "../types/types";
 import ScrollAndCounter from "../components/ScrollAndCounter";
-import { CREATE_MOVE, GET_MOVES } from "../graphql/move";
 import { withMutation, withQuery } from "../HOC/HOC";
-import { Move } from "../types/types";
 import Row from "../components/Row";
 import {
   defaultListViewIconOptions,
@@ -34,6 +32,7 @@ function MovesScreen({ createObj, data }) {
           ...move,
           showIcon: true,
         };
+
         return (
           <Row
             key={move._id}
@@ -47,9 +46,4 @@ function MovesScreen({ createObj, data }) {
   );
 }
 
-export default withMutation(
-  withQuery(MovesScreen, GET_MOVES, "Moves"),
-  CREATE_MOVE,
-  GET_MOVES,
-  "Moves"
-);
+export default withMutation(withQuery(MovesScreen, "move"), "move");

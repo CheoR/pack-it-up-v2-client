@@ -2,7 +2,6 @@ import React from "react";
 
 import { Box, ColumnOne, ColumnThree, ColumnTwo } from "../types/types";
 import ScrollAndCounter from "../components/ScrollAndCounter";
-import { CREATE_BOX, GET_BOXES } from "../graphql/box";
 import { withMutation, withQuery } from "../HOC/HOC";
 import Row from "../components/Row";
 import {
@@ -47,9 +46,4 @@ function BoxesScreen({ createObj, data }) {
   );
 }
 
-export default withMutation(
-  withQuery(BoxesScreen, GET_BOXES, "Boxes"),
-  CREATE_BOX,
-  GET_BOXES,
-  "Boxes"
-);
+export default withMutation(withQuery(BoxesScreen, "box"), "box");

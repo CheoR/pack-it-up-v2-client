@@ -2,7 +2,6 @@ import React from "react";
 
 import { ColumnOne, ColumnThree, ColumnTwo, Item } from "../types/types";
 import ScrollAndCounter from "../components/ScrollAndCounter";
-import { CREATE_ITEM, GET_ITEMS } from "../graphql/item";
 import { withMutation, withQuery } from "../HOC/HOC";
 import Row from "../components/Row";
 import {
@@ -48,9 +47,4 @@ function ItemsScreen({ createObj, data }) {
   );
 }
 
-export default withMutation(
-  withQuery(ItemsScreen, GET_ITEMS, "Items"),
-  CREATE_ITEM,
-  GET_ITEMS,
-  "Items"
-);
+export default withMutation(withQuery(ItemsScreen, "item"), "item");
