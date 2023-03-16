@@ -1,10 +1,9 @@
 import React from "react";
-import { useMutation, useQuery } from "@apollo/client";
 
 import { Box, ColumnOne, ColumnThree, ColumnTwo } from "../types/types";
 import ScrollAndCounter from "../components/ScrollAndCounter";
 import { CREATE_BOX, GET_BOXES } from "../graphql/box";
-import Loading from "../components/Loading";
+import { withMutation, withQuery } from "../HOC/HOC";
 import Row from "../components/Row";
 import {
   defaultBoxCreate,
@@ -12,24 +11,10 @@ import {
   defaultListViewIsEditable,
 } from "../constants/Defaults";
 
-export default function BoxesScreen() {
-  const { data, loading, error } = useQuery(GET_BOXES, {
-    onError: (error) => console.log(`Query Box Error: ${error.message}`),
-  });
-
-  const [createBox] = useMutation(CREATE_BOX, {
-    refetchQueries: [{ query: GET_BOXES }, "GetHomeData"],
-    onError: (error) => {
-      console.log(`Create Box Error: ${error.message}`);
-    },
-  });
-
-  if (loading) return <Loading text="Boxes" />;
-  if (error) console.log(`Box Error: ${error.message}`);
-
+function BoxesScreen({ createObj, data }) {
   return (
     <ScrollAndCounter
-      mutation={createBox}
+      mutation={createObj}
       rest={defaultBoxCreate}
       screen="Boxes"
       type="box"
@@ -61,3 +46,10 @@ export default function BoxesScreen() {
     </ScrollAndCounter>
   );
 }
+
+export default withMutation(
+  withQuery(BoxesScreen, GET_BOXES, "Boxes"),
+  CREATE_BOX,
+  GET_BOXES,
+  "Boxes"
+);
