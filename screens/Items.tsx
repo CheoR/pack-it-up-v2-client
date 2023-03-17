@@ -47,4 +47,4 @@ function ItemsScreen({ createObj, data }) {
   );
 }
 
-export default withMutation(withQuery(ItemsScreen, "item"), "item");
+export default withMutation(withQuery(ItemsScreen, "Items"), "Items");

@@ -46,4 +46,4 @@ function BoxesScreen({ createObj, data }) {
   );
 }
 
-export default withMutation(withQuery(BoxesScreen, "box"), "box");
+export default withMutation(withQuery(BoxesScreen, "Boxes"), "Boxes");

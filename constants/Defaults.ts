@@ -1,4 +1,4 @@
-import { isEditabe, ViewIconOption } from "../types/types";
+import { isEditabe, ViewIconOption, PossibleScreen } from "../types/types";
 
 const defaultBoxId = "63d58f28e9c4ff10994a0dca";
 const defaultMoveId = "63d2f72669850c57c9184e3c";
@@ -51,4 +51,11 @@ export const defaultListViewIsEditable: isEditabe = {
   disableDropdown: true,
   showDropdown: true,
   showValues: true,
+};
+
+export const SCREEN: PossibleScreen = {
+  Boxes: "Boxes",
+  Home: "Home",
+  Items: "Items",
+  Moves: "Moves",
 };

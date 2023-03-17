@@ -46,4 +46,4 @@ function MovesScreen({ createObj, data }) {
   );
 }
 
-export default withMutation(withQuery(MovesScreen, "move"), "move");
+export default withMutation(withQuery(MovesScreen, "Moves"), "Moves");

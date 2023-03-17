@@ -254,6 +254,7 @@ export type PossibleTypeCreate = Partial<CreateItem & CreateBox & CreateMove>;
 export type PossibleTypeObj = Item | Box | Move | Home;
 export type PossibleTypeName = "item" | "box" | "move";
 export type PossibleScreens = "Items" | "Boxes" | "Moves" | "Home";
+export type PossibleScreen = Record<PossibleScreens, PossibleScreens>;
 
 export type TwentyFour = 24;
 export type TwoOhEight = 208;

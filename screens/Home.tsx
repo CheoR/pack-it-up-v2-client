@@ -139,4 +139,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default withQuery(HomeScreen, "home");
+export default withQuery(HomeScreen, "Home");

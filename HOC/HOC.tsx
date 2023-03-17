@@ -4,22 +4,16 @@ import { CREATE_MOVE, GET_MOVES } from "../graphql/move";
 import { CREATE_ITEM, GET_ITEMS } from "../graphql/item";
 import { CREATE_BOX, GET_BOXES } from "../graphql/box";
 import { GET_HOME_DATA } from "../graphql/home";
+import { SCREEN } from "../constants/Defaults";
 import Loading from "../components/Loading";
-
-const screen = {
-  box: "box",
-  home: "home",
-  item: "item",
-  move: "move",
-};
 
 export const withQuery = (WrappedComponent, text: string) => {
   let query;
-  if (screen[text] === "box") {
+  if (SCREEN[text as keyof typeof SCREEN] === "Boxes") {
     query = GET_BOXES;
-  } else if (screen[text] === "home") {
+  } else if (SCREEN[text as keyof typeof SCREEN] === "Home") {
     query = GET_HOME_DATA;
-  } else if (screen[text] === "item") {
+  } else if (SCREEN[text as keyof typeof SCREEN] === "Items") {
     query = GET_ITEMS;
   } else {
     query = GET_MOVES;
@@ -39,9 +33,9 @@ export const withQuery = (WrappedComponent, text: string) => {
 // TODO: refactor column3 to use different mutation types
 export const withMutation = (WrappedComponent, text: string) => {
   let mutation;
-  if (screen[text] === "item") {
+  if (SCREEN[text as keyof typeof SCREEN] === "Items") {
     mutation = CREATE_ITEM;
-  } else if (screen[text] === "box") {
+  } else if (SCREEN[text as keyof typeof SCREEN] === "Boxes") {
     mutation = CREATE_BOX;
   } else {
     mutation = CREATE_MOVE;
