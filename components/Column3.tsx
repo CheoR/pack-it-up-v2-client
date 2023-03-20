@@ -21,6 +21,7 @@ import {
   defaultListViewIconOptions,
   defaultListViewIsEditable,
 } from "../constants/Defaults";
+import Camera from "./Camera";
 
 export default function Column3(column3: ColumnThree<PossibleTypeObj>) {
   let REMOVE_OBJ: DocumentNode;
@@ -45,6 +46,7 @@ export default function Column3(column3: ColumnThree<PossibleTypeObj>) {
   const [modalVisible, setModalVisible] = useState({
     actionsModal: false,
     edit: false,
+    camera: false,
     delete: false,
     editModal: false,
     showConfirmCancel: false,
@@ -105,6 +107,44 @@ export default function Column3(column3: ColumnThree<PossibleTypeObj>) {
 
   return (
     <View style={styles.column}>
+      <Modal
+        transparent={true}
+        visible={modalVisible.camera}
+        onRequestClose={() => {
+          Alert.alert("camera closed.");
+          setModalVisible((prevState) => {
+            return {
+              ...prevState,
+              actionModal: false,
+              showConfirmCancel: false,
+              camera: false,
+            };
+          });
+        }}
+        style={styles.actionsModal}
+      >
+        <View style={styles.centerModal}>
+          <View style={styles.confirmCancel}>
+            <ConfirmCancel
+              parentModalVisible={modalVisible}
+              parentSetModalVisiible={setModalVisible}
+              mutation={() => {
+                const cleanedFields = removeInvalidFieldsForObjType(formFields);
+                updateObj({
+                  variables: {
+                    input: {
+                      ...cleanedFields,
+                    },
+                  },
+                });
+              }}
+            >
+              <Camera />
+            </ConfirmCancel>
+          </View>
+        </View>
+      </Modal>
+
       <Modal
         transparent={true}
         visible={modalVisible.delete}
@@ -204,23 +244,26 @@ export default function Column3(column3: ColumnThree<PossibleTypeObj>) {
       >
         <View style={styles.centerModal}>
           <View style={styles.centeredView}>
-            <ModalOption
-              iconType="plusSign"
-              text="add"
-              iconSize={24}
-              obj={column3}
-              parentModalVisible={modalVisible}
-              parentSetModalVisiible={setModalVisible}
-            />
-
-            <ModalOption
-              iconType="camera"
-              text="camera"
-              iconSize={24}
-              obj={column3}
-              parentModalVisible={modalVisible}
-              parentSetModalVisiible={setModalVisible}
-            />
+            {!isItem(column3) && (
+              <ModalOption
+                iconType="plusSign"
+                text="add"
+                iconSize={24}
+                obj={column3}
+                parentModalVisible={modalVisible}
+                parentSetModalVisiible={setModalVisible}
+              />
+            )}
+            {isItem(column3) && (
+              <ModalOption
+                iconType="camera"
+                text="camera"
+                iconSize={24}
+                obj={column3}
+                parentModalVisible={modalVisible}
+                parentSetModalVisiible={setModalVisible}
+              />
+            )}
             <ModalOption
               iconType="delete"
               text="delete"
