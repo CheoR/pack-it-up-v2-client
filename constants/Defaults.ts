@@ -14,10 +14,12 @@ export const defaultBoxCreate = {
 export const defaultItemCreate = {
   // TODO: update to add a default box and/or
   // allow for unbounded items
+  // TODO: look into moving defaults to client.ts
   box_id: defaultBoxId,
   description: "",
   name: "Item",
   value: 0,
+  image_uri: "",
   isFragile: false,
 };
 
@@ -35,6 +37,7 @@ export const defaultUpdateItem = [
   "description",
   "name",
   "value",
+  "image_uri",
   "isFragile",
 ];
 

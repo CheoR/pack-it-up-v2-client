@@ -1,9 +1,9 @@
+import { Box, Item, Move, PossibleTypeObj } from "../types/types";
 import {
   defaultUpdateBox,
   defaultUpdateItem,
   defaultUpdateMove,
 } from "../constants/Defaults";
-import { Box, Item, Move, PossibleTypeObj } from "../types/types";
 
 export function isBox(obj: Box | Item | Move): obj is Box {
   return (obj as Box).move_id !== undefined;

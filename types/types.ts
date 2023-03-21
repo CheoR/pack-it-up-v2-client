@@ -14,6 +14,7 @@ export interface Box extends Base {
 
 export interface Item extends Base {
   box_id: string;
+  image_uri: string;
 }
 
 export interface Home extends Base {}
@@ -217,7 +218,13 @@ export type RootStackParamList = {
 
 export type UpdateItem = keyof Pick<
   ItemInput["input"],
-  "_id" | "box_id" | "description" | "isFragile" | "name" | "value"
+  | "_id"
+  | "box_id"
+  | "description"
+  | "image_uri"
+  | "isFragile"
+  | "name"
+  | "value"
 >;
 export type UpdateBox = Pick<
   BoxInput["input"],

@@ -139,7 +139,7 @@ export default function Column3(column3: ColumnThree<PossibleTypeObj>) {
                 });
               }}
             >
-              <Camera />
+              <Camera setFormFields={setFormFields} />
             </ConfirmCancel>
           </View>
         </View>

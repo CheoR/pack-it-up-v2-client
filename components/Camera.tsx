@@ -4,7 +4,7 @@ import { Camera as ExpoCamera, CameraType } from "expo-camera";
 
 import COLORS from "../constants/Colors";
 
-export default function App() {
+export default function App({ setFormFields }) {
   const [hasCameraPermission, setHasCameraPermission] = useState<
     boolean | null
   >(null);
@@ -38,6 +38,13 @@ export default function App() {
         alert("Picture saved! 🎉");
         setImage(null);
         console.log("saved successfully");
+        setFormFields &&
+          setFormFields((prevState) => {
+            return {
+              ...prevState,
+              image_uri: image,
+            };
+          });
       } catch (error) {
         console.log(error);
       }
