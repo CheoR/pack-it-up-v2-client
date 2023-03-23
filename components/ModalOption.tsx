@@ -15,7 +15,15 @@ export default function ModalOption({
     <View style={styles.modalView}>
       <Icon size={iconSize} type={iconType} />
       <Pressable
-        style={[styles.button, styles.buttonClose]}
+        style={({ pressed }) => [
+          styles.button,
+          styles.buttonClose,
+          {
+            backgroundColor: pressed
+              ? COLORS.light.action
+              : COLORS.light.background,
+          },
+        ]}
         onPress={() => {
           parentSetModalVisiible((prevState) => {
             return {
