@@ -8,7 +8,7 @@ export default function App({ setFormFields }) {
   const [hasCameraPermission, setHasCameraPermission] = useState<
     boolean | null
   >(null);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState<string | null>(null);
   const [type, setType] = useState(CameraType.back);
   const [flash, setFlash] = useState(ExpoCamera.Constants.FlashMode.off);
   const [imageSize, setImageSize] = useState("420x420");
@@ -28,8 +28,13 @@ export default function App({ setFormFields }) {
   }, []);
 
   async function takePicture() {
-    if (cameraRef.current) {
-      console.log(`cameraRef.current: ${cameraRef.current}`);
+    console.log(`taking picture`);
+    console.log(cameraRef?.current?._cameraRef);
+    console.log(cameraRef?.current?.props.id);
+    console.log("------------");
+    if (cameraRef.current !== null) {
+      console.log(`cameraRef.current: ${cameraRef.current._cameraRef}`);
+      console.log(`cameraRef.current: ${cameraRef.current.props.id}`);
       try {
         //  Note: Make sure to wait for the onCameraReady callback before calling this method.
         console.log(`cameraRef.current try taking piocture`);
@@ -45,7 +50,8 @@ export default function App({ setFormFields }) {
         setImage(
           //
           // uri
-          base64 || backupImg
+          backupImg
+          // base64 || backupImg
           // `https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg`
         ); // base64);
         console.log(`data image dta`);
@@ -56,6 +62,8 @@ export default function App({ setFormFields }) {
   }
 
   async function savePicture() {
+    console.log(`i am image`);
+    console.log(image);
     if (image) {
       console.log(`safe function image`);
       // console.log(image);
@@ -73,6 +81,8 @@ export default function App({ setFormFields }) {
       } catch (error) {
         console.log(error);
       }
+    } else {
+      console.log("no image");
     }
   }
 
@@ -88,7 +98,7 @@ export default function App({ setFormFields }) {
           type={type}
           ref={cameraRef}
           flashMode={flash}
-          pictureSize={imageSize}
+          // pictureSize={imageSize}
           // ratio="4:3"
         >
           <View
