@@ -11,21 +11,44 @@ export default function App({ setFormFields }) {
   const [image, setImage] = useState(null);
   const [type, setType] = useState(CameraType.back);
   const [flash, setFlash] = useState(ExpoCamera.Constants.FlashMode.off);
-  const cameraRef = useRef(null);
+  const [imageSize, setImageSize] = useState("420x420");
+  const cameraRef = useRef<ExpoCamera>(null);
 
   useEffect(() => {
     (async () => {
       const cameraStatus = await ExpoCamera.requestCameraPermissionsAsync();
       setHasCameraPermission(cameraStatus.status === "granted");
+      // console.log(`available picture sizes`);
+      // let sizes = await cameraRef?.current?.getAvailablePictureSizesAsync(
+      //   "1:1"
+      // );
+      // console.log(sizes);
+      // setImageSize(sizes[0] || "320x320");
     })();
   }, []);
 
   async function takePicture() {
     if (cameraRef.current) {
+      console.log(`cameraRef.current: ${cameraRef.current}`);
       try {
-        const data = await cameraRef?.current?.takePictureAsync();
-        console.log(data);
-        setImage(data.uri);
+        //  Note: Make sure to wait for the onCameraReady callback before calling this method.
+        console.log(`cameraRef.current try taking piocture`);
+        const { uri, base64 } = await cameraRef?.current?.takePictureAsync({
+          base64: true,
+          quality: 0,
+        });
+        console.log(`data image dta`);
+        console.log(`uri: ${uri}`);
+        console.log(`base64: ${base64?.length}`);
+        const backupImg =
+          "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAAA1BMVEXr7MqLt5XVAAAAC0lEQVR4AWOgKwAAAG4AAfBdB/0AAAAASUVORK5CYII=";
+        setImage(
+          //
+          // uri
+          base64 || backupImg
+          // `https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg`
+        ); // base64);
+        console.log(`data image dta`);
       } catch (error) {
         console.log(error);
       }
@@ -34,6 +57,8 @@ export default function App({ setFormFields }) {
 
   async function savePicture() {
     if (image) {
+      console.log(`safe function image`);
+      // console.log(image);
       try {
         alert("Picture saved! 🎉");
         setImage(null);
@@ -63,6 +88,8 @@ export default function App({ setFormFields }) {
           type={type}
           ref={cameraRef}
           flashMode={flash}
+          pictureSize={imageSize}
+          // ratio="4:3"
         >
           <View
             style={{
