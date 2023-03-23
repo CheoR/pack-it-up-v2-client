@@ -7,6 +7,7 @@ export const CREATE_ITEM = gql`
       name
       box_id
       description
+      image_uri
       isFragile
       user_id
     }
@@ -20,6 +21,7 @@ export const GET_PAGE_DATA = gql`
       name
       box_id
       description
+      image_uri
       isFragile
       value
     }
@@ -39,6 +41,7 @@ export const GET_ITEMS = gql`
       name
       box_id
       description
+      image_uri
       isFragile
       value
     }
@@ -59,6 +62,7 @@ export const UPDATE_ITEM = gql`
       _id
       box_id
       description
+      image_uri
       isFragile
       name
       value
