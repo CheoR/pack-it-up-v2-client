@@ -13,7 +13,8 @@ export default function App({ setFormFields }) {
   const [image, setImage] = useState<string | null>(null);
   const [type, setType] = useState(CameraType.back);
   const [flash, setFlash] = useState(ExpoCamera.Constants.FlashMode.off);
-  const [imageSize, setImageSize] = useState("420x420");
+  // pictureSize crashes app
+  // const [imageSize, setImageSize] = useState("420x420");
   const cameraRef = useRef<ExpoCamera>(null);
 
   useEffect(() => {
@@ -24,32 +25,24 @@ export default function App({ setFormFields }) {
   }, []);
 
   async function takePicture() {
-    console.log(`taking picture`);
     if (cameraRef.current !== null) {
-      console.log(cameraRef.current !== null);
-      console.log(`available picture sizes`);
       let sizes = await cameraRef?.current?.getAvailablePictureSizesAsync(
         "1:1"
       );
       let size = "100x100";
-      console.log(sizes);
       if (sizes?.length) size = sizes[0];
-      setImageSize(size);
+      // setImageSize(size);
 
       try {
         //  Note: Make sure to wait for the onCameraReady callback before calling this method.
-        console.log(`cameraRef.current try taking piocture`);
         const { uri, base64 } = await cameraRef?.current?.takePictureAsync({
           base64: true,
           quality: 0,
         });
-        console.log(`data image dta`);
-        console.log(`uri: ${uri}`);
-        console.log(`base64: ${base64?.length}`);
         const backupImg =
           "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAAA1BMVEXr7MqLt5XVAAAAC0lEQVR4AWOgKwAAAG4AAfBdB/0AAAAASUVORK5CYII=";
+        // `https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg`
 
-        console.log(`resigin immage`);
         // https://docs.expo.dev/versions/latest/sdk/imagemanipulator/#action
         // It is included if the base64 save option was truthy, and is a string containing
         //  the JPEG/PNG (depending on format) data of the image in Base64. Prepend that
@@ -62,28 +55,11 @@ export default function App({ setFormFields }) {
           { compress: 0.95, base64: true } // any higher than 0.95 causes error: base64 too long
         );
 
-        console.log(`
-        before format uri lenght: ${uri.length}
-        before format base64 lenght: ${base64?.length}
-        after format uri length: ${resizedPhoto.uri.length}
-        after format uri length: ${resizedPhoto.base64?.length}
-        `);
         let img = backupImg;
         if (resizedPhoto.base64?.length) {
-          console.log(
-            ` has length resizedPhoto.base64?.length: ${resizedPhoto.base64?.length}`
-          );
           img = "data:image/jpeg;base64,".concat(resizedPhoto.base64);
         }
-        setImage(
-          //
-          // uri
-          // backupImg
-          // base64 || backupImg
-          img
-          // `https://upload.wikimedia.org/wikipedia/commons/a/ae/Olympic_flag.jpg`
-        ); // base64);
-        console.log(`data image dta`);
+        setImage(img);
       } catch (error) {
         console.log(error);
       }
@@ -91,15 +67,10 @@ export default function App({ setFormFields }) {
   }
 
   async function savePicture() {
-    console.log(`i am image`);
-    // console.log(image);
     if (image) {
-      console.log(`safe function image`);
-      // console.log(image);
       try {
         alert("Picture saved! 🎉");
         setImage(null);
-        console.log("saved successfully");
         setFormFields &&
           setFormFields((prevState) => {
             return {
@@ -127,6 +98,7 @@ export default function App({ setFormFields }) {
           type={type}
           ref={cameraRef}
           flashMode={flash}
+          // pictureSize crashes app
           // pictureSize={"100x100"}
           // pictureSize={imageSize}
           // ratio="4:3"
