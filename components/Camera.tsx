@@ -14,7 +14,7 @@ export default function App({ setFormFields }) {
   const [type, setType] = useState(CameraType.back);
   const [flash, setFlash] = useState(ExpoCamera.Constants.FlashMode.off);
   // pictureSize crashes app
-  const [imageSize, setImageSize] = useState("420x420");
+  // const [imageSize, setImageSize] = useState("420x420");
   const cameraRef = useRef<ExpoCamera>(null);
 
   useEffect(() => {
