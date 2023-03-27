@@ -13,6 +13,7 @@ export default function App({ setFormFields }) {
   const [image, setImage] = useState<string | null>(null);
   const [type, setType] = useState(CameraType.back);
   const [flash, setFlash] = useState(ExpoCamera.Constants.FlashMode.off);
+  // TODO: find out why and what can do to not
   // pictureSize crashes app
   // const [imageSize, setImageSize] = useState("420x420");
   const cameraRef = useRef<ExpoCamera>(null);
@@ -70,7 +71,6 @@ export default function App({ setFormFields }) {
     if (image) {
       try {
         alert("Picture saved! 🎉");
-        setImage(null);
         setFormFields &&
           setFormFields((prevState) => {
             return {
@@ -78,6 +78,7 @@ export default function App({ setFormFields }) {
               image_uri: image,
             };
           });
+        setImage(null);
       } catch (error) {
         console.log(error);
       }
