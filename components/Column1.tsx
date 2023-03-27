@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 
 import { Badge as BI, ColumnOne as COI } from "../types/types";
-import { isMove } from "../utils/utils";
+import { isItem, isMove } from "../utils/utils";
 import Badge from "./Badge";
 
 export default function Column1(column1: COI) {
@@ -19,7 +19,6 @@ export default function Column1(column1: COI) {
     showCount: true,
     showType: true,
   };
-
   let objIsMove = false;
 
   if (isMove(column1)) {
@@ -44,6 +43,17 @@ export default function Column1(column1: COI) {
       count: column1.count,
       showCount: column1.showCount,
       showType: column1.showType,
+    };
+  }
+
+  if (isItem(column1)) {
+    badge1 = {
+      ...badge1,
+      count: 0,
+      type: "item",
+      showCount: false,
+      showType: true,
+      src: column1.image_uri,
     };
   }
 

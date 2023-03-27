@@ -189,6 +189,7 @@ export type Badge = {
   size?: PossibleIconSizes;
   showCount?: boolean;
   showType?: boolean;
+  src?: string;
   type: PossibleIcons;
 };
 

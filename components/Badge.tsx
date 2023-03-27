@@ -1,21 +1,29 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View } from "react-native";
 
 import { Badge as BI } from "../types/types";
 import { Icon } from "../constants/Icon";
+import COLORS from "../constants/Colors";
 
-// TODO:
-//  add option to display image url else
-//  find out why cannot override showCount
-//
-export default function Badge({
+function Badge({
   count = 0,
   size = 16,
   showCount = true,
   showType = true,
+  src,
   type = "none",
-}: BI) {
-  return (
+}: BI): JSX.Element {
+  return src ? (
+    <Image
+      style={styles.userImg}
+      source={{
+        // uri: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAYAAAA6oTAqAAAAEXRFWHRTb2Z0d2FyZQBwbmdjcnVzaEB1SfMAAABQSURBVGje7dSxCQBACARB+2/ab8BEeQNhFi6WSYzYLYudDQYGBgYGBgYGBgYGBgYGBgZmcvDqYGBgmhivGQYGBgYGBgYGBgYGBgYGBgbmQw+P/eMrC5UTVAAAAABJRU5ErkJggg==",
+        // uri: "https://res.cloudinary.com/cheor/image/upload/v1679785326/I%20am%20oink%20pug.jpg",
+        // uri: "https://reactnative.dev/img/tiny_logo.png",
+        uri: src || "https://reactnative.dev/img/tiny_logo.png",
+      }}
+    />
+  ) : (
     <View style={styles.img}>
       <View style={styles.icon}>
         {showCount ? (
@@ -24,7 +32,7 @@ export default function Badge({
           </View>
         ) : (
           <View style={styles.hasNoCount}>
-            <Text style={styles.count}></Text>
+            <Text style={styles.count}> </Text>
           </View>
         )}
         <Icon type={type} size={size} />
@@ -33,6 +41,9 @@ export default function Badge({
     </View>
   );
 }
+
+export default Badge;
+
 // TODO: pass prop to hasCount to flip borderWidth if hasCount
 const styles = StyleSheet.create({
   count: {
@@ -59,7 +70,6 @@ const styles = StyleSheet.create({
     position: "relative",
     top: 10,
     width: 20,
-    backgroundColor: "lightblue",
   },
   icon: {
     alignItems: "center",
@@ -72,5 +82,14 @@ const styles = StyleSheet.create({
   text: {
     textAlign: "center",
     textTransform: "uppercase",
+  },
+  userImg: {
+    backgroundColor: COLORS.light.background,
+    borderRadius: 8,
+    borderWidth: 4,
+    borderColor: COLORS.light.tabIconSelected,
+    height: 56,
+    marginTop: 8,
+    width: 56,
   },
 });
