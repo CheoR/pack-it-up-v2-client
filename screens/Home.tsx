@@ -44,6 +44,7 @@ function HomeScreen({ data }) {
               let column2: ColumnTwo<Home> = {
                 ...item,
                 ...defaultListViewIsEditable,
+                showValues: false,
               };
               let column3: ColumnThree<Home> = {
                 ...item,
