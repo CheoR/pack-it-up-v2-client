@@ -17,7 +17,7 @@ import { setTokens } from "../auth/tokens";
 import COLORS from "../constants/Colors";
 import ROUTES from "../constants/Routes";
 
-const LOGIN_USER = gql`
+export const LOGIN_USER = gql`
   mutation LoginUser($input: LoginUserInput!) {
     loginUser(input: $input) {
       accessToken
