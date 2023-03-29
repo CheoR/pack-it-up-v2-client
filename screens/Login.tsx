@@ -136,6 +136,7 @@ export default function LoginScreen({ navigation }) {
         </View>
         <View style={styles.action}>
           <Button
+            testID="login"
             title={ROUTES.Login}
             color={COLORS.light.tint}
             onPress={() => loginUser()}
