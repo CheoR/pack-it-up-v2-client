@@ -61,7 +61,7 @@ Thumbs.db
 
 # Unit test and coverage reports #
 ##################################
-.coverage
+.coverage/**/* 
 .tox
 nosetests.xml
 htmlcov
