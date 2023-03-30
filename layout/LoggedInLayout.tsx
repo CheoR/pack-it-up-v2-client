@@ -1,20 +1,13 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
 import Constants from "expo-constants";
-
-import COLORS from "../constants/Colors";
+import { View } from "react-native";
+import tw from "twrnc";
 
 export default function LoggedInLayout({ children }) {
-  return <View style={styles.layout}>{children}</View>;
+  return (
+    <View
+      style={tw`items-center bg-slate-100 flex-1 justify-between mt-[${Constants.statusBarHeight}px] px-2`}
+    >
+      {children}
+    </View>
+  );
 }
-
-const styles = StyleSheet.create({
-  layout: {
-    alignItems: "center",
-    backgroundColor: COLORS.light.background,
-    flex: 1,
-    justifyContent: "space-between",
-    marginTop: Constants.statusBarHeight,
-    paddingHorizontal: 8,
-  },
-});

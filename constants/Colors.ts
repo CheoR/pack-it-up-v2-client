@@ -4,7 +4,7 @@
 // tintColorDark : "#FFE8E0" : rose-100
 // light
 // text: "#00171F" : slate-800
-// background: "#F2F3EF" : slate-300
+// background: "#F2F3EF" : slate-100
 // tint: tintColorLight : slate-800
 // tabIconDefault: "#797B84" : neutral-500
 // tabIconSelected: tintColorLight : slate-800
@@ -12,9 +12,9 @@
 // action: "#FF6700" : orange-600
 // dark
 // text: "#FFE8E0" : rose-100
-// background: "#0D0C10" : slate-300
+// background: "#0D0C10" : slate-100
 // tint: tintColorDark : rose-100
-// tabIconDefault: "#0D0C10" : slate-300
+// tabIconDefault: "#0D0C10" : slate-100
 // tabIconSelected: tintColorDark : rose-100
 // warning: "#FF6700" : orange-600
 // action: "#0098FF" : sky-500
