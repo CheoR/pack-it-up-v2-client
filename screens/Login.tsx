@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { gql, useMutation } from "@apollo/client";
+import tw from "twrnc";
 import {
   Alert,
   Button,
   Modal,
   Pressable,
-  StyleSheet,
   Text,
   TextInput,
   View,
@@ -54,15 +54,7 @@ export default function LoginScreen({ navigation }) {
 
   function Popup({ message }) {
     return (
-      <View
-        style={{
-          backgroundColor: "pink",
-          height: "100%",
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
+      <View style={tw`bg-red-200 h-full w-full flex justify-center`}>
         <Modal
           animationType="slide"
           // transparent={true}
@@ -71,33 +63,15 @@ export default function LoginScreen({ navigation }) {
             Alert.alert(`Closing error ${message}`);
             setModalVisible(!modalVisible);
           }}
-          style={{
-            backgroundColor: "lightblue",
-          }}
+          style={tw`bg-blue-300`}
         >
-          <View
-            style={{
-              backgroundColor: "yellow",
-              alignItems: "center",
-            }}
-          >
+          <View style={tw`bg-yellow-300 items-center`}>
             <Text>{message}</Text>
             <Pressable
               onPress={() => setModalVisible(!modalVisible)}
-              style={{
-                backgroundColor: "lightbrown",
-                width: 500,
-                borderColor: "blue",
-              }}
+              style={tw`bg-lime-100 w-[500px] border-blue-500`}
             >
-              <Text
-                style={{
-                  color: "black",
-                  fontWeight: "bold",
-                  textAlign: "center",
-                  borderColor: "red",
-                }}
-              >
+              <Text style={tw`text-black font-bold text-center border-red-500`}>
                 Hide Modal
               </Text>
             </Pressable>
@@ -115,37 +89,37 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <LoggedOutLayout>
-      <View style={styles.screen}>
+      <View style={tw`items-center flex-1 justify-around w-full`}>
         {modalVisible && <Popup message={error?.message} />}
-        <View style={styles.inputBlock}>
+        <View style={tw`h-24 justify-between w-4/5`}>
           <TextInput
             placeholder="Email"
-            style={styles.input}
+            style={tw`border-b-slate-800 border-b-8`}
             onChangeText={(text) =>
               setFormData((prevState) => ({ ...prevState, email: text }))
             }
           />
           <TextInput
             placeholder="Password"
-            style={styles.input}
+            style={tw`border-b-slate-800 border-b-8`}
             onChangeText={(text) =>
               setFormData((prevState) => ({ ...prevState, password: text }))
             }
             secureTextEntry={true}
           />
         </View>
-        <View style={styles.action}>
+        <View style={tw`w-full`}>
           <Button
             testID="login"
             title={ROUTES.Login}
             color={COLORS.light.tint}
             onPress={() => loginUser()}
           />
-          <View style={styles.actionBlock}>
+          <View style={tw`items-center`}>
             <Text>
               No Account,{" "}
               <Text
-                style={styles.actionBlockText}
+                style={tw`text-orange-600`}
                 onPress={() => navigation.push(ROUTES.Register)}
               >
                 Register!
@@ -157,30 +131,3 @@ export default function LoginScreen({ navigation }) {
     </LoggedOutLayout>
   );
 }
-
-const styles = StyleSheet.create({
-  action: {
-    width: "100%",
-  },
-  actionBlock: {
-    alignItems: "center",
-  },
-  actionBlockText: {
-    color: COLORS.light.action,
-  },
-  input: {
-    borderBottomColor: COLORS.light.tint,
-    borderBottomWidth: 8,
-  },
-  inputBlock: {
-    height: 100,
-    justifyContent: "space-between",
-    width: "80%",
-  },
-  screen: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "space-around",
-    width: "100%",
-  },
-});
