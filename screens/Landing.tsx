@@ -1,4 +1,6 @@
-import { Button, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Box, Button, Text } from "@react-native-material/core";
+import { Flex } from "react-native-flex-layout";
+import { ScrollView } from "react-native";
 
 import LoggedOutLayout from "../layout/LoggedOutLayout";
 import SvgComponent from "../components/Rafiki";
@@ -8,9 +10,12 @@ import COLORS from "../constants/Colors";
 export default function LandingScreen({ navigation }) {
   return (
     <LoggedOutLayout>
-      <ScrollView contentContainerStyle={styles.screen}>
-        <Text style={styles.header}>track what you pack, app</Text>
-        <View style={styles.buttonGroup}>
+      <ScrollView contentContainerStyle={{ alignItems: "center" }}>
+        <Text variant="h4" style={{ color: COLORS.light.tint }}>
+          track what you pack, app
+        </Text>
+        <SvgComponent />
+        <Flex justify="between" h={80} m={24} w="100%">
           <Button
             title={ROUTES.Register}
             color={COLORS.light.tabIconDefault}
@@ -21,28 +26,11 @@ export default function LandingScreen({ navigation }) {
             color={COLORS.light.tint}
             onPress={() => navigation.navigate(ROUTES.Login)}
           />
-        </View>
-        <SvgComponent />
-        <View>
+        </Flex>
+        <Box>
           <Text>Organize your life.</Text>
-        </View>
+        </Box>
       </ScrollView>
     </LoggedOutLayout>
   );
 }
-
-const styles = StyleSheet.create({
-  buttonGroup: {
-    height: 80,
-    justifyContent: "space-between",
-    margin: 24,
-    width: "100%",
-  },
-  header: {
-    color: COLORS.light.tint,
-    fontSize: 64,
-  },
-  screen: {
-    alignItems: "center",
-  },
-});
