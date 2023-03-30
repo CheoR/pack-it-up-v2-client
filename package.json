@@ -37,7 +37,8 @@
     "react-native-screens": "~3.20.0",
     "react-native-svg": "13.4.0",
     "react-native-vector-icons": "^9.2.0",
-    "react-native-web": "~0.18.12"
+    "react-native-web": "~0.18.12",
+    "twrnc": "^3.6.0"
   },
   "devDependencies": {
     "@babel/core": "^7.21.0",
@@ -67,7 +68,9 @@
     "setupFiles": [
       "<rootDir>/jest/jestSetupFile.js"
     ],
-    "setupFilesAfterEnv": ["@testing-library/jest-native/extend-expect"],
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-native/extend-expect"
+    ],
     "transformIgnorePatterns": [
       "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)"
     ]
