@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import { Button, Text, TextInput, View } from "react-native";
 import { gql, useMutation } from "@apollo/client";
+import { useState } from "react";
+import tw from "twrnc";
 
 import LoggedOutLayout from "../layout/LoggedOutLayout";
 import Loading from "../components/Loading";
@@ -16,6 +17,7 @@ const REGISTER_USER = gql`
     }
   }
 `;
+
 export default function RegisterScreen({ navigation }) {
   const [formData, setFormData] = useState({
     username: "",
@@ -47,39 +49,39 @@ export default function RegisterScreen({ navigation }) {
 
   return (
     <LoggedOutLayout>
-      <View style={styles.screen}>
-        <View style={styles.inputBlock}>
+      <View style={tw`items-center flex-1 justify-around w-full`}>
+        <View style={tw`h-[300px] justify-between w-4/5`}>
           <TextInput
             placeholder="Username"
-            style={styles.input}
+            style={tw`border-b-neutral-500 border-b-8`}
             onChangeText={(text) =>
               setFormData((prevState) => ({ ...prevState, username: text }))
             }
           />
           <TextInput
             placeholder="First Name"
-            style={styles.input}
+            style={tw`border-b-neutral-500 border-b-8`}
             onChangeText={(text) =>
               setFormData((prevState) => ({ ...prevState, firstName: text }))
             }
           />
           <TextInput
             placeholder="Last Name"
-            style={styles.input}
+            style={tw`border-b-neutral-500 border-b-8`}
             onChangeText={(text) =>
               setFormData((prevState) => ({ ...prevState, lastName: text }))
             }
           />
           <TextInput
             placeholder="Email"
-            style={styles.input}
+            style={tw`border-b-neutral-500 border-b-8`}
             onChangeText={(text) =>
               setFormData((prevState) => ({ ...prevState, email: text }))
             }
           />
           <TextInput
             placeholder="Password"
-            style={styles.input}
+            style={tw`border-b-neutral-500 border-b-8`}
             onChangeText={(text) =>
               setFormData((prevState) => ({ ...prevState, password: text }))
             }
@@ -87,7 +89,7 @@ export default function RegisterScreen({ navigation }) {
           />
           <TextInput
             placeholder="Confirm Password"
-            style={styles.input}
+            style={tw`border-b-neutral-500 border-b-8`}
             // onChangeText={(text) =>
             //   setFormData((prevState) => ({
             //     ...prevState,
@@ -98,17 +100,17 @@ export default function RegisterScreen({ navigation }) {
             secureTextEntry={true}
           />
         </View>
-        <View style={styles.action}>
+        <View style={tw`w-full`}>
           <Button
             title={ROUTES.Register}
             color={COLORS.light.tabIconDefault}
             onPress={() => registerUser()}
           />
-          <View style={styles.actionBlock}>
+          <View style={tw`items-center`}>
             <Text>
               Already Registered,{" "}
               <Text
-                style={styles.actionBlockText}
+                style={tw`text-orange-600`}
                 onPress={() => navigation.push(ROUTES.Login)}
               >
                 Login!
@@ -120,30 +122,3 @@ export default function RegisterScreen({ navigation }) {
     </LoggedOutLayout>
   );
 }
-
-const styles = StyleSheet.create({
-  action: {
-    width: "100%",
-  },
-  actionBlock: {
-    alignItems: "center",
-  },
-  actionBlockText: {
-    color: COLORS.light.action,
-  },
-  input: {
-    borderBottomColor: COLORS.light.tabIconDefault,
-    borderBottomWidth: 8,
-  },
-  inputBlock: {
-    height: 300,
-    justifyContent: "space-between",
-    width: "80%",
-  },
-  screen: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "space-around",
-    width: "100%",
-  },
-});
