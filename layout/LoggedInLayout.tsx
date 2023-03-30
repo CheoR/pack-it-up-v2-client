@@ -1,20 +1,19 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
+import { Flex } from "react-native-flex-layout";
 import Constants from "expo-constants";
 
 import COLORS from "../constants/Colors";
 
 export default function LoggedInLayout({ children }) {
-  return <View style={styles.layout}>{children}</View>;
+  return (
+    <Flex
+      center
+      fill
+      justify="between"
+      mt={Constants.statusBarHeight}
+      ph={8}
+      style={{ backgroundColor: COLORS.light.background }}
+    >
+      {children}
+    </Flex>
+  );
 }
-
-const styles = StyleSheet.create({
-  layout: {
-    alignItems: "center",
-    backgroundColor: COLORS.light.background,
-    flex: 1,
-    justifyContent: "space-between",
-    marginTop: Constants.statusBarHeight,
-    paddingHorizontal: 8,
-  },
-});

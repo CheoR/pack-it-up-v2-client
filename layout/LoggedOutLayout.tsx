@@ -1,5 +1,4 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
+import { Flex } from "react-native-flex-layout";
 import Constants from "expo-constants";
 
 import SocialsIcons from "../components/SocialsIcons";
@@ -8,21 +7,17 @@ import { Icon } from "../constants/Icon";
 
 export default function LoggedOutLayout({ children }) {
   return (
-    <View style={styles.layout}>
+    <Flex
+      center
+      fill
+      justify="between"
+      mt={Constants.statusBarHeight}
+      ph={8}
+      style={{ backgroundColor: COLORS.light.background }}
+    >
       <Icon type="closedPackage" size={208} />
       {children}
       <SocialsIcons />
-    </View>
+    </Flex>
   );
 }
-
-const styles = StyleSheet.create({
-  layout: {
-    alignItems: "center",
-    backgroundColor: COLORS.light.background,
-    flex: 1,
-    justifyContent: "space-between",
-    marginTop: Constants.statusBarHeight,
-    paddingHorizontal: 8,
-  },
-});
