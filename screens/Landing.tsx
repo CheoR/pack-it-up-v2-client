@@ -1,4 +1,5 @@
-import { Button, ScrollView, StyleSheet, Text, View } from "react-native";
+import { Button, ScrollView, Text, View } from "react-native";
+import tw from "twrnc";
 
 import LoggedOutLayout from "../layout/LoggedOutLayout";
 import SvgComponent from "../components/Rafiki";
@@ -8,9 +9,12 @@ import COLORS from "../constants/Colors";
 export default function LandingScreen({ navigation }) {
   return (
     <LoggedOutLayout>
-      <ScrollView contentContainerStyle={styles.screen}>
-        <Text style={styles.header}>track what you pack, app</Text>
-        <View style={styles.buttonGroup}>
+      <ScrollView contentContainerStyle={tw`items-center`}>
+        <Text style={tw`text-slate-800 my-4 text-7x1`}>
+          track what you pack, app
+        </Text>
+        <SvgComponent />
+        <View style={tw`h-20 justify-between m-6 w-full`}>
           <Button
             title={ROUTES.Register}
             color={COLORS.light.tabIconDefault}
@@ -22,7 +26,6 @@ export default function LandingScreen({ navigation }) {
             onPress={() => navigation.navigate(ROUTES.Login)}
           />
         </View>
-        <SvgComponent />
         <View>
           <Text>Organize your life.</Text>
         </View>
@@ -30,19 +33,3 @@ export default function LandingScreen({ navigation }) {
     </LoggedOutLayout>
   );
 }
-
-const styles = StyleSheet.create({
-  buttonGroup: {
-    height: 80,
-    justifyContent: "space-between",
-    margin: 24,
-    width: "100%",
-  },
-  header: {
-    color: COLORS.light.tint,
-    fontSize: 64,
-  },
-  screen: {
-    alignItems: "center",
-  },
-});
