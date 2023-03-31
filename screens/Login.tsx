@@ -1,15 +1,18 @@
-import React, { useState } from "react";
 import { gql, useMutation } from "@apollo/client";
+import { Alert } from "react-native";
+import { useState } from "react";
 import {
-  Alert,
+  Box,
   Button,
-  Modal,
-  Pressable,
-  StyleSheet,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogHeader,
+  Flex,
+  Provider,
   Text,
   TextInput,
-  View,
-} from "react-native";
+} from "@react-native-material/core";
 
 import LoggedOutLayout from "../layout/LoggedOutLayout";
 import Loading from "../components/Loading";
@@ -27,7 +30,7 @@ export const LOGIN_USER = gql`
   }
 `;
 
-export default function LoginScreen({ navigation }) {
+function Screen({ navigation }) {
   // TODO: fix
   const [formData, setFormData] = useState({
     email: "peggy@pug.com", // "oink@oink.com",
@@ -52,58 +55,39 @@ export default function LoginScreen({ navigation }) {
     },
   });
 
-  function Popup({ message }) {
+  function Popup({ message }: { message: string }) {
     return (
-      <View
+      <Flex
+        fill
+        h="100%"
+        justify="center"
+        w="100%"
         style={{
           backgroundColor: "pink",
-          height: "100%",
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
         }}
       >
-        <Modal
-          animationType="slide"
-          // transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
+        <Dialog
+          onDismiss={() => {
             Alert.alert(`Closing error ${message}`);
             setModalVisible(!modalVisible);
           }}
-          style={{
-            backgroundColor: "lightblue",
-          }}
+          visible={modalVisible}
         >
-          <View
-            style={{
-              backgroundColor: "yellow",
-              alignItems: "center",
-            }}
-          >
-            <Text>{message}</Text>
-            <Pressable
-              onPress={() => setModalVisible(!modalVisible)}
-              style={{
-                backgroundColor: "lightbrown",
-                width: 500,
-                borderColor: "blue",
-              }}
-            >
-              <Text
-                style={{
-                  color: "black",
-                  fontWeight: "bold",
-                  textAlign: "center",
-                  borderColor: "red",
-                }}
-              >
-                Hide Modal
-              </Text>
-            </Pressable>
-          </View>
-        </Modal>
-      </View>
+          <DialogHeader title={`${message}`} />
+          <DialogContent>
+            <Text>Replace with better message.</Text>
+          </DialogContent>
+          <DialogActions>
+            <Button
+              compact
+              onPress={() => setModalVisible(false)}
+              title="Hide Modal"
+              color={COLORS.light.warning}
+              variant="text"
+            />
+          </DialogActions>
+        </Dialog>
+      </Flex>
     );
   }
 
@@ -115,72 +99,56 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <LoggedOutLayout>
-      <View style={styles.screen}>
+      <Flex fill items="center" justify="around" w="100%">
         {modalVisible && <Popup message={error?.message} />}
-        <View style={styles.inputBlock}>
+        <Flex h={100} justify="between" w="80%">
           <TextInput
-            placeholder="Email"
-            style={styles.input}
+            color={COLORS.light.action}
+            label="Email"
             onChangeText={(text) =>
               setFormData((prevState) => ({ ...prevState, email: text }))
             }
+            variant="standard"
           />
           <TextInput
-            placeholder="Password"
-            style={styles.input}
+            color={COLORS.light.action}
+            label="Password"
             onChangeText={(text) =>
               setFormData((prevState) => ({ ...prevState, password: text }))
             }
             secureTextEntry={true}
+            variant="standard"
           />
-        </View>
-        <View style={styles.action}>
+        </Flex>
+        <Box w="100%">
           <Button
             testID="login"
             title={ROUTES.Login}
             color={COLORS.light.tint}
             onPress={() => loginUser()}
           />
-          <View style={styles.actionBlock}>
+          <Flex items="center">
             <Text>
               No Account,{" "}
               <Text
-                style={styles.actionBlockText}
+                style={{ color: COLORS.light.action }}
                 onPress={() => navigation.push(ROUTES.Register)}
               >
                 Register!
               </Text>
             </Text>
-          </View>
-        </View>
-      </View>
+          </Flex>
+        </Box>
+      </Flex>
     </LoggedOutLayout>
   );
 }
 
-const styles = StyleSheet.create({
-  action: {
-    width: "100%",
-  },
-  actionBlock: {
-    alignItems: "center",
-  },
-  actionBlockText: {
-    color: COLORS.light.action,
-  },
-  input: {
-    borderBottomColor: COLORS.light.tint,
-    borderBottomWidth: 8,
-  },
-  inputBlock: {
-    height: 100,
-    justifyContent: "space-between",
-    width: "80%",
-  },
-  screen: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "space-around",
-    width: "100%",
-  },
-});
+const LoginScreen = ({ navigation }) => (
+  // fix: Error: usePortalContext must be used within a PortalContext
+  <Provider>
+    <Screen navigation={navigation} />
+  </Provider>
+);
+
+export default LoginScreen;
