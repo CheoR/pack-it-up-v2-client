@@ -1,12 +1,19 @@
-import React, { useState } from "react";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
 import { gql, useMutation } from "@apollo/client";
+import { useState } from "react";
 
 import LoggedOutLayout from "../layout/LoggedOutLayout";
 import Loading from "../components/Loading";
 import { setTokens } from "../auth/tokens";
 import COLORS from "../constants/Colors";
 import ROUTES from "../constants/Routes";
+import {
+  Box,
+  Button,
+  Flex,
+  Provider,
+  Text,
+  TextInput,
+} from "@react-native-material/core";
 
 const REGISTER_USER = gql`
   mutation RegisterUser($input: RegisterUserInput!) {
@@ -16,7 +23,8 @@ const REGISTER_USER = gql`
     }
   }
 `;
-export default function RegisterScreen({ navigation }) {
+
+function Screen({ navigation }) {
   const [formData, setFormData] = useState({
     username: "",
     firstName: "",
@@ -47,103 +55,82 @@ export default function RegisterScreen({ navigation }) {
 
   return (
     <LoggedOutLayout>
-      <View style={styles.screen}>
-        <View style={styles.inputBlock}>
+      <Flex fill items="center" justify="around" w="100%">
+        <Flex h={300} justify="between" w="80%">
           <TextInput
-            placeholder="Username"
-            style={styles.input}
+            color={COLORS.light.action}
+            label="Username"
             onChangeText={(text) =>
               setFormData((prevState) => ({ ...prevState, username: text }))
             }
+            variant="standard"
           />
           <TextInput
-            placeholder="First Name"
-            style={styles.input}
+            color={COLORS.light.action}
+            label="First Name"
             onChangeText={(text) =>
               setFormData((prevState) => ({ ...prevState, firstName: text }))
             }
+            variant="standard"
           />
           <TextInput
-            placeholder="Last Name"
-            style={styles.input}
+            color={COLORS.light.action}
+            label="Last Name"
             onChangeText={(text) =>
               setFormData((prevState) => ({ ...prevState, lastName: text }))
             }
+            variant="standard"
           />
           <TextInput
-            placeholder="Email"
-            style={styles.input}
+            color={COLORS.light.action}
+            label="Email"
             onChangeText={(text) =>
               setFormData((prevState) => ({ ...prevState, email: text }))
             }
+            variant="standard"
           />
           <TextInput
-            placeholder="Password"
-            style={styles.input}
+            color={COLORS.light.action}
+            label="Password"
             onChangeText={(text) =>
               setFormData((prevState) => ({ ...prevState, password: text }))
             }
             secureTextEntry={true}
+            variant="standard"
           />
           <TextInput
-            placeholder="Confirm Password"
-            style={styles.input}
-            // onChangeText={(text) =>
-            //   setFormData((prevState) => ({
-            //     ...prevState,
-            //     confirmPassword: text,
-            //   }))
-            // }
+            color={COLORS.light.action}
+            label="Confirm Password"
             onChangeText={setConfirmPassword}
             secureTextEntry={true}
+            variant="standard"
           />
-        </View>
-        <View style={styles.action}>
+        </Flex>
+        <Box w="100%">
           <Button
-            title={ROUTES.Register}
             color={COLORS.light.tabIconDefault}
             onPress={() => registerUser()}
+            title={ROUTES.Register}
           />
-          <View style={styles.actionBlock}>
+          <Flex items="center">
             <Text>
               Already Registered,{" "}
               <Text
-                style={styles.actionBlockText}
+                style={{ color: COLORS.light.action }}
                 onPress={() => navigation.push(ROUTES.Login)}
               >
                 Login!
               </Text>
             </Text>
-          </View>
-        </View>
-      </View>
+          </Flex>
+        </Box>
+      </Flex>
     </LoggedOutLayout>
   );
 }
 
-const styles = StyleSheet.create({
-  action: {
-    width: "100%",
-  },
-  actionBlock: {
-    alignItems: "center",
-  },
-  actionBlockText: {
-    color: COLORS.light.action,
-  },
-  input: {
-    borderBottomColor: COLORS.light.tabIconDefault,
-    borderBottomWidth: 8,
-  },
-  inputBlock: {
-    height: 300,
-    justifyContent: "space-between",
-    width: "80%",
-  },
-  screen: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "space-around",
-    width: "100%",
-  },
-});
+export default RegisterScreen = ({ navigation }) => (
+  <Provider>
+    <Screen navigation={navigation} />
+  </Provider>
+);
