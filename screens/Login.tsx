@@ -30,8 +30,8 @@ export const LOGIN_USER = gql`
 export default function LoginScreen({ navigation }) {
   // TODO: fix
   const [formData, setFormData] = useState({
-    email: "peggy@pug.com", // "oink@oink.com",
-    password: "peggypug", // "oinkoink",
+    email: "",
+    password: "",
   });
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -139,7 +139,7 @@ export default function LoginScreen({ navigation }) {
             testID="login"
             title={ROUTES.Login}
             color={COLORS.light.tint}
-            onPress={() => loginUser()}
+            onPress={loginUser}
           />
           <View style={styles.actionBlock}>
             <Text>
