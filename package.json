@@ -33,6 +33,7 @@
     "react-native": "0.71.4",
     "react-native-dotenv": "^3.4.8",
     "react-native-dropdown-picker": "^5.4.4",
+    "react-native-gesture-handler": "~2.9.0",
     "react-native-safe-area-context": "4.5.0",
     "react-native-screens": "~3.20.0",
     "react-native-svg": "13.4.0",
@@ -65,12 +66,14 @@
     ],
     "preset": "jest-expo",
     "setupFiles": [
-      "<rootDir>/jest/jestSetupFile.js"
+      "<rootDir>/jest/setup.js"
     ],
-    "setupFilesAfterEnv": ["@testing-library/jest-native/extend-expect"],
+    "setupFilesAfterEnv": [
+      "@testing-library/jest-native/extend-expect"
+    ],
     "transformIgnorePatterns": [
       "node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)"
     ]
   },
-  "private": false
+  "private": true
 }
