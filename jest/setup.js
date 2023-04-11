@@ -1,9 +1,11 @@
+import "react-native-gesture-handler/jestSetup";
 // include this line for mocking react-native-gesture-handler
 // https://reactnavigation.org/docs/testing/
 // https://react-native-async-storage.github.io/async-storage/docs/advanced/jest/
-https: jest.mock("@react-navigation/native-stack");
-// import "react-native-gesture-handler/jestSetup";
-// // include this section and the NativeAnimatedHelper section for mocking react-native-reanimated
+// https: jest.mock("@react-navigation/native-stack");
+// import "@testing-library/jest-dom";
+
+// include this section and the NativeAnimatedHelper section for mocking react-native-reanimated
 // jest.mock("react-native-reanimated", () => {
 //   const Reanimated = require("react-native-reanimated/mock");
 
@@ -16,4 +18,3 @@ https: jest.mock("@react-navigation/native-stack");
 
 // // Silence the warning: Animated: `useNativeDriver` is not supported because the native animated module is missing
 // jest.mock("react-native/Libraries/Animated/NativeAnimatedHelper");
-// import "@testing-library/jest-dom";
