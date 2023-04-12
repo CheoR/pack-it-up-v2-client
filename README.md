@@ -120,6 +120,10 @@ Start the server
     yarn test
 ```
 
+## Layout
+
+![PackItUp-Wireframe-MidFidelity-V2](https://user-images.githubusercontent.com/5026476/205509401-57b260cd-9e75-48dd-82c8-cd543bfa5614.png)
+
 ## Stack
 
 ### Frontend
