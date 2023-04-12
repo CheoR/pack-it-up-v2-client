@@ -1,9 +1,14 @@
 import "react-native-gesture-handler/jestSetup";
+// import "@testing-library/jest-dom";
+// TODO: look up why error on import in either this file or
+// setupFilesAfterEnv.js or
+// package.json setupFilesAfterEnv
+// for now just import in test file
+
 // include this line for mocking react-native-gesture-handler
 // https://reactnavigation.org/docs/testing/
 // https://react-native-async-storage.github.io/async-storage/docs/advanced/jest/
 // https: jest.mock("@react-navigation/native-stack");
-// import "@testing-library/jest-dom";
 
 // include this section and the NativeAnimatedHelper section for mocking react-native-reanimated
 // jest.mock("react-native-reanimated", () => {
