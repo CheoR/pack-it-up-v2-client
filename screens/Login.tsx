@@ -119,19 +119,21 @@ export default function LoginScreen({ navigation }) {
         {modalVisible && <Popup message={error?.message} />}
         <View style={styles.inputBlock}>
           <TextInput
-            placeholder="Email"
-            style={styles.input}
             onChangeText={(text) =>
               setFormData((prevState) => ({ ...prevState, email: text }))
             }
+            placeholder="Email"
+            style={styles.input}
+            value={formData.email}
           />
           <TextInput
-            placeholder="Password"
-            style={styles.input}
             onChangeText={(text) =>
               setFormData((prevState) => ({ ...prevState, password: text }))
             }
+            placeholder="Password"
             secureTextEntry={true}
+            style={styles.input}
+            value={formData.password}
           />
         </View>
         <View style={styles.action}>

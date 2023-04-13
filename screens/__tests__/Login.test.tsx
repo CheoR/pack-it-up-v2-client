@@ -43,34 +43,27 @@ const mocks = [
 ];
 
 describe("<LoginScreen />", () => {
-  const mockFn = jest.fn();
-
-  // it("responds with user login", async () => {
-  it("fetches login button", async () => {
-    const { debug, getByTestId, getByText } = render(
+  it("updates user input", async () => {
+    const component = (
+      <NavigationContainer>
       <MockedProvider mocks={mocks} addTypename={false}>
-        <LoginScreen />
+          <LoginScreen navigation={navigation} />
       </MockedProvider>
+      </NavigationContainer>
     );
-    const btn = getByTestId("login");
-    // console.log(btn);
-    expect(btn).toBeDefined();
 
-    // <MockedProvider mocks={mocks} addTypename={false}>
-    //   render(
-    //   <LoginScreen />
-    //   ); const resp = screen.getAllByLabelText("Login"); console.log(` ====
-    //   resp`); console.log(resp); console.log(`==== `);
-    //   expect(resp).toInclude("login");
-    // </MockedProvider>;
+    const { getByPlaceholderText } = render(component);
+    const email = getByPlaceholderText(/email/i);
+    const password = getByPlaceholderText(/password/i);
 
-    // const tree = renderer.create(
-    //   <MockedProvider mocks={mocks} addTypename={false}>
-    //     <LoginScreen />
-    //   </MockedProvider>
-    // );
-    // console.log(tree.toJSON());
-    // expect(tree.toJSON()).toMatchSnapshot();
+    await act(async () => {
+      fireEvent.changeText(email, USER.email);
+      fireEvent.changeText(password, USER.pasword);
+    });
+    await waitFor(() => {
+      expect(email.props.value).toBe(EMAIL);
+      expect(password.props.value).toBe(PASSWORD);
+    });
   });
 
   it("calls onSubmit with the username and password when submit is clicked", async () => {
