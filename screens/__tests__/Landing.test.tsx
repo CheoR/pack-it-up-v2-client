@@ -8,11 +8,11 @@ import { MockedProvider } from "@apollo/client/testing";
 describe("<Landing />", () => {
   it("displays landing page", async () => {
     const component = (
-      <MockedProvider mocks={[]} addTypename={false}>
-        <NavigationContainer>
+      <NavigationContainer>
+        <MockedProvider mocks={[]} addTypename={false}>
           <RootNavigator />
-        </NavigationContainer>
-      </MockedProvider>
+        </MockedProvider>
+      </NavigationContainer>
     );
 
     render(component);
@@ -27,11 +27,11 @@ describe("<Landing />", () => {
 
   it("navigates from landing page to login page", async () => {
     const component = (
-      <MockedProvider mocks={[]} addTypename={false}>
-        <NavigationContainer>
+      <NavigationContainer>
+        <MockedProvider mocks={[]} addTypename={false}>
           <RootNavigator />
-        </NavigationContainer>
-      </MockedProvider>
+        </MockedProvider>
+      </NavigationContainer>
     );
 
     render(component);
@@ -48,11 +48,11 @@ describe("<Landing />", () => {
 
   it("navigates from landing page to login page", async () => {
     const component = (
-      <MockedProvider mocks={[]} addTypename={false}>
-        <NavigationContainer>
+      <NavigationContainer>
+        <MockedProvider mocks={[]} addTypename={false}>
           <RootNavigator />
-        </NavigationContainer>
-      </MockedProvider>
+        </MockedProvider>
+      </NavigationContainer>
     );
 
     render(component);
