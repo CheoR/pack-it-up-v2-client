@@ -21,7 +21,7 @@ I also tend to forget where I put things, especially things I don't use often.
 
 I created this app mostly to get familar with Apollo-Client/Server, React-Native, TypeScript, Tailwind, and testing.
 
-Users can use app to pack personal possessions.
+Users can use app to track personal inventory.
 
 ## Features
 
@@ -40,84 +40,82 @@ Before you being you will need accounts with and api keys from
 
 ### Setup
 
-Clone the projects
+Clone projects
 
 ```bash
   git clone https://github.com/CheoR/pack-it-up-v2-client
   git clone https://github.com/CheoR/pack-it-up-v2-server
 ```
 
-Make sure to have your enviroment variables set up.
-
 #### Client
 
+##### Enviroment Variables
+
 ```bash
-GRAPHQL_HOST=http://192.168.1.65:4000/
+  GRAPHQL_HOST=http://192.168.1.65:4000/
 ```
 
-Go to the project directory and install dependencies.
+##### Install Dependencies
 
 ```bash
   cd pack-it-up-v2-client
   yarn install
 ```
 
-#### Server
+##### Start Client
 
 ```bash
-ACCESS_TOKEN_DURATION=STRING
-ACCESS_TOKEN_SECRET=STRING
-API=STRING
-CLOUDINARY_API_KEY=STRING
-CLOUDINARY_API_SECRET=STRING
-CLOUDINARY_CLOUD_NAME=STRING
-CLOUDINARY_URL=STRING
-DB_USER=STRING
-DB_PASSWORD=STRING
-DB_NAME=STRING
-DB_CLUSTER=STRING
-DOMAIN=STRING
-JWT_SECRET=STRING
-MONGODB_URI=STRING
-REFRESH_TOKEN_DURATION=STRING
-REFRESH_TOKEN_SECRET=STRING
-SALT=NUMBER
-TEST=STRING
+  npx expo start
 ```
 
-Go to the project directory and install dependencies.
+##### Run Tests
+
+```bash
+  yarn testDebug
+```
+
+#### Server
+
+##### Enviroment Variables
+
+```bash
+  ACCESS_TOKEN_DURATION=STRING
+  ACCESS_TOKEN_SECRET=STRING
+  API=STRING
+  CLOUDINARY_API_KEY=STRING
+  CLOUDINARY_API_SECRET=STRING
+  CLOUDINARY_CLOUD_NAME=STRING
+  CLOUDINARY_URL=STRING
+  DB_USER=STRING
+  DB_PASSWORD=STRING
+  DB_NAME=STRING
+  DB_CLUSTER=STRING
+  DOMAIN=STRING
+  JWT_SECRET=STRING
+  MONGODB_URI=STRING
+  REFRESH_TOKEN_DURATION=STRING
+  REFRESH_TOKEN_SECRET=STRING
+  SALT=NUMBER
+  TEST=STRING
+```
+
+##### Install Dependencies
 
 ```bash
   cd pack-it-up-v2-server
   yarn install
 ```
 
-### Start
-
-Start the client
-
-```bash
-  npx expo start
-```
-
-Start the server
+##### Start Server
 
 ```bash
   yarn dev
 ```
 
-## Running Tests
-
-### Client
+###### Run Tests
 
 ```bash
-  yarn testDebug
-```
-
-### Server
-
-```bash
-    yarn test
+  yarn test
 ```
 
 ## Layout
