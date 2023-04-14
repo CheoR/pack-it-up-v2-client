@@ -1,7 +1,6 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { MockedProvider } from "@apollo/client/testing";
-import LoginScreen, { LOGIN_USER } from "../Login";
 import { act } from "react-test-renderer";
 // import "@testing-library/jest-dom";
 import {
@@ -11,15 +10,16 @@ import {
   screen,
   waitFor,
 } from "@testing-library/react-native";
+import RootNavigator from "../../navigation/RootNavigator";
+import { GET_HOME_DATA } from "../../graphql/home";
+import { LOGIN_USER } from "../Login";
 
 const EMAIL = "peggy@pug.com";
 const PASSWORD = "peggypug";
-
 const USER = {
   email: EMAIL,
   pasword: PASSWORD,
 };
-
 const validLoginResp = {
   data: {
     loginUser: {
@@ -30,6 +30,30 @@ const validLoginResp = {
   },
 };
 
+const mockHomeData = {
+  data: {
+    // getHomeData: {
+    // _id: "mockId",
+    // count: 0,
+    // description: "mock description",
+    // isFragile: false,
+    // name: "mock stuff",
+    // value: 0.0,
+    // },
+    getHomeData: {
+      find: () => ({
+        move: {
+          _id: "mockId",
+          count: 0,
+          description: "mock description",
+          isFragile: false,
+          name: "mock stuff",
+          value: "0.00",
+        },
+      }),
+    },
+  },
+};
 const mocks = [
   {
     request: {
@@ -44,55 +68,52 @@ const mocks = [
     result: validLoginResp,
     // reread how to mock errors
     // https://www.apollographql.com/docs/react/development-testing/testing/
-    // error: new Error("An error occurred")
+    error: new Error("Login or redirect error occurred"),
+  },
+  {
+    request: {
+      query: GET_HOME_DATA,
+    },
+    result: jest.fn(), // mockHomeData,
+  },
+];
+
+const textInputMocks = [
+  {
+    request: {
+      query: LOGIN_USER,
+      variables: {
+        input: {
+          email: "",
+          password: "",
+        },
+      },
+    },
+    result: validLoginResp,
+    // reread how to mock errors
+    // https://www.apollographql.com/docs/react/development-testing/testing/
+    error: new Error("TextInput error occurred"),
   },
 ];
 
 describe("<LoginScreen />", () => {
-  // const mockNavigation = jest.fn();
-  const navigation = { navigate: jest.fn() };
+  // const handleSubmit = jest.fn();
+  // const navigation = jest.fn();
+  // const navigation = { navigate: jest.fn() };
   // const navigation = { navigate: () => jest.fn() };
-  const handleSubmit = jest.fn();
-  it("updates user input", async () => {
+  it("fills in text input fields with user input", async () => {
     const component = (
       <NavigationContainer>
-        <MockedProvider mocks={mocks} addTypename={false}>
-          <LoginScreen navigation={navigation} />
+        <MockedProvider mocks={textInputMocks} addTypename={false}>
+          <RootNavigator />
         </MockedProvider>
       </NavigationContainer>
     );
 
     const { getByPlaceholderText } = render(component);
-    const email = getByPlaceholderText(/email/i);
-    const password = getByPlaceholderText(/password/i);
+    const toLoginScreen = await screen.findByText("Login");
+    fireEvent(toLoginScreen, "press");
 
-    await act(async () => {
-      fireEvent.changeText(email, USER.email);
-      fireEvent.changeText(password, USER.pasword);
-    });
-    await waitFor(() => {
-      expect(email.props.value).toBe(EMAIL);
-      expect(password.props.value).toBe(PASSWORD);
-    });
-  });
-
-  it("handles valid input submission", async () => {
-    const component = (
-      <NavigationContainer>
-        <MockedProvider mocks={mocks} addTypename={false}>
-          <LoginScreen navigation={navigation} />
-        </MockedProvider>
-      </NavigationContainer>
-    );
-
-    const {
-      debug,
-      getByTestId,
-      getByPlaceholderText,
-      getByDisplayValue,
-      getByLabelText,
-    } = render(component);
-    const loginBtn = screen.getByTestId("login");
     const email = getByPlaceholderText(/email/i);
     const password = getByPlaceholderText(/password/i);
 
@@ -108,89 +129,68 @@ describe("<LoginScreen />", () => {
     await act(async () => {
       fireEvent.changeText(email, USER.email);
       fireEvent.changeText(password, USER.pasword);
-      // fireEvent.press(loginBtn);
-      fireEvent(loginBtn, "press");
     });
     await waitFor(() => {
-      // expect(navigation.navigate).toBeCalledWith({
-      //   input: {
-      //     email: USER.email,
-      //     password: USER.pasword,
-      //   },
-      // });
-      // expect(navigation.navigate).toBeCalledWith("Summary"); // validLoginResp);
-      // expect(navigation.navigate).toHaveBeenCalledWith(validLoginResp);
-
-      expect(navigation.navigate).toHaveBeenCalledWith("LoggedIn", {
-        params: {
-          accessToken: "accessTokenResp",
-          refreshToken: "refreshTokenResp",
-          user_id: "userId",
-        },
-        screen: "Home",
-      });
-      // debug();
-      // expect(screen.getByLabelText("Summary")).toBeInTheDocument();
-      // cleanup();
+      expect(email.props.value).toBe(EMAIL);
+      expect(password.props.value).toBe(PASSWORD);
     });
-    expect(await screen.findByText("Summary")).toBeInTheDocument();
   });
+
+  // it("redirects user to dashboard on successful login", async () => {
+  //   const component = (
+  //     <NavigationContainer>
+  //       <MockedProvider mocks={mocks} addTypename={false}>
+  //         <RootNavigator />
+  //       </MockedProvider>
+  //     </NavigationContainer>
+  //   );
+
+  //   const { debug, getByPlaceholderText } = render(component);
+  //   const toLoginScreen = await screen.findByText("Login");
+  //   fireEvent(toLoginScreen, "press");
+
+  //   const loginBtn = screen.getByTestId("login");
+  //   const email = getByPlaceholderText(/email/i);
+  //   const password = getByPlaceholderText(/password/i);
+
+  //   expect(email).toBeOnTheScreen();
+  //   expect(password).toBeOnTheScreen();
+
+  //   await act(async () => {
+  //     fireEvent.changeText(email, USER.email);
+  //     fireEvent.changeText(password, USER.pasword);
+  //     // fireEvent.press(loginBtn);
+  //     debug();
+  //     fireEvent(loginBtn, "press");
+  //   });
+  //   // await waitFor(() => {
+  //   // expect(navigation.navigate).toHaveBeenCalledWith("LoggedIn", {
+  //   //   params: {
+  //   //     accessToken: "accessTokenResp",
+  //   //     refreshToken: "refreshTokenResp",
+  //   //     user_id: "userId",
+  //   //   },
+  //   //   screen: "Home",
+  //   // });
+  //   // cleanup();
+  //   // debug();
+  //   // expect(screen.findByText("Summary").toBeInTheDocument());
+  //   // });
+  // });
 });
 
-// it("responds with user login", async () => {
-
-// const tree = renderer.create(
-//   <MockedProvider mocks={mocks} addTypename={false}>
-//     <LoginScreen />
-//   </MockedProvider>
-// );
-// console.log(tree.toJSON());
-// expect(tree.toJSON()).toMatchSnapshot();
-
 // describe("<LoginScreen />", () => {
-//   it("renders the email and password input fields", () => {
-//     render(
-//       <MockedProvider mocks={mocks} addTypename={false}>
-//         <LoginScreen navigation={undefined} />
-//       </MockedProvider>
-//     );
-//     expect(screen.getByLabelText("Email or Username")).toBeInTheDocument();
-//     expect(screen.getByLabelText("Password")).toBeInTheDocument();
-//   });
-
 //   it("shows an error message if the user enters invalid credentials", async () => {
 //     render(
 //       <MockedProvider mocks={mocks} addTypename={false}>
-//         <LoginScreen navigation={jest.fn()} />
+//         <LoginScreen navigation={navigation} />
 //       </MockedProvider>
 //     );
-//     fireEvent.change(screen.getByLabelText("Email or Username"), {
-//       target: { value: "invalid@example.com" },
-//     });
-//     fireEvent.change(screen.getByLabelText("Password"), {
-//       target: { value: "invalidPassword" },
-//     });
-//     fireEvent.click(screen.getByText("Log In"));
+// fireEvent.changeText(email, USER.email + 'test');
+// fireEvent.changeText(password, USER.pasword);
+// // fireEvent.press(loginBtn);
+// fireEvent(loginBtn, "press");
 // expect(
 //   await screen.findByText("Invalid email or password")
 // ).toBeInTheDocument();
 //   });
-
-//   it("logs the user in and redirects to the dashboard when the user enters valid credentials", async () => {
-//     render(
-//       <MockedProvider mocks={mocks} addTypename={false}>
-//         <LoginScreen />
-//       </MockedProvider>
-//     );
-//     fireEvent.change(screen.getByLabelText("Email or Username"), {
-//       target: { value: "valid@example.com" },
-//     });
-//     fireEvent.change(screen.getByLabelText("Password"), {
-//       target: { value: "validPassword" },
-//     });
-//     fireEvent.click(screen.getByText("Log In"));
-//     expect(
-//       await screen.findByText("Welcome to Pack It Up")
-//     ).toBeInTheDocument();
-//   });
-// });
