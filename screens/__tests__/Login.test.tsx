@@ -1,17 +1,20 @@
 import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { MockedProvider } from "@apollo/client/testing";
+import LoginScreen, { LOGIN_USER } from "../Login";
+import { act } from "react-test-renderer";
+// import "@testing-library/jest-dom";
 import {
+  cleanup,
+  fireEvent,
   render,
   screen,
-  fireEvent,
   waitFor,
 } from "@testing-library/react-native";
-import { MockedProvider } from "@apollo/client/testing";
-import { act } from "react-test-renderer";
-
-import LoginScreen, { LOGIN_USER } from "./Login";
 
 const EMAIL = "peggy@pug.com";
 const PASSWORD = "peggypug";
+
 const USER = {
   email: EMAIL,
   pasword: PASSWORD,
@@ -33,22 +36,29 @@ const mocks = [
       query: LOGIN_USER,
       variables: {
         input: {
-          email: EMAIL,
-          password: PASSWORD,
+          email: "",
+          password: "",
         },
       },
     },
     result: validLoginResp,
+    // reread how to mock errors
+    // https://www.apollographql.com/docs/react/development-testing/testing/
+    // error: new Error("An error occurred")
   },
 ];
 
 describe("<LoginScreen />", () => {
+  // const mockNavigation = jest.fn();
+  const navigation = { navigate: jest.fn() };
+  // const navigation = { navigate: () => jest.fn() };
+  const handleSubmit = jest.fn();
   it("updates user input", async () => {
     const component = (
       <NavigationContainer>
-      <MockedProvider mocks={mocks} addTypename={false}>
+        <MockedProvider mocks={mocks} addTypename={false}>
           <LoginScreen navigation={navigation} />
-      </MockedProvider>
+        </MockedProvider>
       </NavigationContainer>
     );
 
@@ -66,70 +76,121 @@ describe("<LoginScreen />", () => {
     });
   });
 
-  it("calls onSubmit with the username and password when submit is clicked", async () => {
+  it("handles valid input submission", async () => {
+    const component = (
+      <NavigationContainer>
+        <MockedProvider mocks={mocks} addTypename={false}>
+          <LoginScreen navigation={navigation} />
+        </MockedProvider>
+      </NavigationContainer>
+    );
+
     const {
       debug,
       getByTestId,
       getByPlaceholderText,
       getByDisplayValue,
       getByLabelText,
-    } = render(
-      <MockedProvider mocks={mocks} addTypename={false}>
-        <LoginScreen />
-      </MockedProvider>
-    );
-    // debug();
+    } = render(component);
     const loginBtn = screen.getByTestId("login");
-    const handleSubmit = jest.fn();
-    act(() => {
-      fireEvent.changeText(getByPlaceholderText(/email/i), USER.email);
-      fireEvent.changeText(getByPlaceholderText(/password/i), USER.pasword);
-      fireEvent.press(loginBtn);
+    const email = getByPlaceholderText(/email/i);
+    const password = getByPlaceholderText(/password/i);
+
+    // act function allows tests to wait for all pending React interactions to be
+    // applied before we make our assertions
+    // use act whenever there is some action that causes element tree to render,
+    // particularly:
+    // - initial render call - ReactTestRenderer.create call
+    // - re-rendering of component -renderer.update call
+    // - triggering any event handlers that cause component tree render
+    // render, update and fireEvent methods already wrap their calls in sync act so
+    // that you do not have to do it explicitly.
+    await act(async () => {
+      fireEvent.changeText(email, USER.email);
+      fireEvent.changeText(password, USER.pasword);
+      // fireEvent.press(loginBtn);
+      fireEvent(loginBtn, "press");
     });
     await waitFor(() => {
-      expect(1).toBe(1);
-      // expect(screen.findByText("Loading")).toBeDefined();
+      // expect(navigation.navigate).toBeCalledWith({
+      //   input: {
+      //     email: USER.email,
+      //     password: USER.pasword,
+      //   },
+      // });
+      // expect(navigation.navigate).toBeCalledWith("Summary"); // validLoginResp);
+      // expect(navigation.navigate).toHaveBeenCalledWith(validLoginResp);
+
+      expect(navigation.navigate).toHaveBeenCalledWith("LoggedIn", {
+        params: {
+          accessToken: "accessTokenResp",
+          refreshToken: "refreshTokenResp",
+          user_id: "userId",
+        },
+        screen: "Home",
+      });
+      // debug();
+      // expect(screen.getByLabelText("Summary")).toBeInTheDocument();
+      // cleanup();
     });
-    // expect(handleSubmit).toHaveBeenCalledTimes(1);
-    // expect(handleSubmit).toHaveBeenCalledWith(USER);
-    // const { getByLabelText, getByText } = render(
-    //   <Login onSubmit={handleSubmit} />
-    // );
-
-    // userEvent.type(getByLabelText(/username/i), USER.username);
-    // userEvent.type(getByLabelText(/password/i), USER.password);
-    // userEvent.click(getByText(/submit/i));
-
-    // expect(handleSubmit).toHaveBeenCalledTimes(1);
-    // expect(handleSubmit).toHaveBeenCalledWith(user);
+    expect(await screen.findByText("Summary")).toBeInTheDocument();
   });
 });
 
-Hello everybody, my name's Cheo. I'm currently based out of Nashville, TN.
+// it("responds with user login", async () => {
 
-I'm a combination of formal CS education, self-taught, bootcamp grad and 4 months professional expereince as a jr full stack developer.
+// const tree = renderer.create(
+//   <MockedProvider mocks={mocks} addTypename={false}>
+//     <LoginScreen />
+//   </MockedProvider>
+// );
+// console.log(tree.toJSON());
+// expect(tree.toJSON()).toMatchSnapshot();
 
-I transitioned from over a decade in transportation/logistics/shipping industries.
+// describe("<LoginScreen />", () => {
+//   it("renders the email and password input fields", () => {
+//     render(
+//       <MockedProvider mocks={mocks} addTypename={false}>
+//         <LoginScreen navigation={undefined} />
+//       </MockedProvider>
+//     );
+//     expect(screen.getByLabelText("Email or Username")).toBeInTheDocument();
+//     expect(screen.getByLabelText("Password")).toBeInTheDocument();
+//   });
 
-I have expereince working with the MERN stack and Python/Django.
+//   it("shows an error message if the user enters invalid credentials", async () => {
+//     render(
+//       <MockedProvider mocks={mocks} addTypename={false}>
+//         <LoginScreen navigation={jest.fn()} />
+//       </MockedProvider>
+//     );
+//     fireEvent.change(screen.getByLabelText("Email or Username"), {
+//       target: { value: "invalid@example.com" },
+//     });
+//     fireEvent.change(screen.getByLabelText("Password"), {
+//       target: { value: "invalidPassword" },
+//     });
+//     fireEvent.click(screen.getByText("Log In"));
+// expect(
+//   await screen.findByText("Invalid email or password")
+// ).toBeInTheDocument();
+//   });
 
-Currently learning:
-
-- TypeScript
-- React Native (Expo)
-- Testing
-
-
-By building a mobile app PackItUpV2 https://github.com/CheoR/pack-it-up-v2-client
-
-Currently looking for jr dev positions and/or people to work on mobile projects together.
-
-If we havn't done so already, let's connect.
-
-https://www.linkedin.com/in/cheo-roman/
-
-🌐 I'm from:  California but currently based out of Tennessee
-🏢 I work at: Looking for a jr dev position
-💻 I work with this tech: React, TypeScript, React-Native, MongoDB
-🍎 I snack on: Oranges
-🤪 I really enjoy: Wandering
+//   it("logs the user in and redirects to the dashboard when the user enters valid credentials", async () => {
+//     render(
+//       <MockedProvider mocks={mocks} addTypename={false}>
+//         <LoginScreen />
+//       </MockedProvider>
+//     );
+//     fireEvent.change(screen.getByLabelText("Email or Username"), {
+//       target: { value: "valid@example.com" },
+//     });
+//     fireEvent.change(screen.getByLabelText("Password"), {
+//       target: { value: "validPassword" },
+//     });
+//     fireEvent.click(screen.getByText("Log In"));
+//     expect(
+//       await screen.findByText("Welcome to Pack It Up")
+//     ).toBeInTheDocument();
+//   });
+// });
