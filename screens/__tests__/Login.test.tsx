@@ -13,6 +13,7 @@ import {
 import RootNavigator from "../../navigation/RootNavigator";
 import { GET_HOME_DATA } from "../../graphql/home";
 import { LOGIN_USER } from "../Login";
+import { GET_MOVES_DROPDOWN } from "../../graphql/move";
 
 const EMAIL = "peggy@pug.com";
 const PASSWORD = "peggypug";
@@ -32,6 +33,16 @@ const validLoginResp = {
 
 const mockHomeData = {
   data: {
+    getHomeData: [
+      {
+        _id: "move",
+        count: 0,
+        description: "mock description",
+        isFragile: false,
+        name: "mock stuff",
+        value: 0,
+      },
+    ],
     // getHomeData: {
     // _id: "mockId",
     // count: 0,
@@ -40,18 +51,33 @@ const mockHomeData = {
     // name: "mock stuff",
     // value: 0.0,
     // },
-    getHomeData: {
-      find: () => ({
-        move: {
-          _id: "mockId",
-          count: 0,
-          description: "mock description",
-          isFragile: false,
-          name: "mock stuff",
-          value: "0.00",
-        },
-      }),
-    },
+    // getHomeData: {
+    //   find: () => ({
+    //     move: {
+    //       _id: "move",
+    //       count: 0,
+    //       description: "mock description",
+    //       isFragile: false,
+    //       name: "mock stuff",
+    //       value: 0,
+    //     },
+    //   }),
+    // },
+  },
+};
+
+const mockMovesDropdownData = {
+  data: {
+    getMovesByUserId: [
+      {
+        _id: "1",
+        name: "mock move 1",
+      },
+      {
+        _id: "2",
+        name: "2 mock move",
+      },
+    ],
   },
 };
 const mocks = [
@@ -60,21 +86,27 @@ const mocks = [
       query: LOGIN_USER,
       variables: {
         input: {
-          email: "",
-          password: "",
+          email: "", // "peggy@pug.com",
+          password: "", // "peggypug",
         },
       },
     },
     result: validLoginResp,
     // reread how to mock errors
     // https://www.apollographql.com/docs/react/development-testing/testing/
-    error: new Error("Login or redirect error occurred"),
+    // error: new Error("Login or redirect error occurred"),
   },
   {
     request: {
       query: GET_HOME_DATA,
     },
-    result: jest.fn(), // mockHomeData,
+    result: mockHomeData,
+  },
+  {
+    request: {
+      query: GET_MOVES_DROPDOWN,
+    },
+    result: mockMovesDropdownData,
   },
 ];
 
@@ -97,10 +129,6 @@ const textInputMocks = [
 ];
 
 describe("<LoginScreen />", () => {
-  // const handleSubmit = jest.fn();
-  // const navigation = jest.fn();
-  // const navigation = { navigate: jest.fn() };
-  // const navigation = { navigate: () => jest.fn() };
   it("fills in text input fields with user input", async () => {
     const component = (
       <NavigationContainer>
@@ -136,47 +164,52 @@ describe("<LoginScreen />", () => {
     });
   });
 
-  // it("redirects user to dashboard on successful login", async () => {
-  //   const component = (
-  //     <NavigationContainer>
-  //       <MockedProvider mocks={mocks} addTypename={false}>
-  //         <RootNavigator />
-  //       </MockedProvider>
-  //     </NavigationContainer>
-  //   );
+  it("redirects to dashboard on successful login", async () => {
+    // const navigation = jest.fn();
+    const navigation = { navigate: jest.fn() };
+    // const navigation = { navigate: () => jest.fn() };
 
-  //   const { debug, getByPlaceholderText } = render(component);
-  //   const toLoginScreen = await screen.findByText("Login");
-  //   fireEvent(toLoginScreen, "press");
+    const component = (
+      <NavigationContainer>
+        <MockedProvider mocks={mocks} addTypename={false}>
+          <RootNavigator />
+        </MockedProvider>
+      </NavigationContainer>
+    );
 
-  //   const loginBtn = screen.getByTestId("login");
-  //   const email = getByPlaceholderText(/email/i);
-  //   const password = getByPlaceholderText(/password/i);
+    const { debug } = render(component);
+    const toLoginScreen = await screen.findByText("Login");
+    fireEvent(toLoginScreen, "press");
 
-  //   expect(email).toBeOnTheScreen();
-  //   expect(password).toBeOnTheScreen();
+    const loginBtn = screen.getByTestId("login");
+    const email = screen.getByPlaceholderText(/email/i);
+    const password = screen.getByPlaceholderText(/password/i);
 
-  //   await act(async () => {
-  //     fireEvent.changeText(email, USER.email);
-  //     fireEvent.changeText(password, USER.pasword);
-  //     // fireEvent.press(loginBtn);
-  //     debug();
-  //     fireEvent(loginBtn, "press");
-  //   });
-  //   // await waitFor(() => {
-  //   // expect(navigation.navigate).toHaveBeenCalledWith("LoggedIn", {
-  //   //   params: {
-  //   //     accessToken: "accessTokenResp",
-  //   //     refreshToken: "refreshTokenResp",
-  //   //     user_id: "userId",
-  //   //   },
-  //   //   screen: "Home",
-  //   // });
-  //   // cleanup();
-  //   // debug();
-  //   // expect(screen.findByText("Summary").toBeInTheDocument());
-  //   // });
-  // });
+    expect(email).toBeOnTheScreen();
+    expect(password).toBeOnTheScreen();
+
+    await act(async () => {
+      fireEvent.changeText(email, USER.email);
+      fireEvent.changeText(password, USER.pasword);
+      // fireEvent.press(loginBtn);
+      fireEvent(loginBtn, "press");
+    });
+
+    await waitFor(() => {
+      debug();
+      // expect(1).toBe(1);
+      // expect(navigation.navigate).toHaveBeenCalledWith("LoggedIn", {
+      //   params: {
+      //     accessToken: "accessTokenResp",
+      //     refreshToken: "refreshTokenResp",
+      //     user_id: "userId",
+      //   },
+      //   screen: "Home",
+      // });
+      // cleanup();
+      // expect(screen.findByText("Summary").toBeInTheDocument());
+    });
+  });
 });
 
 // describe("<LoginScreen />", () => {
