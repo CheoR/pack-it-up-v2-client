@@ -1,4 +1,5 @@
 import "react-native-gesture-handler/jestSetup";
+// import "@testing-library/jest-dom/extend-expect";
 // import "@testing-library/jest-dom";
 // TODO: look up why error on import in either this file or
 // setupFilesAfterEnv.js or
