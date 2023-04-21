@@ -40,7 +40,7 @@ const mockHomeData = {
         description: "mock description",
         isFragile: false,
         name: "mock stuff",
-        value: 0,
+        value: 123.45,
       },
     ],
     // getHomeData: {
@@ -190,8 +190,78 @@ describe("<LoginScreen />", () => {
       fireEvent.changeText(password, USER.pasword);
       fireEvent.press(loginBtn);
     });
+
     await waitFor(() => {
+      const totalValue = `${mockHomeData.data.getHomeData[0].value}`;
+      const input = screen.getByTestId("moveValue");
+      const displayedValue = input.props.children[1];
+
       expect(screen.getByText("Summary")).toBeOnTheScreen();
+      expect(displayedValue).toBe(totalValue);
+      expect(screen).toMatchSnapshot();
     });
   });
+
+  // it("checks what navigates is called with", async () => {
+  //   // const navigation = jest.fn();
+  //   const navigation = { navigate: jest.fn() };
+  //   // const navigation = { navigate: () => jest.fn() };
+
+  //   const component = (
+  //     <NavigationContainer>
+  //       <MockedProvider
+  //         mocks={mocks}
+  //         addTypename={false}
+  //         // defaultOptions={{
+  //         //   watchQuery: { fetchPolicy: "no-cache" },
+  //         //   query: { fetchPolicy: "no-cache" },
+  //         // }}
+  //       >
+  //         <RootNavigator />
+  //       </MockedProvider>
+  //     </NavigationContainer>
+  //   );
+
+  //   render(component);
+
+  //   const toLoginScreen = await screen.findByText("Login");
+  //   fireEvent(toLoginScreen, "press");
+
+  //   const loginBtn = screen.getByTestId("login");
+  //   const email = screen.getByPlaceholderText(/email/i);
+  //   const password = screen.getByPlaceholderText(/password/i);
+
+  //   await act(async () => {
+  //     fireEvent.changeText(email, USER.email);
+  //     fireEvent.changeText(password, USER.pasword);
+  //     fireEvent.press(loginBtn);
+  //   });
+  //   await waitFor(() => {
+  //     expect(navigation.navigate).toHaveBeenCalled();
+  //     // expect(navigation.navigate).toHaveBeenCalledWith("LoggedIn", {
+  //     //   params: {
+  //     //     accessToken: "accessTokenResp",
+  //     //     refreshToken: "refreshTokenResp",
+  //     //     user_id: "userId",
+  //     //   },
+  //     //   screen: "Home",
+  //     // });
+  //   });
+  // });
 });
+
+// describe("<LoginScreen />", () => {
+//   it("shows an error message if the user enters invalid credentials", async () => {
+//     render(
+//       <MockedProvider mocks={mocks} addTypename={false}>
+//         <LoginScreen navigation={navigation} />
+//       </MockedProvider>
+//     );
+// fireEvent.changeText(email, USER.email + 'test');
+// fireEvent.changeText(password, USER.pasword);
+// // fireEvent.press(loginBtn);
+// fireEvent(loginBtn, "press");
+// expect(
+//   await screen.findByText("Invalid email or password")
+// ).toBeInTheDocument();
+//   });

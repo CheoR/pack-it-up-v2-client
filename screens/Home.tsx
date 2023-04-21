@@ -66,7 +66,9 @@ function HomeScreen({ data }) {
         <View style={styles.values}>
           <View style={styles.valueInput}>
             <Text>Total</Text>
-            <TextInput editable={false}>${move.value.toFixed(2)}</TextInput>
+            <TextInput editable={false} testID="moveValue">
+              ${move.value.toFixed(2)}
+            </TextInput>
           </View>
           <View style={styles.checkboxContainer}>
             {/* TODO: swap out checkbox and remove from packages */}
