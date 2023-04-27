@@ -24,7 +24,6 @@ export default function RegisterScreen({ navigation }) {
     email: "",
     password: "",
   });
-  const [confirmPassword, setConfirmPassword] = useState("");
 
   const [registerUser, { data, loading, error }] = useMutation(REGISTER_USER, {
     variables: {
@@ -83,18 +82,6 @@ export default function RegisterScreen({ navigation }) {
             onChangeText={(text) =>
               setFormData((prevState) => ({ ...prevState, password: text }))
             }
-            secureTextEntry={true}
-          />
-          <TextInput
-            placeholder="Confirm Password"
-            style={styles.input}
-            // onChangeText={(text) =>
-            //   setFormData((prevState) => ({
-            //     ...prevState,
-            //     confirmPassword: text,
-            //   }))
-            // }
-            onChangeText={setConfirmPassword}
             secureTextEntry={true}
           />
         </View>
