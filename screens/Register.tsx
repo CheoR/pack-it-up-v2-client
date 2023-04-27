@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+  Alert,
+  Button,
+  Modal,
+  Pressable,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import { gql, useMutation } from "@apollo/client";
 
 import LoggedOutLayout from "../layout/LoggedOutLayout";
@@ -16,6 +25,7 @@ export const REGISTER_USER = gql`
     }
   }
 `;
+
 export default function RegisterScreen({ navigation }) {
   const [formData, setFormData] = useState({
     username: "",
@@ -24,6 +34,8 @@ export default function RegisterScreen({ navigation }) {
     email: "",
     password: "",
   });
+
+  const [modalVisible, setModalVisible] = useState(false);
 
   const [registerUser, { data, loading, error }] = useMutation(REGISTER_USER, {
     variables: {
@@ -38,15 +50,70 @@ export default function RegisterScreen({ navigation }) {
     },
     onError: (error) => {
       console.log(error.message);
-      // setModalVisible(true);
+      setModalVisible(true);
     },
   });
+
+  function Popup({ message }) {
+    return (
+      <View
+        style={{
+          backgroundColor: "pink",
+          height: "100%",
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Modal
+          animationType="slide"
+          // transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+          }}
+          style={{
+            backgroundColor: "lightblue",
+          }}
+        >
+          <View
+            style={{
+              backgroundColor: "yellow",
+              alignItems: "center",
+            }}
+          >
+            <Text>{message}</Text>
+            <Pressable
+              onPress={() => setModalVisible(!modalVisible)}
+              style={{
+                backgroundColor: "lightbrown",
+                width: 500,
+                borderColor: "blue",
+              }}
+            >
+              <Text
+                style={{
+                  color: "black",
+                  fontWeight: "bold",
+                  textAlign: "center",
+                  borderColor: "red",
+                }}
+              >
+                Hide Modal
+              </Text>
+            </Pressable>
+          </View>
+        </Modal>
+      </View>
+    );
+  }
 
   if (loading) return <Loading text="Summary" />;
 
   return (
     <LoggedOutLayout>
       <View style={styles.screen}>
+        {modalVisible && <Popup message={error?.message} />}
         <View style={styles.inputBlock}>
           <TextInput
             placeholder="Username"
