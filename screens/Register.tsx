@@ -8,7 +8,7 @@ import { setTokens } from "../auth/tokens";
 import COLORS from "../constants/Colors";
 import ROUTES from "../constants/Routes";
 
-const REGISTER_USER = gql`
+export const REGISTER_USER = gql`
   mutation RegisterUser($input: RegisterUserInput!) {
     registerUser(input: $input) {
       accessToken
@@ -100,9 +100,10 @@ export default function RegisterScreen({ navigation }) {
         </View>
         <View style={styles.action}>
           <Button
-            title={ROUTES.Register}
             color={COLORS.light.tabIconDefault}
             onPress={() => registerUser()}
+            testID="register"
+            title={ROUTES.Register}
           />
           <View style={styles.actionBlock}>
             <Text>
